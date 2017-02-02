@@ -22,8 +22,8 @@ public class FormFieldValue implements Serializable {
 	private long formId;
 	
 	@Id
-	@Column(name = "ID_NUMBER", nullable = false)
-	private String idNumber;
+	@Column(name = "REGISTR_ID", nullable = false)
+	private String registrId;
 	
 	@Column(name = "FIELD_VALUE", nullable = false)
 	private String fieldValue;
@@ -68,12 +68,12 @@ public class FormFieldValue implements Serializable {
 		this.fieldId = fieldId;
 	}
 
-	public String getIdNumber() {
-		return idNumber;
+	public String getRegistrId() {
+		return registrId;
 	}
 
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
+	public void setRegistrId(String registrId) {
+		this.registrId = registrId;
 	}
 
 	@Override
@@ -81,9 +81,8 @@ public class FormFieldValue implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (fieldId ^ (fieldId >>> 32));
-		result = prime * result + ((fieldValue == null) ? 0 : fieldValue.hashCode());
 		result = prime * result + (int) (formId ^ (formId >>> 32));
-		result = prime * result + ((idNumber == null) ? 0 : idNumber.hashCode());
+		result = prime * result + ((registrId == null) ? 0 : registrId.hashCode());
 		return result;
 	}
 
@@ -98,17 +97,12 @@ public class FormFieldValue implements Serializable {
 		FormFieldValue other = (FormFieldValue) obj;
 		if (fieldId != other.fieldId)
 			return false;
-		if (fieldValue == null) {
-			if (other.fieldValue != null)
-				return false;
-		} else if (!fieldValue.equals(other.fieldValue))
-			return false;
 		if (formId != other.formId)
 			return false;
-		if (idNumber == null) {
-			if (other.idNumber != null)
+		if (registrId == null) {
+			if (other.registrId != null)
 				return false;
-		} else if (!idNumber.equals(other.idNumber))
+		} else if (!registrId.equals(other.registrId))
 			return false;
 		return true;
 	}

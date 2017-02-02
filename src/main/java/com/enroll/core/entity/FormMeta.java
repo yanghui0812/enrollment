@@ -31,16 +31,19 @@ public class FormMeta implements Serializable {
 
 	@Column(name = "FORM_DESCRIPTION", nullable = false)
 	private String formDescription;
+	
+	@Column(name = "STATUS")
+	private String status;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "formMeta")
 	private List<FormFieldMeta> formFieldMetaList = new ArrayList<FormFieldMeta>();
 
 	@Column(name = "CREATED_TIMESTAMP", updatable = false)
-	private Date createTimestamp;
+	private Date createdDate;
 
 	@Version
 	@Column(name = "UPDATED_TIMESTAMP")
-	private Date modifyTimestamp;
+	private Date modifiedDate;
 
 	public FormMeta() {
 	}
@@ -92,6 +95,22 @@ public class FormMeta implements Serializable {
 		formFieldMetaList.add(dto);
 	}
 
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,19 +151,11 @@ public class FormMeta implements Serializable {
 		return true;
 	}
 
-	public Date getCreateTimestamp() {
-		return createTimestamp;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setCreateTimestamp(Date createTimestamp) {
-		this.createTimestamp = createTimestamp;
-	}
-
-	public Date getModifyTimestamp() {
-		return modifyTimestamp;
-	}
-
-	public void setModifyTimestamp(Date modifyTimestamp) {
-		this.modifyTimestamp = modifyTimestamp;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

@@ -2,7 +2,9 @@ package com.enroll.core.dao;
 
 import java.util.List;
 
+import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.entity.FormFieldValue;
+import com.enroll.core.entity.FormMeta;
 
 public interface EnrollmentDao {
 	
@@ -31,19 +33,21 @@ public interface EnrollmentDao {
 	 *
 	 * @param object
 	 */
-	void persist(Object object);
+	public void persist(Object object);
 
 	/**
 	 * Remove the entity
 	 *
 	 * @param object
 	 */
-	void remove(Object object);
+	public void remove(Object object);
 
-	void flush();
+	public void flush();
 
-	void clear();
+	public void clear();
 
-	boolean sessionContains(Object object);
+	public boolean sessionContains(Object object);
+	
+	public List<FormMeta> findFormMetaList(FormMetaQuery query);
 
 }

@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$( "#saveform" ).click(function() {
 		buildFromData();
-		$.post( "/enrollment/enroll/saveDesignForm.html", buildFromData(), function( data ) {
+		$.post( "/Enrollment/enroll/saveForm.html", buildFromData(), function( data ) {
 			  alert(data);
 		});
 	});
@@ -22,7 +22,7 @@ $(document).ready(function() {
      		$(top).children( "span:eq(0)").find( "select > option" ).each(function( optionIndex, option) {
      			field['fieldType'] = 'select';
      			var optionObj = {};
-     			optionObj['value'] = $(option).text();
+     			optionObj['display'] = $(option).text();
      			field.fieldOptionList.push(optionObj);
      		});
      		
@@ -38,6 +38,7 @@ $(document).ready(function() {
 		for (var i = 0; i < fields.length; i++) {
 			var field = fields[i];
 			var prefix = 'formFieldMetaList[#]'.replace('#', i);
+			param[prefix + '.position'] = i + 1;
 			for (property in field) {
 				var name = prefix + '.' + property
 				if (!$.isArray(field[property])) {
@@ -45,8 +46,10 @@ $(document).ready(function() {
 					continue;
 				}
 				
+				//Parse the field options
 				for (var j = 0; j < field[property].length; j++) {
 					var subPrefix = '.fieldOptionList[#]'.replace('#', j);
+					param[prefix + subPrefix + '.position'] = j + 1;
 					for (subProperty in field[property][j]) {
 						var subName = prefix + subPrefix + '.' + subProperty;
 						param[subName] = field[property][j][subProperty];

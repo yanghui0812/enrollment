@@ -1,9 +1,12 @@
 package com.enroll.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import com.enroll.core.dto.FormFieldMetaDTO;
 import com.enroll.core.dto.FormFieldOptionDTO;
 import com.enroll.core.dto.FormFieldValueDTO;
 import com.enroll.core.dto.FormMetaDTO;
+import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.entity.FormFieldMeta;
 import com.enroll.core.entity.FormFieldOption;
 import com.enroll.core.entity.FormFieldValue;
@@ -72,6 +76,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 	@Override
 	public FormMetaDTO saveFormMeta(FormMetaDTO formMetaDTO) {
+		Objects.requireNonNull(formMetaDTO);
 		final FormMeta formMeta = new FormMeta();
 		BeanUtils.copyProperties(formMetaDTO, formMeta, "formFieldMetaList");
 
@@ -87,6 +92,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 					FormFieldOption fieldOption = new FormFieldOption();
 					BeanUtils.copyProperties(option, fieldOption);
 					formFieldMeta.addFormFieldOption(fieldOption);
+					if (StringUtils.isBlank(option.getValue())) {
+						fieldOption.setValue(String.valueOf(formFieldMeta.getSizeOfFieldOptions()));
+					}
 				});
 			}
 		});
@@ -117,6 +125,25 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 	@Override
 	public FormMetaDTO update(FormMetaDTO bean) {
+		return null;
+	}	
+
+	@Override
+	public List<FormMetaDTO> findFormMetaList(FormMetaQuery query) {
+		Objects.requireNonNull(query);
+		List<FormMeta> list = enrollmentDao.findFormMetaList(query);
+		List<FormMetaDTO> result = new ArrayList<>();
+		list.stream().forEach(formMeta -> {
+			FormMetaDTO dto = new FormMetaDTO();
+			BeanUtils.copyProperties(formMeta, dto, "formFieldMetaList");
+			result.add(dto);
+		});
+		return result;
+	}
+
+	@Override
+	public FormMetaDTO findFormMetaPage(FormMetaQuery query) {
+		
 		return null;
 	}
 }

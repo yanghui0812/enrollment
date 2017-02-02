@@ -13,6 +13,8 @@ public class FormMetaDTO implements Serializable {
 	private String formName;
 	
 	private String formDescription;
+	
+	private String status;
 
 	private List<FormFieldMetaDTO> formFieldMetaList = new ArrayList<FormFieldMetaDTO>();
 
@@ -102,5 +104,13 @@ public class FormMetaDTO implements Serializable {
 		} else if (!formName.equals(other.formName))
 			return false;
 		return true;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

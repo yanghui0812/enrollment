@@ -2,6 +2,8 @@ package com.enroll.core.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -131,12 +133,12 @@ public class FormFieldMeta implements Serializable {
 		this.formMeta = formMeta;
 	}
 
-	public List<FormFieldOption> getFieldOptionList() {
-		return fieldOptionList;
+	public Collection<FormFieldOption> getFieldOptionList() {
+		return Collections.unmodifiableCollection(fieldOptionList);
 	}
-
-	public void setFieldOptionList(List<FormFieldOption> fieldOptionList) {
-		this.fieldOptionList = fieldOptionList;
+	
+	public int getSizeOfFieldOptions() {
+		return fieldOptionList.size();
 	}
 	
 	public void addFormFieldOption(FormFieldOption dto) {

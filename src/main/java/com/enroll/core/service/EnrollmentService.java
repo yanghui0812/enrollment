@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.enroll.core.dto.FormFieldValueDTO;
 import com.enroll.core.dto.FormMetaDTO;
+import com.enroll.core.dto.FormMetaQuery;
 
 public interface EnrollmentService {
 
@@ -15,7 +16,7 @@ public interface EnrollmentService {
 	public FormMetaDTO findFormMetaById(long formId);
 	
 	/**
-	 * 根据formId和身份证号返回form元数据和页面输入的数据，返回到页面后组装
+	 * 根据formId和注册号返回form元数据和页面输入的数据，返回到页面后组装
 	 * @param formId form编号
 	 * @param id 身份证号
 	 * @return FormMetaDTO
@@ -28,6 +29,20 @@ public interface EnrollmentService {
 	 * @return FormMetaDTO
 	 */
 	public FormMetaDTO saveFormMeta(FormMetaDTO formMetaDTO);
+	
+	/**
+	 * 根据查询条件返回form的列表
+	 * @param FormMetaQuery
+	 * @return List<FormMetaDTO>
+	 */
+	public List<FormMetaDTO> findFormMetaList(FormMetaQuery query);
+	
+	/**
+	 * 根据查询条件返回form的page
+	 * @param FormMetaQuery
+	 * @return FormMetaDTO
+	 */
+	public FormMetaDTO findFormMetaPage(FormMetaQuery query);
 	
 	/**
 	 * @param fieldvalueList

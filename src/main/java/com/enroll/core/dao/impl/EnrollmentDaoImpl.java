@@ -15,7 +15,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import com.enroll.core.dao.EnrollmentDao;
+import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.entity.FormFieldValue;
+import com.enroll.core.entity.FormMeta;
 
 @Repository
 public class EnrollmentDaoImpl implements EnrollmentDao {
@@ -48,10 +50,21 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 	public void remove(Object object) {
 		getEntityManager().remove(object);
 	}
+	
+	@Override
+	public List<FormMeta> findFormMetaList(FormMetaQuery query) {
+		EntityManager entityManager = getEntityManager();
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<FormMeta> criteria = builder.createQuery(FormMeta.class);
+		Root<FormMeta> root = criteria.from(FormMeta.class);
+		criteria.select(root);
+		List<FormMeta> list = entityManager.createQuery(criteria).getResultList();
+		return list;
+	}
 
 	@Override
 	public List<FormFieldValue> findFormFieldValueList(long formId, String id) {
-		EntityManager entityManager = this.getEntityManager();
+		EntityManager entityManager = getEntityManager();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<FormFieldValue> criteria = builder.createQuery(FormFieldValue.class);
 		Root<FormFieldValue> root = criteria.from(FormFieldValue.class);
