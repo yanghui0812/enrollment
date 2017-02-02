@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.enroll.core.dao.EnrollmentDao;
+import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.FormFieldMetaDTO;
 import com.enroll.core.dto.FormFieldOptionDTO;
-import com.enroll.core.dto.FormFieldValueDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.entity.FormFieldMeta;
@@ -104,16 +104,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 	}
 	
 	@Override
-	public int saveFormInputFieldvalues(List<FormFieldValueDTO> fieldvalueList) {
-		if (CollectionUtils.isEmpty(fieldvalueList)) {
-			return 0;
-		}
-		fieldvalueList.forEach(value -> {
+	public String saveEnrollment(EnrollmentDTO enrollmentDTO) {
+		Objects.requireNonNull(enrollmentDTO);
+		enrollmentDTO.getFieldValueList().stream().forEach(value -> {
 			FormFieldValue fieldValue = new FormFieldValue();
 			BeanUtils.copyProperties(value, fieldValue);
 			enrollmentDao.save(fieldValue);
 		});
-		return fieldvalueList.size();
+		return enrollmentDTO.getRegistrId();
 	}
 
 	@Override
@@ -143,6 +141,12 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 	@Override
 	public FormMetaDTO findFormMetaPage(FormMetaQuery query) {
+		
+		return null;
+	}
+
+	@Override
+	public EnrollmentDTO findEnrollment(String registrId) {
 		
 		return null;
 	}

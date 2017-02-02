@@ -10,7 +10,7 @@ public class FormFieldValueDTO implements Serializable {
 	
 	private long fieldId;
 	
-	private String idNumber;
+	private String registrId;
 	
 	private String fieldValue;
 
@@ -21,11 +21,11 @@ public class FormFieldValueDTO implements Serializable {
 		this.fieldId = fieldId;
 	}
 	
-	public FormFieldValueDTO(long formId, long fieldId, String idNumber, String fieldValue) {
+	public FormFieldValueDTO(long formId, long fieldId, String registrId, String fieldValue) {
 		super();
 		this.formId = formId;
 		this.fieldId = fieldId;
-		this.idNumber = idNumber;
+		this.registrId = registrId;
 		this.fieldValue = fieldValue;
 	}
 
@@ -62,12 +62,12 @@ public class FormFieldValueDTO implements Serializable {
 		this.fieldId = fieldId;
 	}
 
-	public String getIdNumber() {
-		return idNumber;
+	public String getRegistrId() {
+		return registrId;
 	}
 
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
+	public void setRegistrId(String registrId) {
+		this.registrId = registrId;
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class FormFieldValueDTO implements Serializable {
 		result = prime * result + (int) (fieldId ^ (fieldId >>> 32));
 		result = prime * result + ((fieldValue == null) ? 0 : fieldValue.hashCode());
 		result = prime * result + (int) (formId ^ (formId >>> 32));
-		result = prime * result + ((idNumber == null) ? 0 : idNumber.hashCode());
+		result = prime * result + ((registrId == null) ? 0 : registrId.hashCode());
 		return result;
 	}
 
@@ -99,10 +99,10 @@ public class FormFieldValueDTO implements Serializable {
 			return false;
 		if (formId != other.formId)
 			return false;
-		if (idNumber == null) {
-			if (other.idNumber != null)
+		if (registrId == null) {
+			if (other.registrId != null)
 				return false;
-		} else if (!idNumber.equals(other.idNumber))
+		} else if (!registrId.equals(other.registrId))
 			return false;
 		return true;
 	}

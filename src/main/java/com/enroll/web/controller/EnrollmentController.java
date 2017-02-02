@@ -1,7 +1,5 @@
 package com.enroll.web.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -10,61 +8,49 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.FormMetaDTO;
-import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.service.EnrollmentService;
 
 @Controller
-@RequestMapping("/enroll")
 public class EnrollmentController {
 	
 	@Resource(name = "enrollmentService")
 	private EnrollmentService enrollmentService;
 	
 	/**
-	 * 进入到表单设计主页
+	 * 注册的form生成页面
 	 * @return String
 	 */
-	@RequestMapping(value = "/designform.html")
-	public String designForm(){
-		return "designForm";
+	@RequestMapping(value = "/enrollForm.html", method = RequestMethod.GET)
+	public String getDesignForm(Long formId, Model model, BindingResult result) {
+		FormMetaDTO formMetaDTO = enrollmentService.findFormMetaById(formId);
+		model.addAttribute("formMeta", formMetaDTO);
+		return "enrollForm";
 	}
 	
 	/**
-	 * 保存表单的元数据
-	 * @param formMeta
+	 * 
+	 * 保存注册信息
+	 * @param enroll
 	 * @return String
 	 */
-	@RequestMapping(value = "/saveForm.html")
-	public String saveFormDesign(FormMetaDTO formMeta){
-		formMeta.setStatus("1");
-		formMeta = enrollmentService.saveFormMeta(formMeta);
-		return "redirect:/form.html?formId=" + formMeta.getFormId();
+	@RequestMapping(value = "/enroll.html", method = RequestMethod.POST)
+	public String saveEnrollment(EnrollmentDTO enroll) {
+		String registrId = enrollmentService.saveEnrollment(enroll);
+		return "redirect:/enroll.html?registrId=" + registrId;
 	}
 	
 	/**
-	 * 表单设计的详细信息
-	 * @param formId
+	 * 浏览注册信息
+	 * @param registrId
+	 * @param model
 	 * @return String
 	 */
-	@RequestMapping(value = "/form.html")
-	public String registerForm(int formId){
-		return "registerForm";
-	}
-	
-	/**
-	 * 表单的管理页面
-	 * @return String
-	 */
-	@RequestMapping(value = "/forms.html", method = RequestMethod.GET)
-	public String getDesignForms(FormMetaQuery query, Model model, BindingResult result) {
-		List<FormMetaDTO> list = enrollmentService.findFormMetaList(query);
-		model.addAttribute("formList", list);
-		return "formList";
-	}
-	
-	@RequestMapping(value = "/register.html", method = RequestMethod.GET)
-	public String register(int formId, String id){
-		return "registerResult";
+	@RequestMapping(value = "/enroll.html", method = RequestMethod.GET)
+	public String getEnrollment(String registrId, Model model){
+		EnrollmentDTO enroll = enrollmentService.findEnrollment(registrId);
+		model.addAttribute("enroll", enroll);
+		return "enrollDetail";
 	}
 }

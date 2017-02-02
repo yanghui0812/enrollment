@@ -2,7 +2,7 @@ package com.enroll.core.service;
 
 import java.util.List;
 
-import com.enroll.core.dto.FormFieldValueDTO;
+import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 
@@ -45,10 +45,16 @@ public interface EnrollmentService {
 	public FormMetaDTO findFormMetaPage(FormMetaQuery query);
 	
 	/**
-	 * @param fieldvalueList
-	 * @return int
+	 * @param enrollmentDTO
+	 * @return String
 	 */
-	public int saveFormInputFieldvalues(List<FormFieldValueDTO> fieldvalueList);
+	public String saveEnrollment(EnrollmentDTO enrollmentDTO);
+	
+	/**
+	 * @param String
+	 * @return EnrollmentDTO
+	 */
+	public EnrollmentDTO findEnrollment(String registrId);
 
 	/**
 	 * @param bean

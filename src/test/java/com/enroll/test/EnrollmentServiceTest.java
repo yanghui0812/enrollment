@@ -93,7 +93,7 @@ public class EnrollmentServiceTest extends AbstractTestNGSpringContextTests {
 		formMeta = dto;
 	}
 	
-	@Test(priority = 3)
+	/*@Test(priority = 3)
 	public void testSaveFormInputValue() {
 		List<FormFieldValueDTO> list = new ArrayList<FormFieldValueDTO>();
 		formMeta.getFormFieldMetaList().forEach(field -> {
@@ -108,7 +108,7 @@ public class EnrollmentServiceTest extends AbstractTestNGSpringContextTests {
 		
 		int count = enrollmentService.saveFormInputFieldvalues(list);
 		Assert.assertTrue(count > 0);
-	}
+	}*/
 	
 	@Test(priority = 4)
 	public void testFindFormMetaWithInputvalue() {

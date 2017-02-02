@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$( "#saveform" ).click(function() {
 		buildFromData();
-		$.post( "/Enrollment/enroll/saveForm.html", buildFromData(), function( data ) {
+		$.post( "/Enrollment/saveForm.html", buildFromData(), function( data ) {
 			  alert(data);
 		});
 	});
