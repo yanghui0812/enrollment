@@ -7,14 +7,14 @@ public class FormFieldOptionDTO implements Serializable {
 	private static final long serialVersionUID = 4768670324483749534L;
 
 	private int position;
-
-	private FormFieldMetaDTO formField;
 	
 	private String value;
 	
 	private String display;
 	
 	private String description;
+	
+	private FormFieldMetaDTO formField;
 	
 	public FormFieldOptionDTO() {
 	}

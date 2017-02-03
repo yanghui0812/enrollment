@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,11 +24,21 @@ public class FormFieldValue implements Serializable {
 	private long formId;
 	
 	@Id
-	@Column(name = "REGISTR_ID", nullable = false)
-	private String registrId;
+	@ManyToOne
+	@JoinColumn(name = "REGISTER_ID", nullable = false)
+	private Enrollment enrollment;
 	
 	@Column(name = "FIELD_VALUE", nullable = false)
 	private String fieldValue;
+	
+	@Column(name = "FIELD_NAME", nullable = false)
+	private String fieldName;
+	
+	@Column(name = "FIELD_DISPLAY", nullable = false)
+	private String fieldDisplay;
+	
+	@Column(name = "FIELD_TYPE", nullable = false)
+	private String fieldtype;
 
 	public FormFieldValue() {
 	}
@@ -67,22 +79,46 @@ public class FormFieldValue implements Serializable {
 	public void setFieldId(long fieldId) {
 		this.fieldId = fieldId;
 	}
-
-	public String getRegistrId() {
-		return registrId;
+	
+	public Enrollment getEnrollment() {
+		return enrollment;
 	}
 
-	public void setRegistrId(String registrId) {
-		this.registrId = registrId;
+	public void setEnrollment(Enrollment enrollment) {
+		this.enrollment = enrollment;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public String getFieldDisplay() {
+		return fieldDisplay;
+	}
+
+	public void setFieldDisplay(String fieldDisplay) {
+		this.fieldDisplay = fieldDisplay;
+	}
+	
+	public String getFieldtype() {
+		return fieldtype;
+	}
+
+	public void setFieldtype(String fieldtype) {
+		this.fieldtype = fieldtype;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((enrollment == null) ? 0 : enrollment.hashCode());
 		result = prime * result + (int) (fieldId ^ (fieldId >>> 32));
 		result = prime * result + (int) (formId ^ (formId >>> 32));
-		result = prime * result + ((registrId == null) ? 0 : registrId.hashCode());
 		return result;
 	}
 
@@ -95,14 +131,14 @@ public class FormFieldValue implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		FormFieldValue other = (FormFieldValue) obj;
+		if (enrollment == null) {
+			if (other.enrollment != null)
+				return false;
+		} else if (!enrollment.equals(other.enrollment))
+			return false;
 		if (fieldId != other.fieldId)
 			return false;
 		if (formId != other.formId)
-			return false;
-		if (registrId == null) {
-			if (other.registrId != null)
-				return false;
-		} else if (!registrId.equals(other.registrId))
 			return false;
 		return true;
 	}

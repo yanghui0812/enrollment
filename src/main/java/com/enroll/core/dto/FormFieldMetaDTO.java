@@ -2,15 +2,21 @@ package com.enroll.core.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import com.enroll.core.enums.FormFieldType;
+import com.enroll.core.enums.Options;
 
 public class FormFieldMetaDTO implements Serializable {
 	
 	private static final long serialVersionUID = 5590060413365654998L;
 
 	private long fieldId;
-
-	private FormMetaDTO formMeta;
+	
+	private int position;
+	
+	private String required;
 	
 	private String fieldName;
 	
@@ -18,13 +24,13 @@ public class FormFieldMetaDTO implements Serializable {
 	
 	private String fieldConstraint;
 	
-	private int position;
-	
 	private String fieldDefaultValue;
 	
 	private String fieldStyle;
 	
 	private String fieldValue;
+	
+	private FormMetaDTO formMeta;
 	
 	private List<FormFieldOptionDTO> fieldOptionList;
 
@@ -119,6 +125,11 @@ public class FormFieldMetaDTO implements Serializable {
 		return fieldOptionList;
 	}
 	
+	public List<FormFieldOptionDTO> getSortedFieldOptions() {
+		fieldOptionList.sort(Comparator.comparingInt(FormFieldOptionDTO::getPosition));
+		return fieldOptionList;
+	}
+	
 	public void addFieldOption(FormFieldOptionDTO dto) {
 		if (fieldOptionList == null) {
 			fieldOptionList = new ArrayList<FormFieldOptionDTO>();
@@ -132,6 +143,38 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public void setFieldValue(String fieldValue) {
 		this.fieldValue = fieldValue;
+	}
+
+	public String getRequired() {
+		return required;
+	}
+
+	public void setRequired(String required) {
+		this.required = required;
+	}
+	
+	public boolean isRequired(){
+		return Options.TRUE.equals(Options.getOption(required));
+	}
+	
+	public boolean isText() {
+		return FormFieldType.TEXT.equals(FormFieldType.getFieldType(fieldType));
+	}
+	
+	public boolean isSelect() {
+		return FormFieldType.SELECT.equals(FormFieldType.getFieldType(fieldType));
+	}
+	
+	public boolean isCheckbox() {
+		return FormFieldType.CHECKBOX.equals(FormFieldType.getFieldType(fieldType));
+	}
+	
+	public boolean isRadio() {
+		return FormFieldType.RADIO.equals(FormFieldType.getFieldType(fieldType));
+	}
+	
+	public boolean isTextarea() {
+		return FormFieldType.TEXTAREA.equals(FormFieldType.getFieldType(fieldType));
 	}
 
 	@Override

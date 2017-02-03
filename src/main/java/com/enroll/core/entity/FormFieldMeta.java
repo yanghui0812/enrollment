@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,6 +33,9 @@ public class FormFieldMeta implements Serializable {
 	
 	@Column(name = "FIELD_POSITION", nullable = false)
 	private int position;
+	
+	@Column(name = "REQUIRED", nullable = false)
+	private String required;
 	
 	@ManyToOne
 	@JoinColumn(name = "FORM_ID", nullable = false)
@@ -137,6 +142,14 @@ public class FormFieldMeta implements Serializable {
 		return Collections.unmodifiableCollection(fieldOptionList);
 	}
 	
+	public Map<String, String> getFieldOptionMap() {
+		Map<String, String> map = new HashMap<>();
+		fieldOptionList.stream().forEach(option -> {
+			map.put(option.getValue(), option.getDisplay());
+		});
+		return map;
+	}
+	
 	public int getSizeOfFieldOptions() {
 		return fieldOptionList.size();
 	}
@@ -152,5 +165,13 @@ public class FormFieldMeta implements Serializable {
 
 	public void setPosition(int position) {
 		this.position = position;
+	}
+
+	public String getRequired() {
+		return required;
+	}
+
+	public void setRequired(String required) {
+		this.required = required;
 	}
 }

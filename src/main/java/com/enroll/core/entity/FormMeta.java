@@ -1,8 +1,8 @@
 package com.enroll.core.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
+
+import org.hibernate.annotations.BatchSize;
 
 @Entity
 @Table(name = "TBL_FORM_META")
@@ -36,14 +38,15 @@ public class FormMeta implements Serializable {
 	private String status;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "formMeta")
+	@BatchSize(size = 100)
 	private List<FormFieldMeta> formFieldMetaList = new ArrayList<FormFieldMeta>();
 
 	@Column(name = "CREATED_TIMESTAMP", updatable = false)
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
 	@Version
 	@Column(name = "UPDATED_TIMESTAMP")
-	private Date modifiedDate;
+	private LocalDateTime modifiedDate;
 
 	public FormMeta() {
 	}
@@ -95,22 +98,6 @@ public class FormMeta implements Serializable {
 		formFieldMetaList.add(dto);
 	}
 
-	public Date getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -157,5 +144,21 @@ public class FormMeta implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public LocalDateTime getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(LocalDateTime modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 }

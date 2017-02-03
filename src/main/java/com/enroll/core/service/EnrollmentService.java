@@ -54,7 +54,7 @@ public interface EnrollmentService {
 	 * @param String
 	 * @return EnrollmentDTO
 	 */
-	public EnrollmentDTO findEnrollment(String registrId);
+	public EnrollmentDTO findEnrollment(String registerId);
 
 	/**
 	 * @param bean

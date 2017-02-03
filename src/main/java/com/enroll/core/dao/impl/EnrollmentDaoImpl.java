@@ -90,7 +90,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 	}
 
 	@Override
-	public <T> T readGenericEntity(Class<T> clazz, Long id) {
+	public <T> T readGenericEntity(Class<T> clazz, Object id) {
 		return getEntityManager().find(clazz, id);
 	}
 }

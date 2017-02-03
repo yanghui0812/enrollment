@@ -17,7 +17,7 @@ public enum EnrollStatus {
 		this.desc = desc;
 	}
 
-	public static Map<String, String> getMap() {
+	public static Map<String, String> getEnrollStatusMap() {
 		Map<String, String> map = new HashMap<String, String>();
 		for (EnrollStatus fieldType : values()) {
 			if (!StringUtils.isEmpty(fieldType.type)) {
@@ -27,18 +27,9 @@ public enum EnrollStatus {
 		return map;
 	}
 
-	public static EnrollStatus getDesc(String type) {
+	public static EnrollStatus getEnrollStatus(String type) {
 		for (EnrollStatus fieldType : values()) {
 			if (fieldType.type.equals(type)) {
-				return fieldType;
-			}
-		}
-		return null;
-	}
-
-	public static EnrollStatus getMessage(String type) {
-		for (EnrollStatus fieldType : values()) {
-			if (fieldType.desc.equals(type)) {
 				return fieldType;
 			}
 		}

@@ -18,7 +18,7 @@ public enum FormFieldType {
 		this.name = name;
 	}
 
-	public static Map<String, String> getMap() {
+	public static Map<String, String> getAllFieldTypeMap() {
 		Map<String, String> map = new HashMap<String, String>();
 		for (FormFieldType fieldType : values()) {
 			if (!StringUtils.isEmpty(fieldType.type)) {
@@ -28,7 +28,7 @@ public enum FormFieldType {
 		return map;
 	}
 
-	public static FormFieldType getDescription(String type) {
+	public static FormFieldType getFieldType(String type) {
 		for (FormFieldType fieldType : values()) {
 			if (fieldType.type.equals(type)) {
 				return fieldType;
@@ -36,14 +36,9 @@ public enum FormFieldType {
 		}
 		return null;
 	}
-
-	public static FormFieldType getMessage(String type) {
-		for (FormFieldType fieldType : values()) {
-			if (fieldType.name.equals(type)) {
-				return fieldType;
-			}
-		}
-		return null;
+	
+	public static boolean hasOption(String type) {
+		return SELECT.type.equals(type) || CHECKBOX.type.equals(type) || RADIO.type.equals(type);
 	}
 
 	public String getType() {

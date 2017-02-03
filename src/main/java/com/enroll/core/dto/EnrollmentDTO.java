@@ -10,7 +10,7 @@ public class EnrollmentDTO implements Serializable {
 	
 	private static final long serialVersionUID = -3302285451035479529L;
 
-	private String registrId;
+	private String registerId;
 	
 	private String status;
 	
@@ -18,7 +18,9 @@ public class EnrollmentDTO implements Serializable {
 	
 	private String id;
 	
-	private Date registrDate;
+	private long formId;
+	
+	private Date registerDate;
 	
 	private List<FormFieldValueDTO> fieldValueList = new ArrayList<FormFieldValueDTO>();
 
@@ -29,13 +31,9 @@ public class EnrollmentDTO implements Serializable {
 	public void setFieldValueList(List<FormFieldValueDTO> fieldValueList) {
 		this.fieldValueList = fieldValueList;
 	}
-
-	public String getRegistrId() {
-		return registrId;
-	}
-
-	public void setRegistrId(String registrId) {
-		this.registrId = registrId;
+	
+	public void addFieldValue(FormFieldValueDTO fieldValue) {
+		fieldValueList.add(fieldValue);
 	}
 
 	public String getStatus() {
@@ -62,11 +60,27 @@ public class EnrollmentDTO implements Serializable {
 		this.id = id;
 	}
 
-	public Date getRegistrDate() {
-		return registrDate;
+	public long getFormId() {
+		return formId;
 	}
 
-	public void setRegistrDate(Date registrDate) {
-		this.registrDate = registrDate;
+	public void setFormId(long formId) {
+		this.formId = formId;
+	}
+
+	public String getRegisterId() {
+		return registerId;
+	}
+
+	public void setRegisterId(String registerId) {
+		this.registerId = registerId;
+	}
+
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
 	}
 }

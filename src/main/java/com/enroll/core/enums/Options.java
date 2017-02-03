@@ -5,21 +5,21 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum FormStatus {
+public enum Options {
 
-	DRAFT("1", "草稿"), PUBLISH("2", "发布"), INACTIVE("3", "废弃");
+	TRUE("1", "是"), FALSE("0", "否");
 
 	private String type;
 	private String desc;
 
-	private FormStatus(String type, String desc) {
+	private Options(String type, String desc) {
 		this.type = type;
 		this.desc = desc;
 	}
 
-	public static Map<String, String> getFormStatusMap() {
+	public static Map<String, String> getOptionMap() {
 		Map<String, String> map = new HashMap<String, String>();
-		for (FormStatus status : values()) {
+		for (Options status : values()) {
 			if (!StringUtils.isEmpty(status.type)) {
 				map.put(status.type, status.getDesc());
 			}
@@ -27,8 +27,8 @@ public enum FormStatus {
 		return map;
 	}
 
-	public static FormStatus getFormStatus(String type) {
-		for (FormStatus fieldType : values()) {
+	public static Options getOption(String type) {
+		for (Options fieldType : values()) {
 			if (fieldType.type.equals(type)) {
 				return fieldType;
 			}
