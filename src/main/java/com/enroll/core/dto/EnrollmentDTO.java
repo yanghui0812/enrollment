@@ -2,9 +2,10 @@ package com.enroll.core.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.enroll.common.DateUtils;
 
 
 public class EnrollmentDTO implements Serializable {
@@ -85,24 +86,20 @@ public class EnrollmentDTO implements Serializable {
 		return modifiedDate;
 	}
 	
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-	
-	private static final DateTimeFormatter YYYY_MM_DD = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-	
 	public String getRegisterDateStr() {
-		return registerDate.format(YYYY_MM_DD);
+		return registerDate.format(DateUtils.YYYY_MM_DD);
 	}
 	
 	public void setRegisterDate(String modifiedDateStr) {
-		registerDate = LocalDateTime.parse(modifiedDateStr, YYYY_MM_DD);
+		registerDate = LocalDateTime.parse(modifiedDateStr, DateUtils.YYYY_MM_DD);
 	}
 	
 	public String getModifiedDateStr() {
-		return modifiedDate.format(FORMATTER);
+		return modifiedDate.format(DateUtils.YYYYMMDDHHMMSS);
 	}
 	
 	public void setModifiedDateStr(String modifiedDateStr) {
-		modifiedDate = LocalDateTime.parse(modifiedDateStr, FORMATTER);
+		modifiedDate = LocalDateTime.parse(modifiedDateStr, DateUtils.YYYYMMDDHHMMSS);
 	}
 
 	public void setModifiedDate(LocalDateTime modifiedDate) {

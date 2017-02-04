@@ -1,7 +1,6 @@
 package com.enroll.core.service.impl;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.enroll.common.AppConstant;
+import com.enroll.common.DateUtils;
 import com.enroll.core.dao.EnrollmentDao;
 import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.FormFieldMetaDTO;
@@ -36,13 +37,9 @@ import com.enroll.core.service.EnrollmentService;
 
 @Service("enrollmentService")
 @Transactional
-public class EnrollmentServiceImpl implements EnrollmentService {
-	
-	private static final String COMMA = ",";
+public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	
 	private static final Logger LOGGER = LogManager.getLogger(EnrollmentService.class);
-	
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
 
 	@Autowired
 	private EnrollmentDao enrollmentDao;
@@ -220,7 +217,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 	}
 	
 	private String getRegisterId() {
-		return LocalDateTime.now().format(FORMATTER) + ThreadLocalRandom.current().nextLong(1000000);
+		return LocalDateTime.now().format(DateUtils.YYYYMMDDHHMMSSSSS) + ThreadLocalRandom.current().nextLong(1000000);
 	}
 
 	@Override
