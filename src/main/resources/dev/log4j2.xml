@@ -23,7 +23,7 @@
                     </RollingFile>
                 </Route>
                 <Route ref="STDOUT" key="Audit" />
-                <Route ref="List" key="Service" />
+                <Route ref="List"   key="Service" />
             </Routes>
         </Routing>
     </Appenders>
@@ -32,7 +32,7 @@
         <Logger name="EventLogger" level="info" additivity="false">
             <AppenderRef ref="Routing" />
         </Logger>
-        <Root level="error">
+        <Root level="TRACE">
             <AppenderRef ref="STDOUT" />
         </Root>
     </Loggers>

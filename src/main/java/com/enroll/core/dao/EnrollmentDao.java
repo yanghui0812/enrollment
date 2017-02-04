@@ -9,7 +9,7 @@ import com.enroll.core.entity.FormMeta;
 public interface EnrollmentDao {
 	
 	/**
-	 * Finds a generic entity by a classname and id
+	 * Finds a generic entity by a class name and id
 	 * 
 	 * @param className
 	 * @param id
