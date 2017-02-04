@@ -17,11 +17,10 @@ public interface EnrollmentService {
 	
 	/**
 	 * 根据formId和注册号返回form元数据和页面输入的数据，返回到页面后组装
-	 * @param formId form编号
-	 * @param id 身份证号
+	 * @param registerId
 	 * @return FormMetaDTO
 	 */
-	public FormMetaDTO findFormMetaWithInputValue(long formId, String id);
+	public EnrollmentDTO findFormMetaWithInputValue(String registerId);
 
 	/**
 	 * 保存form元数据到数据库

@@ -19,7 +19,7 @@ public class EnrollmentController {
 	private EnrollmentService enrollmentService;
 	
 	/**
-	 * 注册的form生成页面
+	 * Prepare the design form information for enrollment
 	 * @return String
 	 */
 	@RequestMapping(value = "/enrollForm.html", method = RequestMethod.GET)
@@ -30,8 +30,7 @@ public class EnrollmentController {
 	}
 	
 	/**
-	 * 
-	 * 保存注册信息
+	 * Save enrollment information
 	 * @param enroll
 	 * @return String
 	 */
@@ -43,7 +42,19 @@ public class EnrollmentController {
 	}
 	
 	/**
-	 * 浏览注册信息
+	 * Get the enrollment info and form meta for update
+	 * @return String
+	 */
+	@RequestMapping(value = "/updateEnroll.html", method = RequestMethod.GET)
+	public String getEnrollInfo(String registerId, Model model) {
+		EnrollmentDTO enroll = enrollmentService.findFormMetaWithInputValue(registerId);
+		model.addAttribute("formMeta", enroll.getFormMeta());
+		model.addAttribute("enroll", enroll);
+		return "enrollForm";
+	}
+	
+	/**
+	 * View the detailed enrollment information
 	 * @param registrId
 	 * @param model
 	 * @return String

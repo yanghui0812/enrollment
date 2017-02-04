@@ -28,7 +28,7 @@ public class FormFieldMetaDTO implements Serializable {
 	
 	private String fieldStyle;
 	
-	private String fieldValue;
+	private String inputFieldValue;
 	
 	private FormMetaDTO formMeta;
 	
@@ -134,15 +134,8 @@ public class FormFieldMetaDTO implements Serializable {
 		if (fieldOptionList == null) {
 			fieldOptionList = new ArrayList<FormFieldOptionDTO>();
 		}
+		dto.setFormField(this);
 		fieldOptionList.add(dto);
-	}
-
-	public String getFieldValue() {
-		return fieldValue;
-	}
-
-	public void setFieldValue(String fieldValue) {
-		this.fieldValue = fieldValue;
 	}
 
 	public String getRequired() {
@@ -243,5 +236,13 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public void setFieldOptionList(List<FormFieldOptionDTO> fieldOptionList) {
 		this.fieldOptionList = fieldOptionList;
+	}
+
+	public String getInputFieldValue() {
+		return inputFieldValue;
+	}
+
+	public void setInputFieldValue(String inputFieldValue) {
+		this.inputFieldValue = inputFieldValue;
 	}
 }

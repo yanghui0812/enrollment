@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="../../css/style.css" th:href="@{/css/style.css}" />
 </head>
 <body>
+    <a th:href="@{/updateEnroll.html?registerId=} + ${enroll.registerId}">我想修改一下</a>
 	<table style="font-size: 13px;">
 	    <tr class="first" bgcolor="#FFFFFF" height="25px" align="center">
             <td  align="center">注册号：</td>
@@ -29,7 +30,7 @@
         </tr>
         <tr class="first" bgcolor="#FFFFFF" height="25px" align="center">
             <td  align="center">注册日期</td>
-            <td  align="center"><span th:text="${enroll.registerDate}"></span></td>
+            <td  align="center"><span th:text="${enroll.registerDateStr}"></span></td>
         </tr>
 		<tbody>
 			<tr th:each="formFieldValue, stat : ${enroll.fieldValueList}" bgcolor="#FFFFFF" height="25px" align="center">

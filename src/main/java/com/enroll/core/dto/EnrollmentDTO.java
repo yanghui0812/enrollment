@@ -1,8 +1,9 @@
 package com.enroll.core.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -20,7 +21,11 @@ public class EnrollmentDTO implements Serializable {
 	
 	private long formId;
 	
-	private Date registerDate;
+	private LocalDateTime registerDate;
+	
+	private FormMetaDTO formMeta;
+	
+	private LocalDateTime modifiedDate;
 	
 	private List<FormFieldValueDTO> fieldValueList = new ArrayList<FormFieldValueDTO>();
 
@@ -76,11 +81,47 @@ public class EnrollmentDTO implements Serializable {
 		this.registerId = registerId;
 	}
 
-	public Date getRegisterDate() {
+	public LocalDateTime getModifiedDate() {
+		return modifiedDate;
+	}
+	
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+	
+	private static final DateTimeFormatter YYYY_MM_DD = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	
+	public String getRegisterDateStr() {
+		return registerDate.format(YYYY_MM_DD);
+	}
+	
+	public void setRegisterDate(String modifiedDateStr) {
+		registerDate = LocalDateTime.parse(modifiedDateStr, YYYY_MM_DD);
+	}
+	
+	public String getModifiedDateStr() {
+		return modifiedDate.format(FORMATTER);
+	}
+	
+	public void setModifiedDateStr(String modifiedDateStr) {
+		modifiedDate = LocalDateTime.parse(modifiedDateStr, FORMATTER);
+	}
+
+	public void setModifiedDate(LocalDateTime modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public FormMetaDTO getFormMeta() {
+		return formMeta;
+	}
+
+	public void setFormMeta(FormMetaDTO formMeta) {
+		this.formMeta = formMeta;
+	}
+
+	public LocalDateTime getRegisterDate() {
 		return registerDate;
 	}
 
-	public void setRegisterDate(Date registerDate) {
+	public void setRegisterDate(LocalDateTime registerDate) {
 		this.registerDate = registerDate;
 	}
 }

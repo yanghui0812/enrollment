@@ -36,6 +36,16 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 	}
 
 	@Override
+	public <T> T saveOrUpdate(T object) {
+		getEntityManager().saveOrUpdate(object);
+		return object;
+	}
+	
+	public void evict(Object object) {
+		getEntityManager().evict(object);
+	}
+	
+	@Override
 	public <T> T save(T object) {
 		getEntityManager().persist(object);
 		return object;
@@ -92,5 +102,10 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 	@Override
 	public <T> T readGenericEntity(Class<T> clazz, Object id) {
 		return getEntityManager().find(clazz, id);
+	}
+
+	@Override
+	public Object merge(Object object) {
+		return getEntityManager().merge(object);
 	}
 }

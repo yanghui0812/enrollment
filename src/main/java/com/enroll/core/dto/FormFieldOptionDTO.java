@@ -2,6 +2,8 @@ package com.enroll.core.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class FormFieldOptionDTO implements Serializable {
 	
 	private static final long serialVersionUID = 4768670324483749534L;
@@ -26,6 +28,10 @@ public class FormFieldOptionDTO implements Serializable {
 		this.value = value;
 		this.display = display;
 		this.description = description;
+	}
+	
+	public boolean isChecked() {
+		return StringUtils.contains(formField.getInputFieldValue(), value);
 	}
 
 	public String getValue() {

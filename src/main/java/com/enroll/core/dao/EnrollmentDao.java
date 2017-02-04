@@ -8,6 +8,12 @@ import com.enroll.core.entity.FormMeta;
 
 public interface EnrollmentDao {
 	
+	public <T> T saveOrUpdate(T object);
+	
+	public void evict(Object object);
+	
+	public Object merge(Object object);
+	
 	/**
 	 * Finds a generic entity by a class name and id
 	 * 
