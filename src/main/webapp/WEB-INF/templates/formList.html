@@ -27,6 +27,9 @@
 				Form description
 			</td>
 			<td>
+				我要修改设计
+			</td>
+			<td>
 				去报名
 			</td>
 		</tr>
@@ -35,6 +38,7 @@
 				<td height="20" align="center"><span th:text="${form.formId}"/></td>
 				<td height="20" align="center"><span th:text="${form.formName}"/></td>
 				<td height="20" align="center"><span th:text="${form.formDescription}"/></td>
+				<td height="20" align="center"><a th:href="@{/designform.html?formId=} + ${form.formId}"><span th:text="${form.formName}"/></a></td>
 				<td height="20" align="center"><a th:href="@{/enrollForm.html?formId=} + ${form.formId}"><span th:text="${form.formName}"/></a></td>
 			</tr>
 		</tbody>
