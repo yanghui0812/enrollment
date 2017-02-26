@@ -61,7 +61,8 @@
 		</div>
 		<div class="col-md-4">
 			<div class="pull-right" style="margin-top: 6px">
-				<a id="saveform" href="javascript:void();" class="btn btn-success btn-lg" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="">Save and Setup Processing</a>			
+				<a id="saveform" href="javascript:void();" class="btn btn-success btn-lg" data-toggle="popover" data-trigger="hover" data-placement="bottom" title="">Save and Setup Processing</a>	
+				<input type="hidden" id="formId" th:value="${formId}">	
 			</div>		
 		</div>
 	</div>
@@ -822,13 +823,16 @@ form_settings_pane.click(function(){
 	<script>var private_builder=false;</script>
 
 	<script th:src="@{/js/builder.js}"></script>
-
+	<script th:inline="javascript">
+		var json = [[${pageForm}]];
+		var initial_form = jQuery.parseJSON(json);
+	</script>
+	
 	<script type="text/javascript">
 //<![CDATA[
-$( document ).ready(function() {
-	$('[data-toggle="popover"]').popover({'html': true})
-});
-var initial_form={"button_font_color": "white", "addon_color": "#555555", "recipient_email": "", "submit_text": "Submit", "corner_style": "round", "label_orientation": "vertical", "button_style": "solid", "button_size": "medium", "hide_intro": "on", "input_size": "medium", "font_family": "Arial, Helvetica, sans-serif", "description": "", "button_color": "blue", "focus_color": "#66afe9", "extra_js_css": "", "nickname": "Contact Form", "addon_background": "#eeeeee", "font_size": "14", "name": "Contact Form", "fields": [{"prepend_text": "", "title": "Email", "prepend_icon": "", "append_icon": "", "prepend": "No", "id_name": "email", "append_text": "", "choices": [], "placeholder": "", "inline": false, "is_required": true, "type": "email", "id": 5, "append": "No", "instructions": ""}, {"prepend_text": "", "title": "Name", "prepend_icon": "", "append_icon": "", "prepend": "No", "id_name": "name", "append_text": "", "choices": [], "placeholder": "", "inline": false, "is_required": false, "type": "name", "id": 6, "append": "No", "instructions": ""}, {"prepend_text": "", "title": "Text", "prepend_icon": "", "append_icon": "", "prepend": "No", "id_name": "text", "append_text": "", "choices": [], "placeholder": "", "inline": false, "is_required": false, "type": "text", "id": 7, "append": "No", "instructions": ""}, {"prepend_text": "", "title": "Select a Choice", "prepend_icon": "", "append_icon": "", "prepend": "No", "id_name": "select", "append_text": "", "choices": [{"choice": "First Choice"}, {"choice": "Second Choice"}, {"choice": "Third Choice"}], "placeholder": "", "inline": false, "is_required": false, "type": "select", "id": 8, "append": "No", "instructions": ""}], "counter": 8, "button_color_custom": "#337ab7", "font_color": "black", "focus_glow": "yes"};
+	$( document ).ready(function() {
+		$('[data-toggle="popover"]').popover({'html': true});
+	});
 //]]>
 </script>
 	<!--[if lt IE 9]>

@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
+import com.enroll.core.dto.PageForm;
 import com.enroll.core.service.EnrollmentService;
+import com.google.gson.Gson;
 
 @Controller
 public class FormDesignController {
+	
+	private Gson gson = new Gson();
 	
 	@Resource(name = "enrollmentService")
 	private EnrollmentService enrollmentService;
@@ -28,7 +32,9 @@ public class FormDesignController {
 	public String designForm(Long formId, Model model){
 		if (formId != null) {
 			FormMetaDTO formMeta = enrollmentService.findFormMetaById(formId);
-			model.addAttribute("formMeta", formMeta);
+			PageForm pageForm = new PageForm(formMeta);
+			model.addAttribute("pageForm", gson.toJson(pageForm));
+			model.addAttribute("formId", formMeta.getFormId());
 		}
 		return "designForm";
 	}

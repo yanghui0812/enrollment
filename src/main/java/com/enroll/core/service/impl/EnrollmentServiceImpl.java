@@ -97,6 +97,12 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	@Override
 	public FormMetaDTO saveFormMeta(FormMetaDTO formMetaDTO) {
 		Objects.requireNonNull(formMetaDTO);
+		
+		if (formMetaDTO.getFormId() > 0) {
+			FormMeta previousFormMeta = enrollmentDao.readGenericEntity(FormMeta.class, formMetaDTO.getFormId());
+			enrollmentDao.remove(previousFormMeta);
+		}
+		
 		FormMeta formMeta = new FormMeta();
 		BeanUtils.copyProperties(formMetaDTO, formMeta, "formFieldMetaList");
 		
