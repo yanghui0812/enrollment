@@ -825,7 +825,10 @@ form_settings_pane.click(function(){
 	<script th:src="@{/js/builder.js}"></script>
 	<script th:inline="javascript">
 		var json = [[${pageForm}]];
-		var initial_form = jQuery.parseJSON(json);
+		var initial_form={"button_font_color": "white", "addon_color": "#555555", "recipient_email": "", "submit_text": "Submit", "corner_style": "round", "label_orientation": "vertical", "button_style": "solid", "button_size": "medium", "hide_intro": "on", "input_size": "medium", "font_family": "Arial, Helvetica, sans-serif", "description": "", "button_color": "blue", "focus_color": "#66afe9", "extra_js_css": "", "nickname": "Contact Form", "addon_background": "#eeeeee", "font_size": "14", "name": "Contact Form", "fields": [], "counter": 8, "button_color_custom": "#337ab7", "font_color": "black", "focus_glow": "yes"};
+		if (json != null) {
+			initial_form = jQuery.parseJSON(json);
+		}
 	</script>
 	
 	<script type="text/javascript">
