@@ -9,29 +9,29 @@ import com.enroll.core.enums.FormFieldType;
 import com.enroll.core.enums.Options;
 
 public class FormFieldMetaDTO implements Serializable {
-	
+
 	private static final long serialVersionUID = 5590060413365654998L;
 
 	private long fieldId;
-	
+
 	private int position;
-	
+
 	private String required;
-	
+
 	private String fieldName;
-	
+
 	private String fieldType;
-	
+
 	private String fieldConstraint;
-	
+
 	private String fieldDefaultValue;
-	
+
 	private String fieldStyle;
-	
+
 	private String inputFieldValue;
-	
+
 	private FormMetaDTO formMeta;
-	
+
 	private List<FormFieldOptionDTO> fieldOptionList;
 
 	public FormFieldMetaDTO() {
@@ -45,8 +45,8 @@ public class FormFieldMetaDTO implements Serializable {
 		this.position = position;
 	}
 
-	public FormFieldMetaDTO(long fieldId, FormMetaDTO formMeta, String fieldName, String fieldType, String fieldConstraint,
-			int position, String fieldDefaultValue, String fieldStyle) {
+	public FormFieldMetaDTO(long fieldId, FormMetaDTO formMeta, String fieldName, String fieldType,
+			String fieldConstraint, int position, String fieldDefaultValue, String fieldStyle) {
 		this.fieldId = fieldId;
 		this.formMeta = formMeta;
 		this.fieldName = fieldName;
@@ -64,7 +64,7 @@ public class FormFieldMetaDTO implements Serializable {
 	public void setFieldId(long fieldId) {
 		this.fieldId = fieldId;
 	}
-	
+
 	public String getFieldName() {
 		return this.fieldName;
 	}
@@ -124,12 +124,12 @@ public class FormFieldMetaDTO implements Serializable {
 	public List<FormFieldOptionDTO> getFieldOptionList() {
 		return fieldOptionList;
 	}
-	
+
 	public List<FormFieldOptionDTO> getSortedFieldOptions() {
 		fieldOptionList.sort(Comparator.comparingInt(FormFieldOptionDTO::getPosition));
 		return fieldOptionList;
 	}
-	
+
 	public void addFieldOption(FormFieldOptionDTO dto) {
 		if (fieldOptionList == null) {
 			fieldOptionList = new ArrayList<FormFieldOptionDTO>();
@@ -145,29 +145,33 @@ public class FormFieldMetaDTO implements Serializable {
 	public void setRequired(String required) {
 		this.required = required;
 	}
-	
-	public boolean isRequired(){
+
+	public boolean isRequired() {
 		return Options.TRUE.equals(Options.getOption(required));
 	}
-	
+
 	public boolean isText() {
 		return FormFieldType.TEXT.equals(FormFieldType.getFieldType(fieldType));
 	}
-	
+
 	public boolean isSelect() {
 		return FormFieldType.SELECT.equals(FormFieldType.getFieldType(fieldType));
 	}
-	
+
 	public boolean isCheckbox() {
 		return FormFieldType.CHECKBOX.equals(FormFieldType.getFieldType(fieldType));
 	}
-	
+
 	public boolean isRadio() {
 		return FormFieldType.RADIO.equals(FormFieldType.getFieldType(fieldType));
 	}
-	
+
 	public boolean isTextarea() {
 		return FormFieldType.TEXTAREA.equals(FormFieldType.getFieldType(fieldType));
+	}
+
+	public boolean hasOptions() {
+		return isCheckbox() || isRadio() || isSelect();
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$( "#saveform" ).click(function() {
 		buildFromData();
-		$.post( "/Enrollment/saveForm.html", buildFromData(), function( data ) {
+		$.post( "/enrollment/saveForm.html", buildFromData(), function( data ) {
 			  alert(data);
 		});
 	});
@@ -59,6 +59,9 @@ $(document).ready(function() {
 		}
 		param['formName'] = $( "#formName" ).val();
 		param['formDesc'] = $( "#formDesc" ).val();
+		if ($.type($( "#formId" ).val()) != "undefined") {
+			param['formId'] = $( "#formId" ).val();
+		}
 		alert($.param( param));
 		return param;
 	}

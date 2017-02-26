@@ -5,7 +5,7 @@
 	<artifactId>Enrollment</artifactId>
 	<version>0.0.1</version>
 	<packaging>war</packaging>
-	<name>springmvc-spring-hibernate skeleton</name>
+	<name>enrollment application</name>
 	<description>Enrollment</description>
 	<properties>
 		<spring-version>4.3.0.RELEASE</spring-version>
@@ -198,8 +198,6 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-		<!-- <dependency> <groupId>com.google.code.gson</groupId> <artifactId>gson</artifactId> 
-			<version>2.7</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -222,6 +220,11 @@
 					<groupId>junit</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.0</version>
 		</dependency>
 	</dependencies>
 
