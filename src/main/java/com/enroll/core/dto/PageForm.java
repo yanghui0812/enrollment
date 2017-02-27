@@ -92,6 +92,8 @@ public class PageForm {
 			}
 			fields.add(pageField);
 		});
+		this.name = formMeta.getFormName();
+		this.description = formMeta.getFormDescription();
 	}
 
 	public String getButtonFontColor() {

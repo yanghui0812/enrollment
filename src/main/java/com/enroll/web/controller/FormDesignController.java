@@ -34,7 +34,7 @@ public class FormDesignController {
 			FormMetaDTO formMeta = enrollmentService.findFormMetaById(formId);
 			PageForm pageForm = new PageForm(formMeta);
 			model.addAttribute("pageForm", gson.toJson(pageForm));
-			model.addAttribute("formId", formMeta.getFormId());
+			model.addAttribute("formMeta", formMeta);
 		}
 		return "designForm";
 	}

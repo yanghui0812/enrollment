@@ -5,7 +5,7 @@
 	<artifactId>Enrollment</artifactId>
 	<version>0.0.1</version>
 	<packaging>war</packaging>
-	<name>springmvc-spring-hibernate skeleton</name>
+	<name>enrollment application</name>
 	<description>Enrollment</description>
 	<properties>
 		<spring-version>4.3.0.RELEASE</spring-version>
