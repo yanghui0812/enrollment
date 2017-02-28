@@ -16,7 +16,7 @@ public class FormMetaDTO implements Serializable {
 	
 	private String status;
 
-	private List<FormFieldMetaDTO> formFieldMetaList = new ArrayList<FormFieldMetaDTO>();
+	private List<FormFieldMetaDTO> fields = new ArrayList<FormFieldMetaDTO>();
 
 	public FormMetaDTO() {
 	}
@@ -55,15 +55,15 @@ public class FormMetaDTO implements Serializable {
 		this.formDescription = formDescription;
 	}
 
-	public List<FormFieldMetaDTO> getFormFieldMetaList() {
-		return formFieldMetaList;
+	public List<FormFieldMetaDTO> getFields() {
+		return fields;
 	}
 	
 	public void addFormFieldMeta(FormFieldMetaDTO dto) {
-		if (formFieldMetaList == null) {
-			formFieldMetaList = new ArrayList<FormFieldMetaDTO>();
+		if (fields == null) {
+			fields = new ArrayList<FormFieldMetaDTO>();
 		}
-		formFieldMetaList.add(dto);
+		fields.add(dto);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class FormMetaDTO implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((formDescription == null) ? 0 : formDescription.hashCode());
-		result = prime * result + ((formFieldMetaList == null) ? 0 : formFieldMetaList.hashCode());
+		result = prime * result + ((fields == null) ? 0 : fields.hashCode());
 		result = prime * result + (int) (formId ^ (formId >>> 32));
 		result = prime * result + ((formName == null) ? 0 : formName.hashCode());
 		return result;
@@ -91,10 +91,10 @@ public class FormMetaDTO implements Serializable {
 				return false;
 		} else if (!formDescription.equals(other.formDescription))
 			return false;
-		if (formFieldMetaList == null) {
-			if (other.formFieldMetaList != null)
+		if (fields == null) {
+			if (other.fields != null)
 				return false;
-		} else if (!formFieldMetaList.equals(other.formFieldMetaList))
+		} else if (!fields.equals(other.fields))
 			return false;
 		if (formId != other.formId)
 			return false;
@@ -112,5 +112,9 @@ public class FormMetaDTO implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public void setFields(List<FormFieldMetaDTO> fields) {
+		this.fields = fields;
 	}
 }

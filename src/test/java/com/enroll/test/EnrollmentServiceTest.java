@@ -39,22 +39,22 @@ public class EnrollmentServiceTest extends AbstractTestNGSpringContextTests {
 		// Add a text input
 		FormFieldMetaDTO textFieldMeta = new FormFieldMetaDTO();
 		formMeta.addFormFieldMeta(textFieldMeta);
-		textFieldMeta.setFieldName("text " + currentTime);
+		textFieldMeta.setName("text " + currentTime);
 		textFieldMeta.setPosition(1);
-		textFieldMeta.setFieldType(FormFieldType.TEXT.getType());
+		textFieldMeta.setType(FormFieldType.TEXT.getType());
 		textFieldMeta.setFieldConstraint("textConstraint" + currentTime);
 		textFieldMeta.setFieldDefaultValue("1000" + currentTime);
-		textFieldMeta.setFieldStyle("textStyle" + currentTime);
+		textFieldMeta.setClassName("textStyle" + currentTime);
 
 		// Add a select
 		FormFieldMetaDTO selectField = new FormFieldMetaDTO();
 		formMeta.addFormFieldMeta(selectField);
-		selectField.setFieldName("fieldName" + currentTime);
+		selectField.setName("fieldName" + currentTime);
 		selectField.setPosition(2);
-		selectField.setFieldType(FormFieldType.SELECT.getType());
+		selectField.setType(FormFieldType.SELECT.getType());
 		selectField.setFieldConstraint("fieldConstraint" + currentTime);
 		selectField.setFieldDefaultValue("1000" + currentTime);
-		selectField.setFieldStyle("fieldStyle" + currentTime);
+		selectField.setClassName("fieldStyle" + currentTime);
 
 		FormFieldOptionDTO optionOne = new FormFieldOptionDTO();
 		selectField.addFieldOption(optionOne);
@@ -84,7 +84,7 @@ public class EnrollmentServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(priority = 2)
 	public void testFindFormMeta() {
 		FormMetaDTO dto = enrollmentService.findFormMetaById(formMeta.getFormId());
-		Assert.assertTrue(dto.getFormFieldMetaList().size() == 2); 
+		Assert.assertTrue(dto.getFields().size() == 2); 
 		Assert.assertTrue(dto.equals(formMeta));
 		formMeta = dto;
 	}

@@ -112,7 +112,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		formMeta.setModifiedDate(date);
 		
 		// Group form field data
-		formMetaDTO.getFormFieldMetaList().stream().forEach(formField -> {
+		formMetaDTO.getFields().stream().forEach(formField -> {
 			FormFieldMeta formFieldMeta = new FormFieldMeta();
 			BeanUtils.copyProperties(formField, formFieldMeta, "fieldOptionList");
 			formMeta.addFormFieldMeta(formFieldMeta);
