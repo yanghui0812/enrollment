@@ -112,14 +112,14 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		formMeta.setModifiedDate(date);
 		
 		// Group form field data
-		formMetaDTO.getFormFieldMetaList().stream().forEach(formField -> {
+		formMetaDTO.getFields().stream().forEach(formField -> {
 			FormFieldMeta formFieldMeta = new FormFieldMeta();
-			BeanUtils.copyProperties(formField, formFieldMeta, "fieldOptionList");
+			BeanUtils.copyProperties(formField, formFieldMeta, "options");
 			formMeta.addFormFieldMeta(formFieldMeta);
 
 			// Group the options data if any
-			if (!CollectionUtils.isEmpty(formField.getFieldOptionList())) {
-				formField.getFieldOptionList().stream().forEach(option -> {
+			if (!CollectionUtils.isEmpty(formField.getOptions())) {
+				formField.getOptions().stream().forEach(option -> {
 					FormFieldOption fieldOption = new FormFieldOption();
 					BeanUtils.copyProperties(option, fieldOption);
 					formFieldMeta.addFormFieldOption(fieldOption);
@@ -157,7 +157,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		Map<Long, Map<String, String>> fieldkeyValueMap = new HashMap<>();
 		Map<Long, FormFieldMeta> formFieldMap = new HashMap<>();
 		formMeta.getFormFieldMetaList().stream().forEach(field -> {
-			if (FormFieldType.hasOption(field.getFieldType())) {				
+			if (FormFieldType.hasOption(field.getType())) {				
 				fieldkeyValueMap.put(field.getFieldId(), field.getFieldOptionMap());
 			}
 			formFieldMap.put(field.getFieldId(), field);
@@ -170,7 +170,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			if (fieldkeyValueMap.containsKey(value.getFieldId())) {
 				fieldValue.setFieldDisplay(getFieldDisplay(value.getFieldId(), value.getFieldValue(), fieldkeyValueMap));
 			}
-			fieldValue.setFieldtype(formFieldMap.get(value.getFieldId()).getFieldType());
+			fieldValue.setFieldtype(formFieldMap.get(value.getFieldId()).getType());
 			enrollment.addFieldValue(fieldValue);
 		});
 		enrollmentDao.saveOrUpdate(enrollment);

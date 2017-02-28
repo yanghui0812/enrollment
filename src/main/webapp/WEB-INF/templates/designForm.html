@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head>
+  <title>jQuery formBuilder/formRender Demo</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/demo.css}">
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/form-builder.min.css}">
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/form-render.min.css}">
-  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-  <title>jQuery formBuilder/formRender Demo</title>
 </head>
 
 <body>
   <div class="content">
     <h1>jQuery formBuilder</h1>
+    <div>
+                    表单名字<input class="form-control" name="formName" id="formName" type="text">
+                    表单描述<input class="form-control" name="formDesc" id="formDesc" type="text">
+    </div>
     <div class="build-wrap"></div>
     <div class="render-wrap"></div>
-    <button id="edit-form">Edit Form</button>
+    <button id="edit-form">继续编辑</button>
+    <button id="save-form">满意保存</button>
   </div>
-  <script type="text/javascript" th:href="@{/js/jquery.min.js}"></script>
-  <script type="text/javascript" th:href="@{/js/form-builder.min.js}"></script>
-  <script type="text/javascript" th:href="@{/js/form-render.min.js}"></script>
-  <script type="text/javascript" th:href="@{/js/demo.js}"></script>
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/form-builder.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/form-render.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/designForm.js}"></script>
 </body>
 </html>

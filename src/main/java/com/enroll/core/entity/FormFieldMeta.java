@@ -45,10 +45,13 @@ public class FormFieldMeta implements Serializable {
 	private List<FormFieldOption> fieldOptionList = new ArrayList<FormFieldOption>();
 	
 	@Column(name = "FIELD_NAME", nullable = false)
-	private String fieldName;
+	private String name;
+	
+	@Column(name = "FIELD_LABEL", nullable = false)
+	private String label;
 	
 	@Column(name = "FIELD_TYPE", nullable = false)
-	private String fieldType;
+	private String type;
 	
 	@Column(name = "FIELD_CONSTRAINT", nullable = false)
 	private String fieldConstraint;
@@ -65,8 +68,8 @@ public class FormFieldMeta implements Serializable {
 	public FormFieldMeta(long fieldId, FormMeta formMeta, String fieldName, String fieldType, int fieldPosition) {
 		this.fieldId = fieldId;
 		this.formMeta = formMeta;
-		this.fieldName = fieldName;
-		this.fieldType = fieldType;
+		this.name = fieldName;
+		this.type = fieldType;
 		this.position = fieldPosition;
 	}
 
@@ -74,8 +77,8 @@ public class FormFieldMeta implements Serializable {
 			int fieldPosition, String fieldDefaultValue, String fieldStyle) {
 		this.fieldId = fieldId;
 		this.formMeta = formMeta;
-		this.fieldName = fieldName;
-		this.fieldType = fieldType;
+		this.name = fieldName;
+		this.type = fieldType;
 		this.fieldConstraint = fieldConstraint;
 		this.position = fieldPosition;
 		this.fieldDefaultValue = fieldDefaultValue;
@@ -88,22 +91,6 @@ public class FormFieldMeta implements Serializable {
 
 	public void setFieldId(long fieldId) {
 		this.fieldId = fieldId;
-	}
-	
-	public String getFieldName() {
-		return this.fieldName;
-	}
-
-	public void setFieldName(String fieldName) {
-		this.fieldName = fieldName;
-	}
-
-	public String getFieldType() {
-		return this.fieldType;
-	}
-
-	public void setFieldType(String fieldType) {
-		this.fieldType = fieldType;
 	}
 
 	public String getFieldConstraint() {
@@ -145,7 +132,7 @@ public class FormFieldMeta implements Serializable {
 	public Map<String, String> getFieldOptionMap() {
 		Map<String, String> map = new HashMap<>();
 		fieldOptionList.stream().forEach(option -> {
-			map.put(option.getValue(), option.getDisplay());
+			map.put(option.getValue(), option.getLabel());
 		});
 		return map;
 	}
@@ -173,5 +160,29 @@ public class FormFieldMeta implements Serializable {
 
 	public void setRequired(String required) {
 		this.required = required;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

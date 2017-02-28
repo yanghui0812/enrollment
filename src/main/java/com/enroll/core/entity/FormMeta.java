@@ -36,6 +36,9 @@ public class FormMeta implements Serializable {
 	
 	@Column(name = "STATUS")
 	private String status;
+	
+	@Column(name = "RAW_JSON")
+	private String rawJson;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "formMeta")
 	@BatchSize(size = 100)
@@ -160,5 +163,13 @@ public class FormMeta implements Serializable {
 
 	public void setModifiedDate(LocalDateTime modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	public String getRawJson() {
+		return rawJson;
+	}
+
+	public void setRawJson(String rawJson) {
+		this.rawJson = rawJson;
 	}
 }

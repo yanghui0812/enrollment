@@ -79,13 +79,13 @@ public class PageForm {
 	private List<PageFormField> fields = new ArrayList<>();
 
 	public PageForm(FormMetaDTO formMeta) {
-		formMeta.getFormFieldMetaList().stream().forEach(formFieldMeta -> {
+		formMeta.getFields().stream().forEach(formFieldMeta -> {
 			PageFormField pageField = new PageFormField();
-			pageField.setType(formFieldMeta.getFieldType());
+			pageField.setType(formFieldMeta.getType());
 			pageField.setRequired(formFieldMeta.isRequired());
-			pageField.setName(formFieldMeta.getFieldName());
+			pageField.setName(formFieldMeta.getLabel());
 			if (formFieldMeta.hasOptions()) {
-				formFieldMeta.getFieldOptionList().stream().forEach(option -> {
+				formFieldMeta.getOptions().stream().forEach(option -> {
 					PageOption pageOption = new PageOption(option.getDisplay());
 					pageField.addChoice(pageOption);
 				});

@@ -2,7 +2,6 @@ package com.enroll.core.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import com.enroll.core.enums.FormFieldType;
@@ -18,21 +17,23 @@ public class FormFieldMetaDTO implements Serializable {
 
 	private String required;
 
-	private String fieldName;
+	private String label;
 
-	private String fieldType;
+	private String type;
 
 	private String fieldConstraint;
 
 	private String fieldDefaultValue;
 
-	private String fieldStyle;
+	private String className;
+
+	private String name;
 
 	private String inputFieldValue;
 
 	private FormMetaDTO formMeta;
 
-	private List<FormFieldOptionDTO> fieldOptionList;
+	private List<FormFieldOptionDTO> options = new ArrayList<>();
 
 	public FormFieldMetaDTO() {
 	}
@@ -40,8 +41,8 @@ public class FormFieldMetaDTO implements Serializable {
 	public FormFieldMetaDTO(long fieldId, FormMetaDTO formMeta, String fieldName, String fieldType, int position) {
 		this.fieldId = fieldId;
 		this.formMeta = formMeta;
-		this.fieldName = fieldName;
-		this.fieldType = fieldType;
+		this.label = fieldName;
+		this.type = fieldType;
 		this.position = position;
 	}
 
@@ -49,68 +50,64 @@ public class FormFieldMetaDTO implements Serializable {
 			String fieldConstraint, int position, String fieldDefaultValue, String fieldStyle) {
 		this.fieldId = fieldId;
 		this.formMeta = formMeta;
-		this.fieldName = fieldName;
-		this.fieldType = fieldType;
+		this.label = fieldName;
+		this.type = fieldType;
 		this.fieldConstraint = fieldConstraint;
 		this.position = position;
 		this.fieldDefaultValue = fieldDefaultValue;
-		this.fieldStyle = fieldStyle;
+		this.className = fieldStyle;
+	}
+
+	public void addFieldOption(FormFieldOptionDTO dto) {
+		if (options == null) {
+			options = new ArrayList<FormFieldOptionDTO>();
+		}
+		dto.setFormField(this);
+		options.add(dto);
+	}
+
+	public boolean isRequired() {
+		return Options.TRUE.equals(Options.getOption(required));
+	}
+
+	public boolean isText() {
+		return FormFieldType.TEXT.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isSelect() {
+		return FormFieldType.SELECT.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isCheckbox() {
+		return FormFieldType.CHECKBOX.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isRadio() {
+		return FormFieldType.RADIO.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isTextarea() {
+		return FormFieldType.TEXTAREA.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isCheckboxGroup() {
+		return FormFieldType.CHECKBOX_GROUP.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isRadioGroup() {
+		return FormFieldType.RADIO_GROUP.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean hasOptions() {
+		return isCheckbox() || isRadio() || isSelect();
 	}
 
 	public long getFieldId() {
-		return this.fieldId;
+		return fieldId;
 	}
 
 	public void setFieldId(long fieldId) {
 		this.fieldId = fieldId;
-	}
-
-	public String getFieldName() {
-		return this.fieldName;
-	}
-
-	public void setFieldName(String fieldName) {
-		this.fieldName = fieldName;
-	}
-
-	public String getFieldType() {
-		return this.fieldType;
-	}
-
-	public void setFieldType(String fieldType) {
-		this.fieldType = fieldType;
-	}
-
-	public String getFieldConstraint() {
-		return this.fieldConstraint;
-	}
-
-	public void setFieldConstraint(String fieldConstraint) {
-		this.fieldConstraint = fieldConstraint;
-	}
-
-	public String getFieldDefaultValue() {
-		return this.fieldDefaultValue;
-	}
-
-	public void setFieldDefaultValue(String fieldDefaultValue) {
-		this.fieldDefaultValue = fieldDefaultValue;
-	}
-
-	public String getFieldStyle() {
-		return this.fieldStyle;
-	}
-
-	public void setFieldStyle(String fieldStyle) {
-		this.fieldStyle = fieldStyle;
-	}
-
-	public FormMetaDTO getFormMeta() {
-		return formMeta;
-	}
-
-	public void setFormMeta(FormMetaDTO formMeta) {
-		this.formMeta = formMeta;
 	}
 
 	public int getPosition() {
@@ -121,23 +118,6 @@ public class FormFieldMetaDTO implements Serializable {
 		this.position = position;
 	}
 
-	public List<FormFieldOptionDTO> getFieldOptionList() {
-		return fieldOptionList;
-	}
-
-	public List<FormFieldOptionDTO> getSortedFieldOptions() {
-		fieldOptionList.sort(Comparator.comparingInt(FormFieldOptionDTO::getPosition));
-		return fieldOptionList;
-	}
-
-	public void addFieldOption(FormFieldOptionDTO dto) {
-		if (fieldOptionList == null) {
-			fieldOptionList = new ArrayList<FormFieldOptionDTO>();
-		}
-		dto.setFormField(this);
-		fieldOptionList.add(dto);
-	}
-
 	public String getRequired() {
 		return required;
 	}
@@ -146,100 +126,52 @@ public class FormFieldMetaDTO implements Serializable {
 		this.required = required;
 	}
 
-	public boolean isRequired() {
-		return Options.TRUE.equals(Options.getOption(required));
+	public String getLabel() {
+		return label;
 	}
 
-	public boolean isText() {
-		return FormFieldType.TEXT.equals(FormFieldType.getFieldType(fieldType));
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
-	public boolean isSelect() {
-		return FormFieldType.SELECT.equals(FormFieldType.getFieldType(fieldType));
+	public String getType() {
+		return type;
 	}
 
-	public boolean isCheckbox() {
-		return FormFieldType.CHECKBOX.equals(FormFieldType.getFieldType(fieldType));
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public boolean isRadio() {
-		return FormFieldType.RADIO.equals(FormFieldType.getFieldType(fieldType));
+	public String getFieldConstraint() {
+		return fieldConstraint;
 	}
 
-	public boolean isTextarea() {
-		return FormFieldType.TEXTAREA.equals(FormFieldType.getFieldType(fieldType));
+	public void setFieldConstraint(String fieldConstraint) {
+		this.fieldConstraint = fieldConstraint;
 	}
 
-	public boolean hasOptions() {
-		return isCheckbox() || isRadio() || isSelect();
+	public String getFieldDefaultValue() {
+		return fieldDefaultValue;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((fieldConstraint == null) ? 0 : fieldConstraint.hashCode());
-		result = prime * result + ((fieldDefaultValue == null) ? 0 : fieldDefaultValue.hashCode());
-		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
-		result = prime * result + ((fieldOptionList == null) ? 0 : fieldOptionList.hashCode());
-		result = prime * result + ((fieldStyle == null) ? 0 : fieldStyle.hashCode());
-		result = prime * result + ((fieldType == null) ? 0 : fieldType.hashCode());
-		result = prime * result + ((formMeta == null) ? 0 : formMeta.hashCode());
-		result = prime * result + position;
-		return result;
+	public void setFieldDefaultValue(String fieldDefaultValue) {
+		this.fieldDefaultValue = fieldDefaultValue;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FormFieldMetaDTO other = (FormFieldMetaDTO) obj;
-		if (fieldConstraint == null) {
-			if (other.fieldConstraint != null)
-				return false;
-		} else if (!fieldConstraint.equals(other.fieldConstraint))
-			return false;
-		if (fieldDefaultValue == null) {
-			if (other.fieldDefaultValue != null)
-				return false;
-		} else if (!fieldDefaultValue.equals(other.fieldDefaultValue))
-			return false;
-		if (fieldName == null) {
-			if (other.fieldName != null)
-				return false;
-		} else if (!fieldName.equals(other.fieldName))
-			return false;
-		if (fieldOptionList == null) {
-			if (other.fieldOptionList != null)
-				return false;
-		} else if (!fieldOptionList.equals(other.fieldOptionList))
-			return false;
-		if (fieldStyle == null) {
-			if (other.fieldStyle != null)
-				return false;
-		} else if (!fieldStyle.equals(other.fieldStyle))
-			return false;
-		if (fieldType == null) {
-			if (other.fieldType != null)
-				return false;
-		} else if (!fieldType.equals(other.fieldType))
-			return false;
-		if (formMeta == null) {
-			if (other.formMeta != null)
-				return false;
-		} else if (!formMeta.equals(other.formMeta))
-			return false;
-		if (position != other.position)
-			return false;
-		return true;
+	public String getClassName() {
+		return className;
 	}
 
-	public void setFieldOptionList(List<FormFieldOptionDTO> fieldOptionList) {
-		this.fieldOptionList = fieldOptionList;
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getInputFieldValue() {
@@ -248,5 +180,21 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public void setInputFieldValue(String inputFieldValue) {
 		this.inputFieldValue = inputFieldValue;
+	}
+
+	public FormMetaDTO getFormMeta() {
+		return formMeta;
+	}
+
+	public void setFormMeta(FormMetaDTO formMeta) {
+		this.formMeta = formMeta;
+	}
+
+	public List<FormFieldOptionDTO> getOptions() {
+		return options;
+	}
+
+	public void setOptions(List<FormFieldOptionDTO> options) {
+		this.options = options;
 	}
 }

@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.PageForm;
@@ -45,11 +47,26 @@ public class FormDesignController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/saveForm.html")
+	@ResponseBody
+	public AjaxResult<String> saveFormDesign(FormMetaDTO formMeta, BindingResult result, Model model){
+		formMeta.setStatus("1");
+		formMeta = enrollmentService.saveFormMeta(formMeta);
+		AjaxResult<String> ajaxResult = new AjaxResult<String>();
+		ajaxResult.setStatus("200");
+		return ajaxResult;
+	}
+	
+	/**
+	 * 保存表单的元数据
+	 * @param formMeta
+	 * @return String
+	 */
+	/*@RequestMapping(value = "/saveForm.html")
 	public String saveFormDesign(FormMetaDTO formMeta, BindingResult result, Model model){
 		formMeta.setStatus("1");
 		formMeta = enrollmentService.saveFormMeta(formMeta);
 		return "redirect:/form.html?formId=" + formMeta.getFormId();
-	}
+	}*/
 	
 	/**
 	 * 表单设计的详细信息
