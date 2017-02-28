@@ -102,6 +102,14 @@ public class FormFieldMetaDTO implements Serializable {
 		return isCheckbox() || isRadio() || isSelect();
 	}
 
+	public String getRequired() {
+		return required;
+	}
+
+	public void setRequired(String required) {
+		this.required = required;
+	}
+
 	public long getFieldId() {
 		return fieldId;
 	}
@@ -116,14 +124,6 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public void setPosition(int position) {
 		this.position = position;
-	}
-
-	public String getRequired() {
-		return required;
-	}
-
-	public void setRequired(String required) {
-		this.required = required;
 	}
 
 	public String getLabel() {
@@ -196,5 +196,90 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public void setOptions(List<FormFieldOptionDTO> options) {
 		this.options = options;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((className == null) ? 0 : className.hashCode());
+		result = prime * result + ((fieldConstraint == null) ? 0 : fieldConstraint.hashCode());
+		result = prime * result + ((fieldDefaultValue == null) ? 0 : fieldDefaultValue.hashCode());
+		result = prime * result + (int) (fieldId ^ (fieldId >>> 32));
+		result = prime * result + ((formMeta == null) ? 0 : formMeta.hashCode());
+		result = prime * result + ((inputFieldValue == null) ? 0 : inputFieldValue.hashCode());
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((options == null) ? 0 : options.hashCode());
+		result = prime * result + position;
+		result = prime * result + ((required == null) ? 0 : required.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FormFieldMetaDTO other = (FormFieldMetaDTO) obj;
+		if (className == null) {
+			if (other.className != null)
+				return false;
+		} else if (!className.equals(other.className))
+			return false;
+		if (fieldConstraint == null) {
+			if (other.fieldConstraint != null)
+				return false;
+		} else if (!fieldConstraint.equals(other.fieldConstraint))
+			return false;
+		if (fieldDefaultValue == null) {
+			if (other.fieldDefaultValue != null)
+				return false;
+		} else if (!fieldDefaultValue.equals(other.fieldDefaultValue))
+			return false;
+		if (fieldId != other.fieldId)
+			return false;
+		if (formMeta == null) {
+			if (other.formMeta != null)
+				return false;
+		} else if (!formMeta.equals(other.formMeta))
+			return false;
+		if (inputFieldValue == null) {
+			if (other.inputFieldValue != null)
+				return false;
+		} else if (!inputFieldValue.equals(other.inputFieldValue))
+			return false;
+		if (label == null) {
+			if (other.label != null)
+				return false;
+		} else if (!label.equals(other.label))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (options == null) {
+			if (other.options != null)
+				return false;
+		} else if (!options.equals(other.options))
+			return false;
+		if (position != other.position)
+			return false;
+		if (required == null) {
+			if (other.required != null)
+				return false;
+		} else if (!required.equals(other.required))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		return true;
 	}
 }

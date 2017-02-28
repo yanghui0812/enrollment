@@ -65,6 +65,6 @@ jQuery(document).ready(function($) {
 		  if (data.status == '200') {
 			  alert('保存成功');
 		  }
-		});
+	});
   });
 });

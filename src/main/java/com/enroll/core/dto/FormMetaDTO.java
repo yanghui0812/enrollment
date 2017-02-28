@@ -67,6 +67,26 @@ public class FormMetaDTO implements Serializable {
 		}
 		fields.add(dto);
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void setFields(List<FormFieldMetaDTO> fields) {
+		this.fields = fields;
+	}
+
+	public String getRawJson() {
+		return rawJson;
+	}
+
+	public void setRawJson(String rawJson) {
+		this.rawJson = rawJson;
+	}
 
 	@Override
 	public int hashCode() {
@@ -106,25 +126,5 @@ public class FormMetaDTO implements Serializable {
 		} else if (!formName.equals(other.formName))
 			return false;
 		return true;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public void setFields(List<FormFieldMetaDTO> fields) {
-		this.fields = fields;
-	}
-
-	public String getRawJson() {
-		return rawJson;
-	}
-
-	public void setRawJson(String rawJson) {
-		this.rawJson = rawJson;
 	}
 }
