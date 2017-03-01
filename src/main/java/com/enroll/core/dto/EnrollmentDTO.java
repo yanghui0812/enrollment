@@ -33,6 +33,29 @@ public class EnrollmentDTO implements Serializable {
 	public List<FormFieldValueDTO> getFieldValueList() {
 		return fieldValueList;
 	}
+	
+	public List<FormFieldValueDTO[]> getPageFields() {
+		List<FormFieldValueDTO[]> list = new ArrayList<FormFieldValueDTO[]>();
+		if (fieldValueList.isEmpty()) {
+			return list;
+		}
+		int index = 0;
+		FormFieldValueDTO[] array = new FormFieldValueDTO[2];
+		for (FormFieldValueDTO field : fieldValueList) {
+			if (index > 0 && index % 2 == 0) {
+				array = new FormFieldValueDTO[2];
+			}
+			if (index % 2 == 0) {
+				list.add(array);
+			}
+			array[index % 2] = field;
+			index++;
+		}
+		if (array[1] == null) {
+			array[1] = new FormFieldValueDTO();
+		}
+		return list;
+	}
 
 	public void setFieldValueList(List<FormFieldValueDTO> fieldValueList) {
 		this.fieldValueList = fieldValueList;

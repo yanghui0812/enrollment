@@ -16,29 +16,25 @@
 <body>
    <form th:action="@{/enroll.html}" method="POST">
         <input type="hidden" name="formId"               th:value="${formMeta.formId}">
-        <input type="hidden" name="registerId"           th:value="${enroll.registerId}" th:if="${enroll != null}">
+        <input type="hidden" name="registerId"           th:value="${enroll.registerId}"      th:if="${enroll != null}">
         <input type="hidden" name="registerDateStr"      th:value="${enroll.registerDateStr}" th:if="${enroll != null}">
         <input type="hidden" name="modifiedDateStr"      th:value="${enroll.modifiedDateStr}" th:if="${enroll != null}">
 		<table style="font-size: 13px;">
-				<tr class="first" bgcolor="#FFFFFF" height="25px" align="center" th:if="${enroll != null}">
-		            <td  align="center">注册号：<span th:text="${enroll.registerId}"></span></td>
-		        </tr>
-		        <tr class="first" bgcolor="#FFFFFF" height="25px" align="center">
+				<tr align="center">
+		            <td  align="center">注册号：<span th:text="${enroll != null} ? ${enroll.registerId} : ''"></span></td>
 		            <td  align="center">电话: <input name="phoneNumber" th:value="${enroll != null} ? ${enroll.phoneNumber} : ''"></td>
 		        </tr>
-		        <tr class="first" bgcolor="#FFFFFF" height="25px" align="center">
-		            <td  align="center">身份证号:<input name="id" th:value="${enroll != null} ? ${enroll.id} : ''"></td>
+		        <tr align="center">
+		            <td align="center">身份证号:<input name="id" th:value="${enroll != null} ? ${enroll.id} : ''"></td>
+		            <td align="center"><span th:if="${enroll != null}">注册日期:<span th:text="${enroll.registerDateStr}"></span></span></td>
 		        </tr>
-		        <tr class="first" bgcolor="#FFFFFF" height="25px" align="center" th:if="${enroll != null}">
-		            <td  align="center">注册日期:<span th:text="${enroll.registerDateStr}"></span></td>
-		        </tr>
-				<tr class="first" th:each="fieldMeta, stat : ${formMeta.fields}" bgcolor="#FFFFFF" height="25px" align="center">
-					<td height="20" align="center">
+		        <tr class="first" th:each="fieldArray : ${formMeta.pageFields}">
+					<td align="center" th:each="fieldMeta, stat : ${fieldArray}" style="white-space:nowrap;width:200px;">
 					   <input type="hidden" th:name="'fieldValueList[' + ${stat.index} + '].fieldId'"       th:value="${fieldMeta.fieldId}">
                        <input type="hidden" th:name="'fieldValueList[' + ${stat.index} + '].formId'"        th:value="${formMeta.formId}">
                        <input type="hidden" th:name="'fieldValueList[' + ${stat.index} + '].fieldName'"     th:value="${fieldMeta.name}">
 					   <span th:if="${fieldMeta.isRequired()}">*</span>
-					   <span th:text="${fieldMeta.label}"></span><br/>
+					   <span th:text="${fieldMeta.label}"></span>
 					   <div th:if="${fieldMeta.isText()}">
 					        <input class="xlarge form-control" th:name="'fieldValueList[' + ${stat.index} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}">
 					   </div>

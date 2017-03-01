@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormMetaDTO implements Serializable {
-	
+
 	private static final long serialVersionUID = -5319832726810258220L;
 
 	private long formId;
-	
+
 	private String formName;
-	
+
 	private String formDescription;
-	
+
 	private String status;
-	
+
 	private String rawJson;
 
 	private List<FormFieldMetaDTO> fields = new ArrayList<FormFieldMetaDTO>();
@@ -60,14 +60,34 @@ public class FormMetaDTO implements Serializable {
 	public List<FormFieldMetaDTO> getFields() {
 		return fields;
 	}
-	
+
 	public void addFormFieldMeta(FormFieldMetaDTO dto) {
-		if (fields == null) {
-			fields = new ArrayList<FormFieldMetaDTO>();
-		}
 		fields.add(dto);
 	}
-	
+
+	public List<FormFieldMetaDTO[]> getPageFields() {
+		List<FormFieldMetaDTO[]> list = new ArrayList<FormFieldMetaDTO[]>();
+		if (fields.isEmpty()) {
+			return list;
+		}
+		int index = 0;
+		FormFieldMetaDTO[] array = new FormFieldMetaDTO[2];
+		for (FormFieldMetaDTO field : fields) {
+			if (index > 0 && index % 2 == 0) {
+				array = new FormFieldMetaDTO[2];
+			}
+			if (index % 2 == 0) {
+				list.add(array);
+			}
+			array[index % 2] = field;
+			index++;
+		}
+		if (array[1] == null) {
+			array[1] = new FormFieldMetaDTO();
+		}
+		return list;
+	}
+
 	public String getStatus() {
 		return status;
 	}
