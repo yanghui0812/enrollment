@@ -47,6 +47,9 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	@Override
 	public FormMetaDTO findFormMetaById(long id) {
 		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, id);
+		if (formMeta == null) {
+			return null;
+		}
 		return transformFormMeta(formMeta, null);
 	}
 
@@ -101,7 +104,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		if (formMetaDTO.getFormId() > 0) {
 			FormMeta previousFormMeta = enrollmentDao.readGenericEntity(FormMeta.class, formMetaDTO.getFormId());
 			enrollmentDao.remove(previousFormMeta);
-			
+			LOGGER.info("Remove all the form field metadata from {}", formMetaDTO.getFormId());
 		}
 		
 		FormMeta formMeta = new FormMeta();
@@ -116,7 +119,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			FormFieldMeta formFieldMeta = new FormFieldMeta();
 			BeanUtils.copyProperties(formField, formFieldMeta, "options");
 			formMeta.addFormFieldMeta(formFieldMeta);
-
+			
 			// Group the options data if any
 			if (!CollectionUtils.isEmpty(formField.getOptions())) {
 				formField.getOptions().stream().forEach(option -> {
@@ -127,6 +130,9 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 						fieldOption.setValue(String.valueOf(formFieldMeta.getSizeOfFieldOptions()));
 					}
 				});
+			}
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.info("Form {} has field metadata {}", formMetaDTO.getFormId(), formFieldMeta.toString());
 			}
 		});
 		enrollmentDao.save(formMeta);

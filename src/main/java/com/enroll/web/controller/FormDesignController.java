@@ -14,14 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
-import com.enroll.core.dto.PageForm;
 import com.enroll.core.service.EnrollmentService;
-import com.google.gson.Gson;
 
 @Controller
 public class FormDesignController {
-	
-	private Gson gson = new Gson();
 	
 	@Resource(name = "enrollmentService")
 	private EnrollmentService enrollmentService;
@@ -34,9 +30,10 @@ public class FormDesignController {
 	public String designForm(Long formId, Model model){
 		if (formId != null) {
 			FormMetaDTO formMeta = enrollmentService.findFormMetaById(formId);
-			PageForm pageForm = new PageForm(formMeta);
-			model.addAttribute("pageForm", gson.toJson(pageForm));
-			model.addAttribute("formMeta", formMeta);
+			if (formMeta != null) {
+				model.addAttribute("formMeta", formMeta);
+				model.addAttribute("rawJson", formMeta.getRawJson());	
+			}
 		}
 		return "designForm";
 	}
@@ -55,18 +52,6 @@ public class FormDesignController {
 		ajaxResult.setStatus("200");
 		return ajaxResult;
 	}
-	
-	/**
-	 * 保存表单的元数据
-	 * @param formMeta
-	 * @return String
-	 */
-	/*@RequestMapping(value = "/saveForm.html")
-	public String saveFormDesign(FormMetaDTO formMeta, BindingResult result, Model model){
-		formMeta.setStatus("1");
-		formMeta = enrollmentService.saveFormMeta(formMeta);
-		return "redirect:/form.html?formId=" + formMeta.getFormId();
-	}*/
 	
 	/**
 	 * 表单设计的详细信息

@@ -135,4 +135,10 @@ public class FormFieldOption implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "FormFieldOption [position=" + position + ", formField=" + formField + ", value=" + value + ", label="
+				+ label + ", selected=" + selected + ", description=" + description + "]";
+	}
 }

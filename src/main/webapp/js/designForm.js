@@ -11,6 +11,11 @@ jQuery(document).ready(function($) {
   if (formData) {
     fbOptions.formData = JSON.parse(formData);
   }
+  
+  if (json) {
+	  fbOptions.formData = json;
+  }
+  
   $('#save-form').hide();
   var toggleEdit = function() {
     document.body.classList.toggle('form-rendered', editing);
@@ -60,11 +65,11 @@ jQuery(document).ready(function($) {
 			 }
 		 }
 	  }
-	  
-	  $.post( "/enrollment/saveForm.html", para, function( data ) {
+	  var url = $("#saveFormMeta").val();
+	  $.post(url, para, function( data ) {
 		  if (data.status == '200') {
 			  alert('保存成功');
 		  }
-	});
+	  });
   });
 });

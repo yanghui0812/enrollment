@@ -282,4 +282,12 @@ public class FormFieldMetaDTO implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "FormFieldMetaDTO [fieldId=" + fieldId + ", position=" + position + ", required=" + required + ", label="
+				+ label + ", type=" + type + ", fieldConstraint=" + fieldConstraint + ", fieldDefaultValue="
+				+ fieldDefaultValue + ", className=" + className + ", name=" + name + ", inputFieldValue="
+				+ inputFieldValue + ", formMeta=" + formMeta + ", options=" + options + "]";
+	}
 }
