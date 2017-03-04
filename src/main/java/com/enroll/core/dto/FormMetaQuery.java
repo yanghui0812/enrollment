@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class FormMetaQuery implements Serializable {
 
 	private static final long serialVersionUID = -1791723346286706414L;
-	
+
 	private long formId;
-	
+
 	private String formName;
 
 	public long getFormId() {

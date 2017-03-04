@@ -9,12 +9,12 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.min.css}" />
 <script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
 <script type="text/javascript" th:src="@{/js/lib/jquery.dataTables.js}"></script>
-<script type="text/javascript" th:src="@{/js/formList.js}"></script>
+<script type="text/javascript" th:src="@{/js/enrollList.js}"></script>
 </head>
 <body>
-	<input type="hidden" name="formMetaPageUrl"    th:value="@{/designforms}">
-	<input type="hidden" name="formMetaUpdateUrl"  th:value="@{/designform.html}">
-	<input type="hidden" name="enrollUrl"          th:value="@{/enrollForm.html}"> 
-	<table id="formTable" class="display" width="100%" cellspacing="0"></table>
+	<input type="hidden" name="enrollPageJson"     th:value="@{/enrollsJson.html}">
+	<input type="hidden" name="enrollDetail"       th:value="@{/enroll.html}">
+	<input type="hidden" name="enrollUpdateUrl"    th:value="@{/updateEnroll.html}"> 
+	<table id="enrollTable" class="display" width="100%" cellspacing="0"></table>
 </body>
 </html>

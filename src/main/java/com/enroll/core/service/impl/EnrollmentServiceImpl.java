@@ -22,11 +22,14 @@ import com.enroll.common.AppConstant;
 import com.enroll.common.DateUtils;
 import com.enroll.core.dao.EnrollmentDao;
 import com.enroll.core.dto.EnrollmentDTO;
+import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormFieldMetaDTO;
 import com.enroll.core.dto.FormFieldOptionDTO;
 import com.enroll.core.dto.FormFieldValueDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
+import com.enroll.core.dto.SearchCriteria;
+import com.enroll.core.dto.SearchResult;
 import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldMeta;
 import com.enroll.core.entity.FormFieldOption;
@@ -234,11 +237,6 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	}
 
 	@Override
-	public FormMetaDTO findFormMetaPage(FormMetaQuery query) {
-		return null;
-	}
-
-	@Override
 	public EnrollmentDTO findEnrollment(String registrId) {
 		Objects.requireNonNull(registrId);
 		Enrollment enrollment = enrollmentDao.readGenericEntity(Enrollment.class, registrId);
@@ -250,5 +248,46 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			enrollmentDTO.addFieldValue(fieldValueDTO);
 		});
 		return enrollmentDTO;
+	}
+	
+	/**
+	 * 分页查询订单
+	 */
+	@Override
+	public SearchResult<FormMetaDTO> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria) {
+		SearchResult<FormMeta> searchResult = enrollmentDao.findFormMetaPage(searchCriteria);
+		SearchResult<FormMetaDTO> result = new SearchResult<FormMetaDTO>();
+		
+		BeanUtils.copyProperties(searchResult, result, "data");
+		
+		searchResult.getData().stream().forEach(formMeta -> {
+			FormMetaDTO dto = new FormMetaDTO();
+			BeanUtils.copyProperties(formMeta, dto, "rawJson");
+			result.addElement(dto);
+		});
+		
+		result.setDraw(searchResult.getDraw());
+		result.setRecordsFiltered(searchResult.getRecordsFiltered());
+		result.setRecordsTotal(searchResult.getRecordsTotal());
+		return result;
+	}
+
+	@Override
+	public SearchResult<EnrollmentDTO> findEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria) {
+		SearchResult<Enrollment> searchResult = enrollmentDao.findEnrollmentPage(criteria);
+		SearchResult<EnrollmentDTO> result = new SearchResult<EnrollmentDTO>();
+		
+		BeanUtils.copyProperties(searchResult, result, "data");
+		
+		searchResult.getData().stream().forEach(enrollment -> {
+			EnrollmentDTO dto = new EnrollmentDTO();
+			BeanUtils.copyProperties(enrollment, dto, "fieldValueList");
+			result.addElement(dto);
+		});
+		
+		result.setDraw(searchResult.getDraw());
+		result.setRecordsFiltered(searchResult.getRecordsFiltered());
+		result.setRecordsTotal(searchResult.getRecordsTotal());
+		return result;
 	}
 }

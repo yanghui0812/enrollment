@@ -1,8 +1,12 @@
 package com.enroll.core.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.enroll.common.DateUtils;
+import com.enroll.core.enums.FormStatus;
 
 public class FormMetaDTO implements Serializable {
 
@@ -15,6 +19,8 @@ public class FormMetaDTO implements Serializable {
 	private String formDescription;
 
 	private String status;
+	
+	private LocalDateTime createdDate;
 
 	private String rawJson;
 
@@ -91,9 +97,25 @@ public class FormMetaDTO implements Serializable {
 	public String getStatus() {
 		return status;
 	}
+	
+	public String getStatusDesc() {
+		return FormStatus.getFormStatus(status).getDesc();
+	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+	
+	public String getFormatCreatedDate() {
+		return LocalDateTime.now().format(DateUtils.YYYY_MM_DD);
+	}
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public void setFields(List<FormFieldMetaDTO> fields) {

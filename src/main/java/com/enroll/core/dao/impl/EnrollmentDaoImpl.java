@@ -8,14 +8,24 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.enroll.core.dao.EnrollmentDao;
+import com.enroll.core.dto.EnrollmentDTO;
+import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaQuery;
+import com.enroll.core.dto.SearchCriteria;
+import com.enroll.core.dto.SearchResult;
+import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
 
@@ -107,5 +117,45 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 	@Override
 	public Object merge(Object object) {
 		return getEntityManager().merge(object);
+	}
+
+	@Override
+	public SearchResult<FormMeta> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria) {
+		Criteria criteria = getEntityManager().createCriteria(FormMeta.class);
+		if (!StringUtils.isBlank(searchCriteria.getSearchValue())){
+			criteria.add(Restrictions.ilike("formName", searchCriteria.getSearchValue(), MatchMode.ANYWHERE));
+		}
+		criteria.setProjection(Projections.rowCount());
+		int total = ((Long) criteria.uniqueResult()).intValue();
+		criteria.setProjection(null);
+		criteria.setFirstResult(searchCriteria.getStart());
+		criteria.setMaxResults(searchCriteria.getPageSize());
+		
+		SearchResult<FormMeta> searchResult = new SearchResult<FormMeta>();
+		@SuppressWarnings("unchecked")
+		List<FormMeta> formMetasList = criteria.list();
+		searchResult.addAll(formMetasList);
+		searchResult.setRecordsTotal(total);
+		return searchResult;
+	}
+
+	@Override
+	public SearchResult<Enrollment> findEnrollmentPage(SearchCriteria<EnrollmentQuery> query) {
+		Criteria criteria = getEntityManager().createCriteria(Enrollment.class);
+		if (!StringUtils.isBlank(query.getSearchValue())){
+			criteria.add(Restrictions.ilike("formName", query.getSearchValue(), MatchMode.ANYWHERE));
+		}
+		criteria.setProjection(Projections.rowCount());
+		int total = ((Long) criteria.uniqueResult()).intValue();
+		criteria.setProjection(null);
+		criteria.setFirstResult(query.getStart());
+		criteria.setMaxResults(query.getPageSize());
+		
+		SearchResult<Enrollment> searchResult = new SearchResult<Enrollment>();
+		@SuppressWarnings("unchecked")
+		List<Enrollment> formMetasList = criteria.list();
+		searchResult.addAll(formMetasList);
+		searchResult.setRecordsTotal(total);
+		return searchResult;
 	}
 }

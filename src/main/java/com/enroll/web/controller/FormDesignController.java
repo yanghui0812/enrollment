@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
+import com.enroll.core.dto.SearchCriteria;
+import com.enroll.core.dto.SearchResult;
 import com.enroll.core.service.EnrollmentService;
 
 @Controller
@@ -36,6 +38,17 @@ public class FormDesignController {
 			}
 		}
 		return "designForm";
+	}
+	
+	/**
+	 * 查询表单设计列表
+	 * @return String
+	 */
+	@RequestMapping(value = "/designforms")
+	@ResponseBody
+	public SearchResult<FormMetaDTO> designFormPage(SearchCriteria<FormMetaQuery> criteria){
+		SearchResult<FormMetaDTO> result = enrollmentService.findFormMetaPage(criteria);
+		return result;
 	}
 	
 	/**
@@ -69,8 +82,6 @@ public class FormDesignController {
 	 */
 	@RequestMapping(value = "/forms.html", method = RequestMethod.GET)
 	public String getDesignForms(FormMetaQuery query, BindingResult result, Model model) {
-		List<FormMetaDTO> list = enrollmentService.findFormMetaList(query);
-		model.addAttribute("formList", list);
 		return "formList";
 	}
 	

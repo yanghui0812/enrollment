@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.enroll.common.DateUtils;
+import com.enroll.core.enums.EnrollStatus;
 
 
 public class EnrollmentDTO implements Serializable {
@@ -67,6 +68,10 @@ public class EnrollmentDTO implements Serializable {
 
 	public String getStatus() {
 		return status;
+	}
+	
+	public String getStatusDesc() {
+		return EnrollStatus.getEnrollStatus(status).getDesc();
 	}
 
 	public void setStatus(String status) {

@@ -3,8 +3,11 @@ package com.enroll.core.service;
 import java.util.List;
 
 import com.enroll.core.dto.EnrollmentDTO;
+import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
+import com.enroll.core.dto.SearchCriteria;
+import com.enroll.core.dto.SearchResult;
 
 public interface EnrollmentService {
 
@@ -37,13 +40,6 @@ public interface EnrollmentService {
 	public List<FormMetaDTO> findFormMetaList(FormMetaQuery query);
 	
 	/**
-	 * 根据查询条件返回form的page
-	 * @param FormMetaQuery
-	 * @return FormMetaDTO
-	 */
-	public FormMetaDTO findFormMetaPage(FormMetaQuery query);
-	
-	/**
 	 * @param enrollmentDTO
 	 * @return String
 	 */
@@ -54,10 +50,18 @@ public interface EnrollmentService {
 	 * @return EnrollmentDTO
 	 */
 	public EnrollmentDTO findEnrollment(String registerId);
+	
+	/**
+	 * @param String
+	 * @return SearchResult<EnrollmentDTO>
+	 */
+	public SearchResult<EnrollmentDTO> findEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria);
 
 	/**
 	 * @param bean
 	 * @return
 	 */
 	public FormMetaDTO update(FormMetaDTO bean);
+	
+	public SearchResult<FormMetaDTO> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria);
 }

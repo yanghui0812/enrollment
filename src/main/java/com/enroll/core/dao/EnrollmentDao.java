@@ -2,18 +2,22 @@ package com.enroll.core.dao;
 
 import java.util.List;
 
+import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaQuery;
+import com.enroll.core.dto.SearchCriteria;
+import com.enroll.core.dto.SearchResult;
+import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
 
 public interface EnrollmentDao {
-	
+
 	public <T> T saveOrUpdate(T object);
-	
+
 	public void evict(Object object);
-	
+
 	public Object merge(Object object);
-	
+
 	/**
 	 * Finds a generic entity by a class name and id
 	 * 
@@ -30,8 +34,7 @@ public interface EnrollmentDao {
 	 * @return the persisted version of the entity
 	 */
 	public <T> T save(T object);
-	
-	
+
 	public List<FormFieldValue> findFormFieldValueList(long formId, String id);
 
 	/**
@@ -53,7 +56,11 @@ public interface EnrollmentDao {
 	public void clear();
 
 	public boolean sessionContains(Object object);
-	
+
 	public List<FormMeta> findFormMetaList(FormMetaQuery query);
+
+	public SearchResult<FormMeta> findFormMetaPage(SearchCriteria<FormMetaQuery> criteria);
+	
+	public SearchResult<Enrollment> findEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria);
 
 }
