@@ -27,8 +27,8 @@ $(document).ready(function() {
 		            	var prefixForUpdate = ($(':hidden[name=formMetaUpdateUrl]').val()).replace('{formId}', data);
 		            	var prefixForEnroll = $(':hidden[name=enrollUrl]').val();
 		            	var updateUrl = '<a href="' + prefixForUpdate + '">修改</a>';
-		            	var publishUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + ' data-status="publish">发布</a>';
-		            	var inactiveUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + ' data-status="inactive">废弃</a>';
+		            	var publishUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + '" data-status="publish">发布</a>';
+		            	var inactiveUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + '" data-status="inactive">废弃</a>';
 		            	var result = '';
 		            	if (full.canUpdate) {
 		            		result = updateUrl;
@@ -43,11 +43,16 @@ $(document).ready(function() {
 			    	 } }
 		        ],
 		 order: [[ 2, 'asc' ]]
-	    });
-	
-	$('.publishOrInactive').click(function(){
-		
-		
-		
-	});
+	    }).on( 'draw.dt', function () {
+	    	$( '.publishOrInactive' ).bind( "click", function(event) {
+        		var op = $(event.target).data('status');
+        		var formId = $(event.target).data('formid');
+        		var url = ($(':hidden[name=formMetaUpdateUrl]').val()).replace('{formId}', formId);
+        		$.post(url, {"status": op}, function(data) {
+        			if (data.status == '200') {
+        				alert(data.message);
+        			}
+        		}, "json");
+        	});
+	   });
 });
