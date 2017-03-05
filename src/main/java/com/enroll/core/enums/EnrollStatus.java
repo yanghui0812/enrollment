@@ -6,8 +6,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 public enum EnrollStatus {
-
-	SUBMIT("submit", "确认提交");
+	
+	DRAFT("draft", "暂存"),
+	ENROLL("enroll", "注册成功"),
+	CANCEL("cancel", "注册取消");
 
 	private String type;
 	private String desc;

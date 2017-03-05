@@ -94,6 +94,10 @@ public class SearchCriteria<T> {
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
+	
+	public void setLength(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 
 	public Integer getStart() {
 		return start;

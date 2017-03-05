@@ -15,7 +15,6 @@ import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
-import com.enroll.core.enums.EnrollStatus;
 import com.enroll.core.service.EnrollmentService;
 
 @Controller
@@ -43,7 +42,6 @@ public class EnrollmentController {
 	 */
 	@RequestMapping(value = "/enroll.html", method = RequestMethod.POST)
 	public String saveEnrollment(EnrollmentDTO enroll) {
-		enroll.setStatus(EnrollStatus.SUBMIT.getType());
 		String registrId = enrollmentService.saveEnrollment(enroll);
 		return "redirect:/enroll.html?registerId=" + registrId;
 	}
@@ -55,6 +53,9 @@ public class EnrollmentController {
 	@RequestMapping(value = "/updateEnroll.html", method = RequestMethod.GET)
 	public String getEnrollInfo(String registerId, Model model) {
 		EnrollmentDTO enroll = enrollmentService.findFormMetaWithInputValue(registerId);
+		if (!enroll.isDraft()) {
+			return "error";
+		}
 		model.addAttribute("formMeta", enroll.getFormMeta());
 		model.addAttribute("enroll", enroll);
 		return "enrollForm";

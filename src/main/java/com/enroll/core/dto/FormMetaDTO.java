@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.enroll.common.DateUtils;
 import com.enroll.core.enums.FormStatus;
 
@@ -99,7 +101,27 @@ public class FormMetaDTO implements Serializable {
 	}
 	
 	public String getStatusDesc() {
-		return FormStatus.getFormStatus(status).getDesc();
+		FormStatus formStatus = FormStatus.getFormStatus(status);
+		if (formStatus != null) {
+			return formStatus.getDesc();
+		}
+		return StringUtils.EMPTY;
+	}
+	
+	public boolean isCanUpdate() {
+		return FormStatus.DRAFT.getType().equals(status);
+	}
+	
+	public boolean isCanPublish() {
+		return FormStatus.DRAFT.getType().equals(status);
+	}
+	
+	public boolean isCanInactive() {
+		return FormStatus.DRAFT.getType().equals(status) || FormStatus.PUBLISH.getType().equals(status);
+	}
+	
+	public boolean isCanEnroll() {
+		return FormStatus.PUBLISH.getType().equals(status);
 	}
 
 	public void setStatus(String status) {

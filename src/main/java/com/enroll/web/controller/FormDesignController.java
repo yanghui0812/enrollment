@@ -27,7 +27,7 @@ public class FormDesignController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/designform.html")
-	public String designForm(Long formId, Model model){
+	public String designForm(Long formId, Model model, String op){
 		if (formId != null) {
 			FormMetaDTO formMeta = enrollmentService.findFormMetaById(formId);
 			if (formMeta != null) {

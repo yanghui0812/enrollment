@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.enroll.common.DateUtils;
 import com.enroll.core.enums.EnrollStatus;
 
@@ -71,7 +73,11 @@ public class EnrollmentDTO implements Serializable {
 	}
 	
 	public String getStatusDesc() {
-		return EnrollStatus.getEnrollStatus(status).getDesc();
+		EnrollStatus enrollStatus = EnrollStatus.getEnrollStatus(status);
+		if (enrollStatus != null) {
+			return enrollStatus.getDesc();
+		}
+		return StringUtils.EMPTY;
 	}
 
 	public void setStatus(String status) {
@@ -108,6 +114,10 @@ public class EnrollmentDTO implements Serializable {
 
 	public void setRegisterId(String registerId) {
 		this.registerId = registerId;
+	}
+	
+	public boolean isDraft() {
+		return EnrollStatus.DRAFT.getType().equals(status);
 	}
 
 	public LocalDateTime getModifiedDate() {

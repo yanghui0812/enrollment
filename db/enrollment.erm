@@ -12,7 +12,7 @@
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
 	<x>0</x>
-	<y>36</y>
+	<y>0</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2017-02-02 16:33:11</creation_date>
-			<updated_date>2017-02-28 22:37:53</updated_date>
+			<updated_date>2017-03-05 16:49:29</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -638,7 +638,7 @@
 		</word>
 		<word>
 			<id>29</id>
-			<length>2</length>
+			<length>10</length>
 			<decimal>null</decimal>
 			<array>false</array>
 			<array_dimension>null</array_dimension>
@@ -647,7 +647,7 @@
 			<binary>false</binary>
 			<args></args>
 			<char_semantics>false</char_semantics>
-			<description>0: 表示draft&#x0D;&#x0A;1: 表示active&#x0D;&#x0A;2: 表示publish</description>
+			<description>draft: 表示草稿&#x0D;&#x0A;publish: 表示发布&#x0D;&#x0A;inactive: 表示废弃</description>
 			<logical_name>STATUS</logical_name>
 			<physical_name>STATUS</physical_name>
 			<type>varchar(n)</type>
@@ -941,7 +941,7 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>32</word_id>
+					<word_id>31</word_id>
 					<id>6</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -2147,7 +2147,7 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>31</word_id>
+					<word_id>32</word_id>
 					<id>36</id>
 					<description></description>
 					<unique_key_name></unique_key_name>

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum FormStatus {
 
-	DRAFT("1", "草稿"), PUBLISH("2", "发布"), INACTIVE("3", "废弃");
+	DRAFT("draft", "草稿"), PUBLISH("publish", "发布"), INACTIVE("inactive", "废弃");
 
 	private String type;
 	private String desc;
