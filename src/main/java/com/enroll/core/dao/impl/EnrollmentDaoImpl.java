@@ -6,21 +6,16 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.enroll.core.dao.EnrollmentDao;
-import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchCriteria;
@@ -50,11 +45,11 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 		getEntityManager().saveOrUpdate(object);
 		return object;
 	}
-	
+
 	public void evict(Object object) {
 		getEntityManager().evict(object);
 	}
-	
+
 	@Override
 	public <T> T save(T object) {
 		getEntityManager().persist(object);
@@ -70,7 +65,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 	public void remove(Object object) {
 		getEntityManager().remove(object);
 	}
-	
+
 	@Override
 	public List<FormMeta> findFormMetaList(FormMetaQuery query) {
 		EntityManager entityManager = getEntityManager();
@@ -121,63 +116,48 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 
 	@Override
 	public SearchResult<FormMeta> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria) {
-		
+
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+		Root<FormMeta> root = countCriteria.from(FormMeta.class);
+		Predicate predicate = builder.like(root.get("formName"), searchCriteria.getLikeSearchValue());
+		countCriteria.select(builder.countDistinct(root));
+		countCriteria.where(predicate);
+		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
 
 		CriteriaQuery<FormMeta> criteria = builder.createQuery(FormMeta.class);
-		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-		
-		Root<FormMeta> root = criteria.from(FormMeta.class);
-		criteria.select(root);
-		criteria.where(builder.like(root.get("formName"), searchCriteria.getLikeSearchValue()));
+		criteria.select(criteria.from(FormMeta.class));
+		criteria.where(predicate);
+		List<FormMeta> formMetasList = getEntityManager().createQuery(criteria)
+				.setFirstResult(searchCriteria.getStart()).setMaxResults(searchCriteria.getPageSize()).getResultList();
 
-		countCriteria.select(builder.countDistinct(root));
-		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
-		
-		
-		List<FormMeta> persons = getEntityManager().createQuery(criteria).getResultList();
-		
-		
-		
-		
-		
-		
-		
-		Criteria criteria = getEntityManager().createCriteria(FormMeta.class);
-		if (!StringUtils.isBlank(searchCriteria.getSearchValue())){
-			criteria.add(Restrictions.ilike("formName", searchCriteria.getSearchValue(), MatchMode.ANYWHERE));
-		}
-		criteria.setProjection(Projections.rowCount());
-		int total = ((Long) criteria.uniqueResult()).intValue();
-		criteria.setProjection(null);
-		criteria.setFirstResult(searchCriteria.getStart());
-		criteria.setMaxResults(searchCriteria.getPageSize());
-		
 		SearchResult<FormMeta> searchResult = new SearchResult<FormMeta>();
-		@SuppressWarnings("unchecked")
-		List<FormMeta> formMetasList = criteria.list();
+
 		searchResult.addAll(formMetasList);
-		searchResult.setRecordsTotal(total);
+		searchResult.setRecordsTotal(count);
 		return searchResult;
 	}
 
 	@Override
 	public SearchResult<Enrollment> findEnrollmentPage(SearchCriteria<EnrollmentQuery> query) {
-		Criteria criteria = getEntityManager().createCriteria(Enrollment.class);
-		if (!StringUtils.isBlank(query.getSearchValue())){
-			criteria.add(Restrictions.ilike("formName", query.getSearchValue(), MatchMode.ANYWHERE));
-		}
-		criteria.setProjection(Projections.rowCount());
-		int total = ((Long) criteria.uniqueResult()).intValue();
-		criteria.setProjection(null);
-		criteria.setFirstResult(query.getStart());
-		criteria.setMaxResults(query.getPageSize());
-		
+		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+		Root<Enrollment> root = countCriteria.from(Enrollment.class);
+		Predicate predicate = builder.like(root.get("phoneNumber"), query.getLikeSearchValue());
+		countCriteria.select(builder.countDistinct(root));
+		countCriteria.where(predicate);
+		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
+
+		CriteriaQuery<Enrollment> criteria = builder.createQuery(Enrollment.class);
+		criteria.select(criteria.from(Enrollment.class));
+		criteria.where(predicate);
+		List<Enrollment> formMetasList = getEntityManager().createQuery(criteria).setFirstResult(query.getStart())
+				.setMaxResults(query.getPageSize()).getResultList();
+
 		SearchResult<Enrollment> searchResult = new SearchResult<Enrollment>();
-		@SuppressWarnings("unchecked")
-		List<Enrollment> formMetasList = criteria.list();
+
 		searchResult.addAll(formMetasList);
-		searchResult.setRecordsTotal(total);
+		searchResult.setRecordsTotal(count);
 		return searchResult;
 	}
 }
