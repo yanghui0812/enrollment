@@ -1,7 +1,5 @@
 package com.enroll.web.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;

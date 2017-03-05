@@ -19,6 +19,7 @@ import com.enroll.core.enums.EnrollStatus;
 import com.enroll.core.service.EnrollmentService;
 
 @Controller
+@RequestMapping("/public")
 public class EnrollmentController {
 	
 	@Resource(name = "enrollmentService")

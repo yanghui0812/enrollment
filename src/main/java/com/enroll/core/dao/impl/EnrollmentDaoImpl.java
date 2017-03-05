@@ -121,6 +121,28 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 
 	@Override
 	public SearchResult<FormMeta> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria) {
+		
+		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+
+		CriteriaQuery<FormMeta> criteria = builder.createQuery(FormMeta.class);
+		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+		
+		Root<FormMeta> root = criteria.from(FormMeta.class);
+		criteria.select(root);
+		criteria.where(builder.like(root.get("formName"), searchCriteria.getLikeSearchValue()));
+
+		countCriteria.select(builder.countDistinct(root));
+		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
+		
+		
+		List<FormMeta> persons = getEntityManager().createQuery(criteria).getResultList();
+		
+		
+		
+		
+		
+		
+		
 		Criteria criteria = getEntityManager().createCriteria(FormMeta.class);
 		if (!StringUtils.isBlank(searchCriteria.getSearchValue())){
 			criteria.add(Restrictions.ilike("formName", searchCriteria.getSearchValue(), MatchMode.ANYWHERE));

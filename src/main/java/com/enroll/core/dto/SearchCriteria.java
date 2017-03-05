@@ -141,6 +141,13 @@ public class SearchCriteria<T> {
 		}
 		return StringUtils.EMPTY;
 	}
+	
+	public String getLikeSearchValue() {
+		if (search != null) {
+			return "%" + search.get("value") + "%";
+		}
+		return StringUtils.EMPTY;
+	}
 
 	public String getSearchRegex() {
 		if (search != null) {
