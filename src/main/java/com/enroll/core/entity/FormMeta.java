@@ -101,46 +101,6 @@ public class FormMeta implements Serializable {
 		formFieldMetaList.add(dto);
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((formDescription == null) ? 0 : formDescription.hashCode());
-		result = prime * result + ((formFieldMetaList == null) ? 0 : formFieldMetaList.hashCode());
-		result = prime * result + (int) (formId ^ (formId >>> 32));
-		result = prime * result + ((formName == null) ? 0 : formName.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FormMeta other = (FormMeta) obj;
-		if (formDescription == null) {
-			if (other.formDescription != null)
-				return false;
-		} else if (!formDescription.equals(other.formDescription))
-			return false;
-		if (formFieldMetaList == null) {
-			if (other.formFieldMetaList != null)
-				return false;
-		} else if (!formFieldMetaList.equals(other.formFieldMetaList))
-			return false;
-		if (formId != other.formId)
-			return false;
-		if (formName == null) {
-			if (other.formName != null)
-				return false;
-		} else if (!formName.equals(other.formName))
-			return false;
-		return true;
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -171,5 +131,33 @@ public class FormMeta implements Serializable {
 
 	public void setRawJson(String rawJson) {
 		this.rawJson = rawJson;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (formId ^ (formId >>> 32));
+		result = prime * result + ((formName == null) ? 0 : formName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FormMeta other = (FormMeta) obj;
+		if (formId != other.formId)
+			return false;
+		if (formName == null) {
+			if (other.formName != null)
+				return false;
+		} else if (!formName.equals(other.formName))
+			return false;
+		return true;
 	}
 }

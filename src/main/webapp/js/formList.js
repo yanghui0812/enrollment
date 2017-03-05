@@ -16,7 +16,7 @@ $(document).ready(function() {
 		  },
 		"ajax": {
 				  "url": $(':hidden[name=formMetaPageUrl]').val(),
-			      "type": "POST"
+			      "type": "GET"
 			   },
 		"columns": [{ "title": "编号", 	"data": "formId" },
 		            { "title": "名字", 	"data": "formName" },
@@ -24,11 +24,11 @@ $(document).ready(function() {
 		            { "title": "描述", 	"data": "formDescription", "orderable": false },
 		            { "title": "状态", 	"data": "statusDesc" },
 		            { "title": "操作", 	"data": "formId", "orderable": false, "searchable": false, "render": function (data, type, full) {
-		            	var prefixForUpdate = $(':hidden[name=formMetaUpdateUrl]').val();
+		            	var prefixForUpdate = ($(':hidden[name=formMetaUpdateUrl]').val()).replace('{formId}', data);
 		            	var prefixForEnroll = $(':hidden[name=enrollUrl]').val();
-		            	var updateUrl = '<a href="' + prefixForUpdate + '?formId=' + data + '&op=update">修改</a>';
-		            	var publishUrl = '<a href="' + prefixForUpdate + '?formId=' + data + '&op=publish">发布</a>';
-		            	var inactiveUrl = '<a href="' + prefixForUpdate + '?formId=' + data + '&op=inactive">废弃</a>';
+		            	var updateUrl = '<a href="' + prefixForUpdate + '">修改</a>';
+		            	var publishUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + ' data-status="publish">发布</a>';
+		            	var inactiveUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + ' data-status="inactive">废弃</a>';
 		            	var result = '';
 		            	if (full.canUpdate) {
 		            		result = updateUrl;
@@ -44,4 +44,10 @@ $(document).ready(function() {
 		        ],
 		 order: [[ 2, 'asc' ]]
 	    });
+	
+	$('.publishOrInactive').click(function(){
+		
+		
+		
+	});
 });

@@ -16,7 +16,7 @@ $(document).ready(function() {
 		  },
 		"ajax": {
 				  "url": $(':hidden[name=enrollPageJson]').val(),
-			      "type": "POST"
+				  "type": "GET"
 			   },
 		"columns": [{ "title": "注册号", 	"data": "registerId" },
 		            { "title": "电话", 	"data": "phoneNumber" },

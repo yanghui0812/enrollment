@@ -5,7 +5,15 @@ jQuery(document).ready(function($) {
     formData = window.sessionStorage.getItem('formData'),
     editing = true,
     fbOptions = {
-      dataType: 'json'
+      dataType: 'json',
+      disableFields: ['file', 'paragraph', 'header', 'hidden'],
+      messages: {
+    	    clearAllMessage: '确认要清除所有的字段吗?',
+    	    clearAll: '清除',
+    	    save: '预览',
+    	    no: '否',
+    	    yes: '是'
+      }
     };
 
   if (formData) {

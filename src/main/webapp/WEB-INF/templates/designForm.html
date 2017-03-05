@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
 <head>
-  <title>jQuery formBuilder/formRender Demo</title>
+  <title>表单设计</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/designForm.css}">
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/form-builder.min.css}">
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/form-render.min.css}">
 </head>
-
 <body>
   <div class="content">
-    <input type="hidden" id="saveFormMeta"  th:value="@{/saveForm.html}"> 
-    <h1>jQuery formBuilder</h1>
     <div>
-                    表单名字<input class="form-control" name="formName" id="formName" type="text" th:value="${formMeta != null} ? ${formMeta.formName} : ''">
-                    表单描述<input class="form-control" name="formDesc" id="formDesc" type="text" th:value="${formMeta != null} ? ${formMeta.formDescription} : ''">
+    <input type="hidden" id="saveFormMeta"  th:value="@{/forms}"> 
+    名字:<span class="required-asterisk" style="display: inline;">*</span><input class="form-control" name="formName" id="formName" type="text" th:value="${formMeta != null} ? ${formMeta.formName} : ''"><br>
+    描述:<textarea class="form-control" name="formDesc" id="formDesc" th:text="${formMeta != null} ? ${formMeta.formDescription} : ''" rows="5" ></textarea>
     </div>
+    <div>以下是设计区域:</div>
     <div class="build-wrap"></div>
     <div class="render-wrap"></div>
     <button id="edit-form">继续编辑</button>

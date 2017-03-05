@@ -185,12 +185,4 @@ public class FormFieldMeta implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	@Override
-	public String toString() {
-		return "FormFieldMeta [fieldId=" + fieldId + ", position=" + position + ", required=" + required + ", formMeta="
-				+ formMeta + ", fieldOptionList=" + fieldOptionList + ", name=" + name + ", label=" + label + ", type="
-				+ type + ", fieldConstraint=" + fieldConstraint + ", fieldDefaultValue=" + fieldDefaultValue
-				+ ", fieldStyle=" + fieldStyle + "]";
-	}
 }

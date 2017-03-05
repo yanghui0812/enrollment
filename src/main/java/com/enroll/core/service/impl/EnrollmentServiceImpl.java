@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import com.enroll.common.AppConstant;
 import com.enroll.common.DateUtils;
 import com.enroll.core.dao.EnrollmentDao;
+import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormFieldMetaDTO;
@@ -36,6 +37,7 @@ import com.enroll.core.entity.FormFieldOption;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
 import com.enroll.core.enums.FormFieldType;
+import com.enroll.core.enums.FormStatus;
 import com.enroll.core.service.EnrollmentService;
 
 @Service("enrollmentService")
@@ -288,6 +290,26 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		result.setDraw(searchResult.getDraw());
 		result.setRecordsFiltered(searchResult.getRecordsFiltered());
 		result.setRecordsTotal(searchResult.getRecordsTotal());
+		return result;
+	}
+
+	@Override
+	public AjaxResult<String> publishForm(Long formId) {
+		AjaxResult<String> result = new AjaxResult<String>();
+		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
+		if (!FormStatus.DRAFT.getType().equals(formMeta.getStatus())) {
+			result.setMessage("表单当前状态不支持发布操作");
+			return result;
+		}
+		formMeta.setStatus(FormStatus.PUBLISH.getType());
+		return result;
+	}
+
+	@Override
+	public AjaxResult<String> inactiveForm(Long formId) {
+		AjaxResult<String> result = new AjaxResult<String>();
+		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
+		formMeta.setStatus(FormStatus.INACTIVE.getType());
 		return result;
 	}
 }

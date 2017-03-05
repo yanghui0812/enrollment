@@ -17,6 +17,14 @@ import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.service.EnrollmentService;
 
+/**
+ * @ClassName EnrollmentController
+ * @Description
+ * Process all the operation related to enrollment
+ * @author Leo.yang
+ * @Date Mar 5, 2017 10:06:21 PM
+ * @version 1.0.0
+ */
 @Controller
 @RequestMapping("/public")
 public class EnrollmentController {
@@ -25,7 +33,10 @@ public class EnrollmentController {
 	private EnrollmentService enrollmentService;
 	
 	/**
+	 * @Description 
 	 * Prepare the design form information for enrollment
+	 * @param formId
+	 * @param model
 	 * @return String
 	 */
 	@RequestMapping(value = "/enrollForm.html", method = RequestMethod.GET)
@@ -36,6 +47,7 @@ public class EnrollmentController {
 	}
 	
 	/**
+	 * @Description
 	 * Save enrollment information
 	 * @param enroll
 	 * @return String
@@ -47,7 +59,10 @@ public class EnrollmentController {
 	}
 	
 	/**
+	 * @Description
 	 * Get the enrollment info and form meta for update
+	 * @param registerId
+	 * @param model
 	 * @return String
 	 */
 	@RequestMapping(value = "/updateEnroll.html", method = RequestMethod.GET)
@@ -62,8 +77,9 @@ public class EnrollmentController {
 	}
 	
 	/**
+	 * @Description 
 	 * View the detailed enrollment information
-	 * @param registrId
+	 * @param registerId
 	 * @param model
 	 * @return String
 	 */
@@ -75,7 +91,11 @@ public class EnrollmentController {
 	}
 	
 	/**
-	 * 
+	 * @Description
+	 * Go to all the enrollment information with pagination;
+	 * @param query
+	 * @param result
+	 * @param model
 	 * @return String
 	 */
 	@RequestMapping(value = "/enrolls.html", method = RequestMethod.GET)
@@ -84,12 +104,12 @@ public class EnrollmentController {
 	}
 	
 	/**
-	 * View the detailed enrollment information
-	 * @param registrId
-	 * @param model
-	 * @return String
+	 * @Description
+	 * Search enrollment by search criteria
+	 * @param criteria
+	 * @return SearchResult<EnrollmentDTO> 
 	 */
-	@RequestMapping(value = "/enrollsJson.html")
+	@RequestMapping(value = "/enrollsJson.html", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	@ResponseBody
 	public SearchResult<EnrollmentDTO> getEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria){
 		SearchResult<EnrollmentDTO> result = enrollmentService.findEnrollmentPage(criteria);
