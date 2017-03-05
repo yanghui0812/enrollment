@@ -7,7 +7,6 @@
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/designForm.css}">
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/form-builder.min.css}">
   <link rel="stylesheet" type="text/css" media="screen" th:href="@{/css/form-render.min.css}">
-  <script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
 </head>
 
 <body>
@@ -26,6 +25,7 @@
   <script th:inline="javascript">
 	var json = [[${rawJson}]];
   </script>
+  <script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
   <script type="text/javascript" th:src="@{/js/form-builder.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/form-render.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/designForm.js}"></script>
