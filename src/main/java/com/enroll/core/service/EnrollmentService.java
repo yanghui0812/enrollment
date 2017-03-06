@@ -13,21 +13,21 @@ import com.enroll.core.dto.SearchResult;
 public interface EnrollmentService {
 
 	/**
-	 * 根据formId返回定义的form元数据
-	 * @param formId form编号
+	 * Find the design form meta data
+	 * @param formId
 	 * @return FormMetaDTO
 	 */
 	public FormMetaDTO findFormMetaById(long formId);
 	
 	/**
-	 * 根据formId和注册号返回form元数据和页面输入的数据，返回到页面后组装
+	 * Get design form meta data and input value
 	 * @param registerId
 	 * @return FormMetaDTO
 	 */
 	public EnrollmentDTO findFormMetaWithInputValue(String registerId);
 
 	/**
-	 * 保存form元数据到数据库
+	 * Save form meta data
 	 * @param formMetaDTO
 	 * @return FormMetaDTO
 	 */
@@ -74,12 +74,10 @@ public interface EnrollmentService {
 	 * @return SearchResult<EnrollmentDTO>
 	 */
 	public SearchResult<EnrollmentDTO> findEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria);
-
+	
 	/**
-	 * @param bean
+	 * @param searchCriteria
 	 * @return
 	 */
-	public FormMetaDTO update(FormMetaDTO bean);
-	
 	public SearchResult<FormMetaDTO> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria);
 }

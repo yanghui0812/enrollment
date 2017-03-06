@@ -50,6 +50,7 @@ jQuery(document).ready(function($) {
   
   $('#save-form').click(function() {
 	  var para = {};
+	  para.formId = $('#formId').val();
 	  para.formName = $('#formName').val();
 	  para.rawJson = formBuilder.formData;
 	  para.formDescription = $('#formDesc').val();
@@ -75,7 +76,8 @@ jQuery(document).ready(function($) {
 	  }
 	  var url = $("#saveFormMeta").val();
 	  $.post(url, para, function( data ) {
-		  if (data.status == '200') {
+		  if (data.status == 'success') {
+			  $('#formId').val(data.data);
 			  alert('保存成功');
 		  }
 	  });

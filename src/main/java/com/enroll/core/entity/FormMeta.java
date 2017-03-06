@@ -96,9 +96,16 @@ public class FormMeta implements Serializable {
 		this.formFieldMetaList = formFieldMetaList;
 	}
 	
-	public void addFormFieldMeta(FormFieldMeta dto) {
-		dto.setFormMeta(this);
-		formFieldMetaList.add(dto);
+	public void addFormFieldMeta(FormFieldMeta formFieldMeta) {
+		formFieldMeta.setFormMeta(this);
+		formFieldMetaList.add(formFieldMeta);
+	}
+	
+	public void clearAllFormFieldMeta() {
+		formFieldMetaList.stream().forEach(formField -> {
+			formField.setFormMeta(null);
+		});
+		formFieldMetaList.clear();
 	}
 
 	public String getStatus() {

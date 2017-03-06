@@ -15,6 +15,7 @@ import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
+import com.enroll.core.enums.AjaxResultStatus;
 import com.enroll.core.enums.FormStatus;
 import com.enroll.core.service.EnrollmentService;
 
@@ -40,7 +41,7 @@ public class FormDesignController {
 	 * @return
 	 */
 	@RequestMapping(value = "/forms/{formId}", method = RequestMethod.GET)
-	public String designForm(Long formId, Model model, String op){
+	public String designForm(@PathVariable Long formId, Model model){
 		if (formId != null) {
 			FormMetaDTO formMeta = enrollmentService.findFormMetaById(formId);
 			if (formMeta != null) {
@@ -81,9 +82,8 @@ public class FormDesignController {
 		if (FormStatus.INACTIVE.getType().equals(status)) {
 			return enrollmentService.inactiveForm(formId);
 		}
-		
-		AjaxResult<String> ajaxResult = new AjaxResult<String>();
-		ajaxResult.setStatus("200");
+		AjaxResult<String> ajaxResult = new AjaxResult<String>(AjaxResultStatus.FAIL);
+		ajaxResult.setMessage("不支持当天操作");
 		return ajaxResult;
 	}
 	
@@ -96,13 +96,13 @@ public class FormDesignController {
 	 * @param model
 	 * @return AjaxResult<String>
 	 */
-	@RequestMapping(value = "/forms", consumes = "application/json",  produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+	@RequestMapping(value = "/forms", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult<String> saveForm(FormMetaDTO formMeta, BindingResult result, Model model){
+	public AjaxResult<Long> saveForm(FormMetaDTO formMeta, BindingResult result, Model model){
 		formMeta.setStatus(FormStatus.DRAFT.getType());
 		formMeta = enrollmentService.saveFormMeta(formMeta);
-		AjaxResult<String> ajaxResult = new AjaxResult<String>();
-		ajaxResult.setStatus("200");
+		AjaxResult<Long> ajaxResult = new AjaxResult<Long>(AjaxResultStatus.SUCCESS);
+		ajaxResult.setData(formMeta.getFormId());
 		return ajaxResult;
 	}
 	

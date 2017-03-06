@@ -11,7 +11,8 @@
 <body>
   <div class="content">
     <div>
-    <input type="hidden" id="saveFormMeta"  th:value="@{/forms}"> 
+    <input type="hidden" id="saveFormMeta"            th:value="@{/forms}">
+    <input type="hidden" name="formId" id="formId"    th:value="${formMeta != null} ? ${formMeta.formId} : ''">
     名字:<span class="required-asterisk" style="display: inline;">*</span><input class="form-control" name="formName" id="formName" type="text" th:value="${formMeta != null} ? ${formMeta.formName} : ''"><br>
     描述:<textarea class="form-control" name="formDesc" id="formDesc" th:text="${formMeta != null} ? ${formMeta.formDescription} : ''" rows="5" ></textarea>
     </div>

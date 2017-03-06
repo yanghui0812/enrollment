@@ -6,10 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="description" content="HTML 5 CSS 3 Spring Form" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
 	<script type="text/javascript" th:src="@{/js/enroll.js}"></script>
 </head>
 <body>
-   <form name="enrollForm" th:action="@{/public/enroll.html}" method="POST">
+   <form id="enrollForm" th:action="@{/public/enroll.html}" method="POST">
         <input type="hidden" name="formId"               th:value="${formMeta.formId}">
         <input type="hidden" name="registerId"           th:value="${enroll.registerId}"      th:if="${enroll != null}">
         <input type="hidden" name="registerDateStr"      th:value="${enroll.registerDateStr}" th:if="${enroll != null}">

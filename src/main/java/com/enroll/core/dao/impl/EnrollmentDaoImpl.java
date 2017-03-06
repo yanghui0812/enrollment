@@ -63,7 +63,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 
 	@Override
 	public void remove(Object object) {
-		getEntityManager().remove(object);
+		getEntityManager().delete(object);
 	}
 
 	@Override

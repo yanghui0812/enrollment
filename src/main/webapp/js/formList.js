@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var table = $('#formTable').DataTable( {
+	var formTable = $('#formTable').DataTable( {
 		"processing":true,
 		"serverSide":true,
 		"srollY": "200px",
@@ -28,7 +28,7 @@ $(document).ready(function() {
 		            	var prefixForEnroll = $(':hidden[name=enrollUrl]').val();
 		            	var updateUrl = '<a href="' + prefixForUpdate + '">修改</a>';
 		            	var publishUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + '" data-status="publish">发布</a>';
-		            	var inactiveUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + '" data-status="inactive">废弃</a>';
+		            	var inactiveUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + '" data-status="inactive">删除</a>';
 		            	var result = '';
 		            	if (full.canUpdate) {
 		            		result = updateUrl;
@@ -39,6 +39,7 @@ $(document).ready(function() {
 		            	if (full.canInactive) {
 		            		result = result + '</br>' + inactiveUrl;
 		            	}
+		            	result = result + '</br><a href="' + prefixForEnroll + '?formId=' + data + '">去报名</a>';
 		    			return result; 
 			    	 } }
 		        ],
@@ -49,6 +50,7 @@ $(document).ready(function() {
         		var formId = $(event.target).data('formid');
         		var url = ($(':hidden[name=formMetaUpdateUrl]').val()).replace('{formId}', formId);
         		$.post(url, {"status": op}, function(data) {
+        			formTable.draw( 'full-hold' );
         			if (data.status == '200') {
         				alert(data.message);
         			}

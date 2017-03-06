@@ -55,7 +55,7 @@ public class EnrollmentController {
 	@RequestMapping(value = "/enroll.html", method = RequestMethod.POST)
 	public String saveEnrollment(EnrollmentDTO enroll) {
 		String registrId = enrollmentService.saveEnrollment(enroll);
-		return "redirect:/enroll.html?registerId=" + registrId;
+		return "redirect:/public/enroll.html?registerId=" + registrId;
 	}
 	
 	/**
@@ -109,7 +109,7 @@ public class EnrollmentController {
 	 * @param criteria
 	 * @return SearchResult<EnrollmentDTO> 
 	 */
-	@RequestMapping(value = "/enrollsJson.html", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/enrolls", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	@ResponseBody
 	public SearchResult<EnrollmentDTO> getEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria){
 		SearchResult<EnrollmentDTO> result = enrollmentService.findEnrollmentPage(criteria);
