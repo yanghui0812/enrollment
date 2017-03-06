@@ -106,34 +106,44 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	@Override
 	public FormMetaDTO saveFormMeta(FormMetaDTO formMetaDTO) {
 		Objects.requireNonNull(formMetaDTO);
-		FormMeta formMeta = new FormMeta();
+		FormMeta formMeta = null;
 		LocalDateTime date = LocalDateTime.now();
-		formMeta.setCreatedDate(date);
+		Map<String, FormFieldMeta> formFieldMap = new HashMap<>();
 		if (formMetaDTO.getFormId() > 0) {
-			FormMeta preFormMeta = enrollmentDao.readGenericEntity(FormMeta.class, formMetaDTO.getFormId());
-			formMeta.setCreatedDate(preFormMeta.getCreatedDate());
-			formMeta.setModifiedDate(preFormMeta.getModifiedDate());
-			enrollmentDao.evict(preFormMeta);
+			formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formMetaDTO.getFormId());
+			formMeta.getFormFieldMetaList().stream().forEach(formField -> {
+				formFieldMap.put(StringUtils.trim(formField.getName()), formField);
+			});
+			formMeta.clearAllFormFieldMeta();
 			LOGGER.info("Remove all the form field metadata from {}", formMetaDTO.getFormId());
+		} else {
+			formMeta = new FormMeta();
+			formMeta.setCreatedDate(date);
 		}
 		BeanUtils.copyProperties(formMetaDTO, formMeta, "formFieldMetaList", "createdDate");
 
 		// Group form field data
 		for (FormFieldMetaDTO formField : formMetaDTO.getFields()) {
-			FormFieldMeta formFieldMeta = new FormFieldMeta();
-			BeanUtils.copyProperties(formField, formFieldMeta, "options");
+			String fieldName = StringUtils.trim(formField.getName());
+			FormFieldMeta formFieldMeta = null;
+			if (formFieldMap.containsKey(fieldName)) {
+				formFieldMeta = formFieldMap.get(fieldName);
+			} else {
+				formFieldMeta = new FormFieldMeta();
+			}
+			BeanUtils.copyProperties(formField, formFieldMeta, "options", "fieldId");
 			formMeta.addFormFieldMeta(formFieldMeta);
 
 			// Group the options data if any
 			if (!CollectionUtils.isEmpty(formField.getOptions())) {
-				formField.getOptions().stream().forEach(option -> {
+				for (FormFieldOptionDTO option : formField.getOptions()) {
 					FormFieldOption fieldOption = new FormFieldOption();
 					BeanUtils.copyProperties(option, fieldOption);
 					formFieldMeta.addFormFieldOption(fieldOption);
 					if (StringUtils.isBlank(option.getValue())) {
 						fieldOption.setValue(String.valueOf(formFieldMeta.getSizeOfFieldOptions()));
 					}
-				});
+				}
 			}
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.info("Form {} has field metadata {}", formMetaDTO.getFormId(), formFieldMeta.toString());
@@ -176,12 +186,14 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		// Loop to copy and save field value
 		enrollmentDTO.getFieldValueList().stream().forEach(value -> {
 			FormFieldValue fieldValue = new FormFieldValue();
-			BeanUtils.copyProperties(value, fieldValue);
-			if (fieldkeyValueMap.containsKey(value.getFieldId())) {
-				fieldValue.setFieldDisplay(getFieldDisplay(value.getFieldId(), value.getFieldValue(), fieldkeyValueMap));
+			if (value.getFieldId() != 0) {
+				BeanUtils.copyProperties(value, fieldValue);
+				if (fieldkeyValueMap.containsKey(value.getFieldId())) {
+					fieldValue.setFieldDisplay(getFieldDisplay(value.getFieldId(), value.getFieldValue(), fieldkeyValueMap));
+				}
+				fieldValue.setFieldtype(formFieldMap.get(value.getFieldId()).getType());
+				enrollment.addFieldValue(fieldValue);
 			}
-			fieldValue.setFieldtype(formFieldMap.get(value.getFieldId()).getType());
-			enrollment.addFieldValue(fieldValue);
 		});
 		enrollmentDao.saveOrUpdate(enrollment);
 		return enrollmentDTO.getRegisterId();

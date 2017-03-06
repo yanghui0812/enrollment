@@ -101,9 +101,7 @@ public class FormFieldOption implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((formField == null) ? 0 : formField.hashCode());
-		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + position;
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -121,24 +119,8 @@ public class FormFieldOption implements Serializable {
 				return false;
 		} else if (!formField.equals(other.formField))
 			return false;
-		if (label == null) {
-			if (other.label != null)
-				return false;
-		} else if (!label.equals(other.label))
-			return false;
 		if (position != other.position)
 			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
-			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "FormFieldOption [position=" + position + ", formField=" + formField + ", value=" + value + ", label="
-				+ label + ", selected=" + selected + ", description=" + description + "]";
 	}
 }
