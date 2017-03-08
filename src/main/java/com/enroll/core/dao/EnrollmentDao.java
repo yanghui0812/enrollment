@@ -2,6 +2,8 @@ package com.enroll.core.dao;
 
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+
 import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchCriteria;
@@ -9,6 +11,7 @@ import com.enroll.core.dto.SearchResult;
 import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
+import com.enroll.core.entity.User;
 
 public interface EnrollmentDao {
 
@@ -56,6 +59,8 @@ public interface EnrollmentDao {
 	public void clear();
 
 	public boolean sessionContains(Object object);
+	
+	public User readUserByName(String userName) throws DataAccessException;
 
 	public List<FormMeta> findFormMetaList(FormMetaQuery query);
 

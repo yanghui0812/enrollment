@@ -48,7 +48,7 @@ jQuery(document).ready(function($) {
     toggleEdit();
   };
   
-  $('#save-form').click(function() {
+  function groupParameter() {
 	  var para = {};
 	  para.formId = $('#formId').val();
 	  para.formName = $('#formName').val();
@@ -74,12 +74,31 @@ jQuery(document).ready(function($) {
 			 }
 		 }
 	  }
-	  var url = $("#saveFormMeta").val();
-	  $.post(url, para, function( data ) {
-		  if (data.status == 'success') {
-			  $('#formId').val(data.data);
-			  alert('保存成功');
-		  }
-	  });
+	  return para;
+  }
+  
+  $("#designForm").validate({
+		rules: {
+			formName: {
+				required: true,
+				minlength: 10
+			}
+		},
+		messages: {
+			formName: {
+				required: "请输入表单的名字",
+				minlength: "表单名字的长度要大于10"
+			}
+		},
+		submitHandler:function(form){
+			var para = groupParameter();
+			var url = $("#saveFormMeta").val();
+			$.post(url, para, function( data ) {
+			  if (data.status == 'success') {
+				  $('#formId').val(data.data);
+				  $('#message').text('保存成功');
+			  }
+		  });
+        } 
   });
 });

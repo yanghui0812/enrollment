@@ -42,16 +42,6 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 		configurer.mediaType("json", MediaType.APPLICATION_JSON);
 	}
 
-	/*
-	 * @Override public void
-	 * configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-	 * GsonHttpMessageConverter messageConverter = new
-	 * GsonHttpMessageConverter(); List<MediaType> supportedMediaTypes = new
-	 * ArrayList<>(); supportedMediaTypes.add(MediaType.APPLICATION_JSON);
-	 * messageConverter.setSupportedMediaTypes(supportedMediaTypes);
-	 * converters.add(messageConverter); }
-	 */
-
 	public ViewResolver viewResolver(ServletContext servletContext) {
 		SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);

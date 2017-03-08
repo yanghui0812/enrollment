@@ -9,10 +9,11 @@
 	<description>Enrollment</description>
 	<properties>
 		<spring-version>4.3.0.RELEASE</spring-version>
+		<jackson-version>2.7.5</jackson-version>
 		<log4j-version>2.6.1</log4j-version>
 		<hibernate-version>5.2.1.Final</hibernate-version>
-		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
-		<spring-security-version>4.0.3.RELEASE</spring-security-version>
+		<thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
+		<spring-security-version>4.2.2.RELEASE</spring-security-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -186,12 +187,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.7.5</version>
+			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.7.5</version>
+			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

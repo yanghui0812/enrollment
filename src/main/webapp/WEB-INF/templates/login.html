@@ -1,0 +1,62 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link th:href="@{/css/style.css}" rel="stylesheet"  type="text/css" />
+<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}" ></script>
+<script type="text/javascript" th:src="@{/js/login.js}"></script>
+</head>
+
+<body style=" background: #fff;">
+<div class="log_title">
+    <div class="title all_width ">
+    	<a href="#" class="fl">
+        	<img src="images/logo.png">
+        </a>
+    </div>
+</div>    
+
+	<div class="all_width log_center">
+	 <form id="loginForm" action="#" th:action="@{/login}" method="post">
+       <div class="log_box">
+       		<ul>
+            	<li class="lb_title">账户登录</li>
+                <li class="lb_other">
+                	<div class="log_tips">公共场所不建议自动登录,以防账号丢失</div>
+                    <div class="log_pass">
+                    	<div class="log_icon_1"></div>
+                        <input type="text" id="username" name="username"
+							   placeholder="用户名">
+                    </div>
+                    <div class="log_pass" style="margin-top: 25px; margin-bottom: 25px;">
+                    	<div class="log_icon_2"></div>
+                        <input type="password" id="password" digits name="password" placeholder="密码" autocomplete="off">
+                    </div>
+                     <div class="log_tips" th:if="${#httpSession != null && #httpSession.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"><span >用户名或密码错误</span></div>
+                    <div class="log_yz" style="height: 30px;padding-top: 5px;">
+	                      <input type="text" name="code" id = "code" style="height: 30px;" placeholder="请输入验证码">
+	                      <div class="yzm" style="height: 30px;">
+	                      		<img id="yzm" name="code" src="" onclick="refreshPic();" style="cursor:pointer">
+	                      </div>
+	                      <div hidden="hidden" id="checkDiv">
+	                      		<img id="checkImage" style="padding-left: 10px;padding-top: 3px;" src="" width="20px" height="20px">
+	                      </div>
+                    </div>
+                    
+                    <div class="log_gx" style="height: 0px;">
+                    </div>
+                    <a href="javascript:void(0);" id="submit_btn" class="btn_log" name="submit">登 录</a>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+       </div>
+       </form>
+    </div>
+
+	<div class="copyright log_copy">
+            	Copyright © 2017
+    </div>
+
+</body>
+</html> 

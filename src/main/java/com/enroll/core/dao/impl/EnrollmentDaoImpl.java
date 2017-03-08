@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.enroll.core.dao.EnrollmentDao;
@@ -23,6 +24,7 @@ import com.enroll.core.dto.SearchResult;
 import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
+import com.enroll.core.entity.User;
 
 @Repository
 public class EnrollmentDaoImpl implements EnrollmentDao {
@@ -160,4 +162,15 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 		searchResult.setRecordsTotal(count);
 		return searchResult;
 	}
+
+	@Override
+	public User readUserByName(String userName) throws DataAccessException{
+		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<User> criteria = builder.createQuery(User.class);
+		Root<User> root = criteria.from(User.class);
+		criteria.select(criteria.from(User.class));
+		criteria.where(builder.equal(root.get("name"), userName));
+		User user = getEntityManager().createQuery(criteria).getSingleResult();
+		return user;
+	}	
 }
