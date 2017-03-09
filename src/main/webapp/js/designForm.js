@@ -90,7 +90,7 @@ jQuery(document).ready(function($) {
 				minlength: "表单名字的长度要大于10"
 			}
 		},
-		submitHandler:function(form){
+		submitHandler: function(form){
 			var para = groupParameter();
 			var url = $("#saveFormMeta").val();
 			$.post(url, para, function( data ) {

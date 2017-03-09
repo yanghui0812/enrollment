@@ -1,12 +1,5 @@
 $().ready(function() {
-	refreshPic();
 	$("#loginForm").validate({
-		onfocusout : function(element) {
-			$(element).valid();
-		},
-		onkeyup : function(element) {
-			$(element).valid();
-		},
 		rules : {
 			username : {
 				required : true,
@@ -14,9 +7,8 @@ $().ready(function() {
 			},
 			password : {
 				required : true,
-				minlength : 6
-			},
-			agree : "required"
+				minlength :3
+			}
 		},
 		messages : {
 			username : {

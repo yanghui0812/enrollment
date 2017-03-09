@@ -7,8 +7,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -29,9 +27,8 @@ public class User implements UserDetails {
 	private static final long serialVersionUID = -6130666978254887990L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_ID")
-	private Long id;
+	private String id;
 
 	@Column(name = "USER_NAME", nullable = false)
 	private String name;
@@ -39,14 +36,8 @@ public class User implements UserDetails {
 	@Column(name = "PASSWORD")
 	private String password;
 
-	@Column(name = "USER_CODE")
-	private String userCode;
-
 	@Column(name = "ACTIVE")
 	private String active = AppConstant.TRUE;
-
-	@Transient
-	private String unencodedPassword;
 
 	@Column(name = "USER_PHOTO_URL")
 	private String imageUrl;
@@ -81,22 +72,6 @@ public class User implements UserDetails {
 	
 	@Transient
 	private Collection<GrantedAuthority> grantedAuthority = new ArrayList<GrantedAuthority>();
-
-	public String getUnencodedPassword() {
-		return unencodedPassword;
-	}
-
-	public void setUnencodedPassword(String unencodedPassword) {
-		this.unencodedPassword = unencodedPassword;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -227,20 +202,20 @@ public class User implements UserDetails {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public String getUserCode() {
-		return userCode;
-	}
-
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
-	}
-
+	
 	public String getDEPARTMENT() {
 		return DEPARTMENT;
 	}
 
 	public void setDEPARTMENT(String dEPARTMENT) {
 		DEPARTMENT = dEPARTMENT;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

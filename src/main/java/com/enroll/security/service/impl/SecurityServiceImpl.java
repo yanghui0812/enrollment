@@ -18,7 +18,7 @@ import com.enroll.core.entity.User;
 import com.enroll.security.service.SecurityService;
 
 @Service("securityService")
-@Transactional("txManager")
+@Transactional
 public class SecurityServiceImpl implements SecurityService, UserDetailsService {
 
 	private static final Logger LOGGER = LogManager.getLogger(SecurityService.class);
@@ -30,7 +30,7 @@ public class SecurityServiceImpl implements SecurityService, UserDetailsService 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     	LOGGER.info("User {} log onto application at {}.", username, LocalDateTime.now().format(DateUtils.YYYY_MM_DD));
 		User user = enrollmentDao.readUserByName(username);
-        user.addAuthority(new SimpleGrantedAuthority(""));
+        user.addAuthority(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		return user;
 	}
 }

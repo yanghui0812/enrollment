@@ -78,6 +78,8 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("home");
+		registry.addViewController("/login.html").setViewName("login");
+		registry.addViewController("/error.html").setViewName("error");
 	}
 
 	@Override
