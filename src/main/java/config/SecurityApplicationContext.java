@@ -1,27 +1,16 @@
 package config;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-
-import javax.annotation.Resource;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @EnableWebSecurity
 public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
@@ -36,12 +25,10 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 
 	private static final Logger LOGGER = LogManager.getLogger(SecurityApplicationContext.class);
 
-	@Resource(name = "securityService")
-	private UserDetailsService securityService;
-
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/", "/public/**/**", "/css/**/**", "/js/**/**", "/icons/**/**", "/images/**/**",
 				"/error.html", LOGIN_URL, ACCESSDENIED_URL, MAIN_URL);
+		web.debug(true);
 	}
 
 	public void configure(HttpSecurity http) throws Exception {
@@ -58,54 +45,18 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().invalidSessionUrl(LOGIN_URL);
 
 		// Login configuration
-		http.formLogin().loginProcessingUrl("/login").loginPage(LOGIN_URL).failureUrl(LOGIN_URL)
-				.defaultSuccessUrl(HOME_URL);
+		http.formLogin().loginProcessingUrl("/login").loginPage(LOGIN_URL).failureUrl(LOGIN_URL).defaultSuccessUrl(HOME_URL);
 
 		// Exception control configuration
 		http.exceptionHandling().accessDeniedPage(ACCESSDENIED_URL);
 
-		// http.authorizeRequests().anyRequest().authenticated().and().addFilterBefore(buildSecurityFilter(),
-		// FilterSecurityInterceptor.class);
 		http.authorizeRequests().anyRequest().authenticated().antMatchers("/forms/**").hasRole("ADMIN");
-		http.userDetailsService(securityService);
 	}
 
-	/*
-	 * private Filter buildSecurityFilter() throws Exception {
-	 * FilterSecurityInterceptor filter = new FilterSecurityInterceptor();
-	 * RoleVoter roleVoter = new RoleVoter();
-	 * roleVoter.setRolePrefix(StringUtils.EMPTY); AffirmativeBased
-	 * accessDecisionManager = new AffirmativeBased(Arrays.asList(roleVoter, new
-	 * AuthenticatedVoter()));
-	 * filter.setAccessDecisionManager(accessDecisionManager);
-	 * 
-	 * AuthenticationManager authenticationManager = authenticationManager();
-	 * filter.setAuthenticationManager(authenticationManager);
-	 * filter.setSecurityMetadataSource(securityMetadataSource()); return
-	 * filter; }
-	 */
-
-	/*
-	 * @Bean public AuthenticationProvider
-	 * authenticationProvider(UserDetailsService userDetailsService,
-	 * PasswordEncoder passwordEncoder) { DaoAuthenticationProvider provider =
-	 * new DaoAuthenticationProvider();
-	 * provider.setUserDetailsService(userDetailsService);
-	 * provider.setPasswordEncoder(passwordEncoder); return provider; }
-	 */
-
-	@Bean(name="authenticationManager")
+	@Bean(name = "authenticationManager")
 	@Override
-	 public AuthenticationManager authenticationManagerBean() throws Exception {
-	  return super.authenticationManager();
-	 }
-
-	@Bean
-	public FilterInvocationSecurityMetadataSource securityMetadataSource() {
-		LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>>();
-		requestMap.put(new AntPathRequestMatcher("/forms/**"), Arrays.asList());
-		FilterInvocationSecurityMetadataSource metadataSource = new DefaultFilterInvocationSecurityMetadataSource(requestMap);
-		return metadataSource;
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
 	}
 
 	@Bean
