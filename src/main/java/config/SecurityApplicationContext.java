@@ -26,7 +26,7 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 	private static final Logger LOGGER = LogManager.getLogger(SecurityApplicationContext.class);
 
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/", "/public/**/**", "/css/**/**", "/js/**/**", "/icons/**/**", "/images/**/**",
+		web.ignoring().antMatchers("/", "/public/**/**", "/css/**/**", "/js/**/**", "/icons/**/**", "/images/**/**", "/index.html",
 				"/error.html", LOGIN_URL, ACCESSDENIED_URL, MAIN_URL);
 		web.debug(true);
 	}
@@ -45,7 +45,7 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().invalidSessionUrl(LOGIN_URL);
 
 		// Login configuration
-		http.formLogin().loginProcessingUrl("/login").loginPage(LOGIN_URL).failureUrl(LOGIN_URL).defaultSuccessUrl(HOME_URL);
+		http.formLogin().loginProcessingUrl("/login").loginPage(LOGIN_URL).failureUrl(LOGIN_URL).defaultSuccessUrl(HOME_URL, true);
 
 		// Exception control configuration
 		http.exceptionHandling().accessDeniedPage(ACCESSDENIED_URL);

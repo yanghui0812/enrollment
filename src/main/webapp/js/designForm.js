@@ -1,5 +1,6 @@
 jQuery(document).ready(function($) {
-  var buildWrap = document.querySelector('.build-wrap'),
+	window.sessionStorage.removeItem('formData');
+	var buildWrap = document.querySelector('.build-wrap'),
     renderWrap = document.querySelector('.render-wrap'),
     editBtn = document.getElementById('edit-form'),
     formData = window.sessionStorage.getItem('formData'),
