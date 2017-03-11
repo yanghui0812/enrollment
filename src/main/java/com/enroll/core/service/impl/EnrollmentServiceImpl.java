@@ -37,6 +37,7 @@ import com.enroll.core.entity.FormFieldOption;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
 import com.enroll.core.enums.AjaxResultStatus;
+import com.enroll.core.enums.EnrollStatus;
 import com.enroll.core.enums.FormFieldType;
 import com.enroll.core.enums.FormStatus;
 import com.enroll.core.service.EnrollmentService;
@@ -313,6 +314,32 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		AjaxResult<String> result = new AjaxResult<String>(AjaxResultStatus.SUCCESS);
 		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
 		formMeta.setStatus(FormStatus.INACTIVE.getType());
+		return result;
+	}
+
+	@Override
+	public AjaxResult<String> confirmEnrollment(String registerId) {
+		AjaxResult<String> result = new AjaxResult<String>(AjaxResultStatus.SUCCESS);
+		Enrollment enrollment = enrollmentDao.readGenericEntity(Enrollment.class, registerId);
+		if (EnrollStatus.DRAFT.getType().equals(enrollment.getStatus())) {
+			enrollment.setStatus(EnrollStatus.ENROLL.getType());
+		} else {
+			result.setAjaxResultStatus(AjaxResultStatus.FAIL);
+			result.setMessage("当前状态不能取消");
+		}
+		return result;
+	}
+
+	@Override
+	public AjaxResult<String> cancelEnrollment(String registerId) {
+		AjaxResult<String> result = new AjaxResult<String>(AjaxResultStatus.SUCCESS);
+		Enrollment enrollment = enrollmentDao.readGenericEntity(Enrollment.class, registerId);
+		if (EnrollStatus.DRAFT.getType().equals(enrollment.getStatus()) || EnrollStatus.ENROLL.getType().equals(enrollment.getStatus())) {
+			enrollment.setStatus(EnrollStatus.CANCEL.getType());
+		} else {
+			result.setAjaxResultStatus(AjaxResultStatus.FAIL);
+			result.setMessage("当前状态不能取消");
+		}
 		return result;
 	}
 }

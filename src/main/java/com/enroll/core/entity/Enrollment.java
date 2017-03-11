@@ -35,6 +35,9 @@ public class Enrollment implements Serializable {
 	@Column(name = "PHONE_NUMBER")
 	private String phoneNumber;
 	
+	@Column(name = "APPLICANT_NAME")
+	private String applicantName;
+	
 	@Column(name = "ID")
 	private String id;
 	
@@ -142,5 +145,13 @@ public class Enrollment implements Serializable {
 
 	public void setRegisterDate(LocalDateTime registerDate) {
 		this.registerDate = registerDate;
+	}
+
+	public String getApplicantName() {
+		return applicantName;
+	}
+
+	public void setApplicantName(String applicantName) {
+		this.applicantName = applicantName;
 	}
 }

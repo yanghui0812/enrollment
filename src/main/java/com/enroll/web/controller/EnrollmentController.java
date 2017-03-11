@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,6 +16,7 @@ import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
+import com.enroll.core.enums.EnrollStatus;
 import com.enroll.core.service.EnrollmentService;
 
 /**
@@ -56,6 +58,22 @@ public class EnrollmentController {
 	public String saveEnrollment(EnrollmentDTO enroll) {
 		String registrId = enrollmentService.saveEnrollment(enroll);
 		return "redirect:/public/enroll.html?registerId=" + registrId;
+	}
+	
+	/**
+	 * Change the status of enrollment;
+	 * @param registerId
+	 * @param status
+	 * @return String
+	 */
+	@RequestMapping(value = "/enroll/{registerId}", method = RequestMethod.POST)
+	public String updateEnrollment(@PathVariable String registerId, String status) {
+		if (EnrollStatus.ENROLL.getType().equals(status)) {
+			enrollmentService.confirmEnrollment(registerId);
+		} else if (EnrollStatus.CANCEL.getType().equals(status)) {
+			enrollmentService.confirmEnrollment(registerId);
+		}
+		return "redirect:/public/enroll.html?registerId=" + registerId;
 	}
 	
 	/**

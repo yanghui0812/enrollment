@@ -21,6 +21,8 @@ public class EnrollmentDTO implements Serializable {
 	
 	private String phoneNumber;
 	
+	private String applicantName;
+	
 	private String id;
 	
 	private long formId;
@@ -119,6 +121,17 @@ public class EnrollmentDTO implements Serializable {
 	public boolean isDraft() {
 		return EnrollStatus.DRAFT.getType().equals(status);
 	}
+	
+	public boolean canConfirm() {
+		return EnrollStatus.DRAFT.getType().equals(status);
+	}
+	
+	public boolean canCancel() {
+		if (EnrollStatus.CANCEL.getType().equals(status)) {
+			return Boolean.FALSE;
+		}
+		return EnrollStatus.DRAFT.getType().equals(status) || EnrollStatus.ENROLL.getType().equals(status);
+	}
 
 	public LocalDateTime getModifiedDate() {
 		return modifiedDate;
@@ -158,5 +171,13 @@ public class EnrollmentDTO implements Serializable {
 
 	public void setRegisterDate(LocalDateTime registerDate) {
 		this.registerDate = registerDate;
+	}
+
+	public String getApplicantName() {
+		return applicantName;
+	}
+
+	public void setApplicantName(String applicantName) {
+		this.applicantName = applicantName;
 	}
 }

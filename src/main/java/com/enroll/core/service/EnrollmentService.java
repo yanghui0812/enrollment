@@ -64,6 +64,22 @@ public interface EnrollmentService {
 	public String saveEnrollment(EnrollmentDTO enrollmentDTO);
 	
 	/**
+	 * Confirm the enrollment so the information will not be changed except cancellation;
+	 * 
+	 * @param enrollmentDTO
+	 * @return AjaxResult<String>
+	 */
+	public AjaxResult<String> confirmEnrollment(String registerId);
+	
+	/**
+	 * Cancel the enrollment;
+	 * 
+	 * @param String
+	 * @return AjaxResult<String>
+	 */
+	public AjaxResult<String> cancelEnrollment(String registerId);
+	
+	/**
 	 * @param String
 	 * @return EnrollmentDTO
 	 */

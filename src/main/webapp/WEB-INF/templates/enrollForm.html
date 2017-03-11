@@ -17,9 +17,16 @@
         <input type="hidden" name="modifiedDateStr"      th:value="${enroll.modifiedDateStr}" th:if="${enroll != null}">
         <input type="hidden" name="status"               value="draft">
 		<table style="font-size: 13px;">
-				<tr align="center">
+				<tr align="center" th:if="${enroll != null}">
 		            <td  align="center">注册号：<span th:text="${enroll != null} ? ${enroll.registerId} : ''"></span></td>
 		            <td  align="center">电话: <input name="phoneNumber" th:value="${enroll != null} ? ${enroll.phoneNumber} : ''"></td>
+		        </tr>
+		        <tr align="center">
+		            <td  align="center" rowspan="2">姓名: <input name="applicantName" th:value="${enroll != null} ? ${applicantName} : ''"></td>
+		        </tr>
+				<tr align="center" th:if="${enroll == null}">
+		            <td  align="center">电话: <input name="phoneNumber" th:value="${enroll != null} ? ${enroll.phoneNumber} : ''"></td>
+		            <td  align="center">&nbsp;&nbsp;</td>
 		        </tr>
 		        <tr align="center">
 		            <td align="center">身份证号:<input name="id" th:value="${enroll != null} ? ${enroll.id} : ''"></td>
