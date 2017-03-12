@@ -12,13 +12,13 @@ public class RestBasicResult {
 	}
 
 	public RestBasicResult(RestResultEnum result) {
-		this.code = result.getCode();
-		this.message = result.getReasonPhrase();
+		setMessageAndcode(result);
 	}
 
 	public void setMessageAndcode(RestResultEnum result) {
 		this.code = result.getCode();
-		this.message = result.getReasonPhrase();
+		this.message = result.getMessage();
+		this.status = result.getStatus();
 	}
 
 	public int getStatus() {

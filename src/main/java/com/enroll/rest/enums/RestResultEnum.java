@@ -2,27 +2,35 @@ package com.enroll.rest.enums;
 
 public enum RestResultEnum {
 
-	SUCCESS(1000, "请求成功"), 
-	UNKNOWN_ERROR(1001, "未知的内部错误"), 
-	MALFORMED(1002, "错误的请求"),
-	ENROLL_NOT_EXIST(1003, "报名信息不存在！"),
-	SIGNATURE_FAIL(1008, "签名校验失败");
+	SUCCESS(1000, 200, "请求成功"), 
+	CREATE_SUCCESS(1000, 201, "请求成功"), 
+	UNKNOWN_ERROR(1001, 500, "未知的内部错误"), 
+	MALFORMED(1002, 400, "错误的请求"),
+	ENROLL_NOT_EXIST(1003, 404, "报名信息不存在！"),
+	SIGNATURE_FAIL(1008, 400, "签名校验失败");
 
 	private final int code;
+	
+	private final int status;
 
-	private final String reasonPhrase;
+	private final String message;
 
-	private RestResultEnum(int code, String reasonPhrase) {
+	private RestResultEnum(int code, int status, String message) {
 		this.code = code;
-		this.reasonPhrase = reasonPhrase;
+		this.status = status;
+		this.message = message;
 	}
 
 	public int getCode() {
 		return code;
 	}
 
-	public String getReasonPhrase() {
-		return reasonPhrase;
+	public String getMessage() {
+		return message;
+	}
+
+	public int getStatus() {
+		return status;
 	}
 
 	@Override

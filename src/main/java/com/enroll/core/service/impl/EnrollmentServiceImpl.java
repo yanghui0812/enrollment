@@ -56,12 +56,6 @@ import com.enroll.rest.enums.RestResultEnum;
 public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 
 	private static final Logger LOGGER = LogManager.getLogger(EnrollmentService.class);
-	
-	private static final String PHONE_NUMBER = "phoneNumber";
-	
-	private static final String APPLICANT_NAME = "applicantName";
-	
-	private static final String STATUS = "status";
 
 	@Autowired
 	private EnrollmentDao enrollmentDao;
@@ -201,12 +195,14 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		// Loop to copy and save field value
 		enrollmentDTO.getFieldValueList().stream().forEach(value -> {
 			FormFieldValue fieldValue = new FormFieldValue();
+			FormFieldMeta fieldMeta = formFieldMap.get(value.getFieldId());
 			if (value.getFieldId() != 0) {
 				BeanUtils.copyProperties(value, fieldValue);
 				if (fieldkeyValueMap.containsKey(value.getFieldId())) {
 					fieldValue.setFieldDisplay(getFieldDisplay(value.getFieldId(), value.getFieldValue(), fieldkeyValueMap));
 				}
-				fieldValue.setFieldtype(formFieldMap.get(value.getFieldId()).getType());
+				fieldValue.setFieldtype(fieldMeta.getType());
+				fieldValue.setLabel(fieldMeta.getLabel());
 				enrollment.addFieldValue(fieldValue);
 			}
 		});
@@ -388,7 +384,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				return;
 			}
 			FormFieldMeta fieldMeta = formFieldMap.get(restFieldValue.getName());
-			FormFieldValueDTO fieldValue = new FormFieldValueDTO(request.getFormId(), fieldMeta.getFieldId(), registerId, restFieldValue.getValue());
+			FormFieldValueDTO fieldValue = new FormFieldValueDTO(request.getFormId(), fieldMeta.getFieldId(), registerId, restFieldValue.getValue(), fieldMeta.getName());
 			dto.addFieldValue(fieldValue);
 		});
 		
@@ -397,10 +393,12 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			errorResult.setFieldErrors(fieldErrors);
 			return errorResult;
 		}
-		
+		dto.setRegisterId(registerId);
 		String id = saveEnrollment(dto);
-		RestResult<String> restResult = new RestResult<String>(RestResultEnum.SUCCESS, AppConstant.APP_API_ENROLL_PREFIX + id);
-		return restResult;
+		if (StringUtils.isBlank(registerId)) {
+			return new RestResult<String>(RestResultEnum.CREATE_SUCCESS, AppConstant.APP_API_ENROLL_PREFIX + id);
+		}
+		return new RestResult<String>(RestResultEnum.SUCCESS, AppConstant.APP_API_ENROLL_PREFIX + id);
 	}
 
 	@Override

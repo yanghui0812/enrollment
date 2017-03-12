@@ -34,6 +34,9 @@ public class FormFieldValue implements Serializable {
 	@Column(name = "FIELD_NAME", nullable = false)
 	private String fieldName;
 	
+	@Column(name = "FIELD_LABEL", nullable = false)
+	private String label;
+	
 	@Column(name = "FIELD_DISPLAY", nullable = false)
 	private String fieldDisplay;
 	
@@ -110,6 +113,14 @@ public class FormFieldValue implements Serializable {
 
 	public void setFieldtype(String fieldtype) {
 		this.fieldtype = fieldtype;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	@Override

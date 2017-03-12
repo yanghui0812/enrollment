@@ -21,7 +21,9 @@ public class FormFieldValueDTO implements Serializable {
 	private String fieldDisplay;
 	
 	private String fieldtype;
-
+	
+	private String label;
+	
 	public FormFieldValueDTO() {
 	}
 
@@ -29,9 +31,10 @@ public class FormFieldValueDTO implements Serializable {
 		this.fieldId = fieldId;
 	}
 	
-	public FormFieldValueDTO(long formId, long fieldId, String registrId, String fieldValue) {
+	public FormFieldValueDTO(long formId, long fieldId, String registrId, String fieldValue, String fieldName) {
 		this(formId, fieldId, fieldValue);
 		this.registerId = registrId;
+		this.fieldName = fieldName;
 	}
 	
 	public FormFieldValueDTO(long formId, long fieldId, String fieldValue) {
@@ -43,6 +46,14 @@ public class FormFieldValueDTO implements Serializable {
 	public FormFieldValueDTO(int fieldId, String fieldValue) {
 		this.fieldId = fieldId;
 		this.fieldValue = fieldValue;
+	}
+	
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	public long getFieldId() {

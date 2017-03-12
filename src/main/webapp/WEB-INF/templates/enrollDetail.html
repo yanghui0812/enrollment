@@ -30,7 +30,7 @@
 		<tbody>
 			<tr th:each="fieldValueArray : ${enroll.pageFields}" bgcolor="#FFFFFF" height="25px" align="center">
                 <td align="center" th:each="formFieldValue, stat : ${fieldValueArray}">
-                   <span th:text="${formFieldValue.fieldName}"></span>:
+                   <span th:text="${formFieldValue.label}"></span>:
                    <span th:text="${formFieldValue.value}"></span>
                 </td>
             </tr>

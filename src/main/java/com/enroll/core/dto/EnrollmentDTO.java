@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.enroll.common.AppConstant;
 import com.enroll.common.DateUtils;
 import com.enroll.core.enums.EnrollStatus;
 import com.enroll.rest.dto.RestFieldValue;
@@ -68,6 +69,9 @@ public class EnrollmentDTO implements Serializable {
 		fieldValueList.stream().forEach(fieldValue -> {
 			list.add(new RestFieldValue(fieldValue.getFieldName(), fieldValue.getValue()));
 		});
+		list.add(new RestFieldValue(AppConstant.PHONE_NUMBER, getPhoneNumber()));
+		list.add(new RestFieldValue(AppConstant.APPLICANT_NAME, getApplicantName()));
+		list.add(new RestFieldValue(AppConstant.STATUS, getStatus()));
 		return list;
 	}
 

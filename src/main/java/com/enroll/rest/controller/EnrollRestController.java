@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,14 @@ import com.enroll.rest.enums.RestFieldError;
 import com.enroll.rest.enums.RestResultEnum;
 
 
+/**
+ * @ClassName EnrollRestController
+ * @Description
+ * Provide restful service to enrollment information resource
+ * @author Leo.yang
+ * @Date Mar 12, 2017 3:23:49 PM
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/api/v1")
 public class EnrollRestController {
@@ -36,7 +45,7 @@ public class EnrollRestController {
 	 * @return RestBasicResult
 	 */
 	@RequestMapping(value = "/enrolls/{registerId}", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
-	public RestBasicResult getEnrollment(String registerId) {
+	public RestBasicResult getEnrollment(@PathVariable String registerId) {
 		if (StringUtils.isBlank(registerId)) {
 			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED);
 			errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.MISSING_VALUE, "注册号")));
@@ -58,11 +67,12 @@ public class EnrollRestController {
 	 * @return RestBasicResult
 	 */
 	@RequestMapping(value = "/enrolls/{registerId}", consumes= "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8", method = RequestMethod.PUT)
-	public RestBasicResult putEnrollment(@RequestBody RestRequest request, String registerId) {
+	public RestBasicResult putEnrollment(@RequestBody RestRequest request, @PathVariable String registerId) {
 		if (StringUtils.isNotBlank(registerId)) {
 			return enrollmentService.saveRestEnrollment(request, registerId);
 		}
 		RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED);
+		errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.MISSING_VALUE, "注册号")));
 		return errorResult;
 	}
 	

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,6 +26,8 @@ public class FormMetaDTO implements Serializable {
 	private LocalDateTime createdDate;
 
 	private String rawJson;
+	
+	private AtomicInteger fieldIndex = new AtomicInteger(0);
 
 	private List<FormFieldMetaDTO> fields = new ArrayList<FormFieldMetaDTO>();
 
@@ -150,6 +153,10 @@ public class FormMetaDTO implements Serializable {
 
 	public void setRawJson(String rawJson) {
 		this.rawJson = rawJson;
+	}
+
+	public int getFieldIndex() {
+		return fieldIndex.getAndIncrement();
 	}
 
 	@Override
