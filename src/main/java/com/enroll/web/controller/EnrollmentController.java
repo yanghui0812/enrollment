@@ -66,7 +66,7 @@ public class EnrollmentController {
 	 * @param status
 	 * @return String
 	 */
-	@RequestMapping(value = "/enroll/{registerId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/enrolls/{registerId}", method = RequestMethod.POST)
 	public String updateEnrollment(@PathVariable String registerId, String status) {
 		if (EnrollStatus.ENROLL.getType().equals(status)) {
 			enrollmentService.confirmEnrollment(registerId);

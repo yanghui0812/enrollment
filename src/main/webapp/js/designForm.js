@@ -82,13 +82,13 @@ jQuery(document).ready(function($) {
 		rules: {
 			formName: {
 				required: true,
-				minlength: 10
+				minlength: 5
 			}
 		},
 		messages: {
 			formName: {
 				required: "请输入表单的名字",
-				minlength: "表单名字的长度要大于10"
+				minlength: "表单名字的长度要大于5"
 			}
 		},
 		submitHandler: function(form){

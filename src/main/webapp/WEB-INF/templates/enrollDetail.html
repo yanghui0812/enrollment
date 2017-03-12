@@ -37,7 +37,7 @@
 		</tbody>
 	</table>
 	<a th:href="@{/public/updateEnroll.html?registerId=} + ${enroll.registerId}" th:if="${enroll.isDraft()}">等等，我还想修改一下</a>
-	<form id="detailForm" th:action="@{/public/enroll/} + ${enroll.registerId}" method="post">
+	<form id="detailForm" th:action="@{/public/enrolls/} + ${enroll.registerId}" method="post">
 		<input type="hidden" name="status" value="enroll">
 		<a class="confirm" href="javascript:void(0);" th:if="${enroll.canConfirm()}">我要确认</a><br>
 		<a class="cancel"  href="javascript:void(0);" th:if="${enroll.canCancel()}">我要取消</a><br>

@@ -9,6 +9,8 @@ import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
+import com.enroll.rest.dto.RestBasicResult;
+import com.enroll.rest.dto.RestRequest;
 
 public interface EnrollmentService {
 
@@ -62,6 +64,23 @@ public interface EnrollmentService {
 	 * @return String
 	 */
 	public String saveEnrollment(EnrollmentDTO enrollmentDTO);
+	
+	/**
+	 * Save rest request enrollment information and then return register Id;
+	 * 
+	 * @param request
+	 * @param registerId
+	 * @return RestBasicResult
+	 */
+	public RestBasicResult saveRestEnrollment(RestRequest request, String registerId);
+	
+	/**
+	 * Save rest request enrollment information and then return register Id;
+	 * 
+	 * @param request
+	 * @return RestBasicResult
+	 */
+	public RestBasicResult saveRestEnrollment(RestRequest request);
 	
 	/**
 	 * Confirm the enrollment so the information will not be changed except cancellation;

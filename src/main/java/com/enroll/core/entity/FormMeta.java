@@ -3,7 +3,9 @@ package com.enroll.core.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 
 @Entity
@@ -99,6 +102,14 @@ public class FormMeta implements Serializable {
 	public void addFormFieldMeta(FormFieldMeta formFieldMeta) {
 		formFieldMeta.setFormMeta(this);
 		formFieldMetaList.add(formFieldMeta);
+	}
+	
+	public Map<String, FormFieldMeta> getFormFieldMetaMap() {
+		Map<String, FormFieldMeta> formFieldMap = new HashMap<>();
+		getFormFieldMetaList().stream().forEach(formField -> {
+			formFieldMap.put(StringUtils.trim(formField.getName()), formField);
+		});
+		return formFieldMap;
 	}
 	
 	public void clearAllFormFieldMeta() {

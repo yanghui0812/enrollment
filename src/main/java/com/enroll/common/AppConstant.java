@@ -9,5 +9,7 @@ public interface AppConstant {
 
 	/** represent true **/
 	public static final String FALSE = "N";
+			
+	public static final String APP_API_ENROLL_PREFIX = "/public/enrolls/";
 
 }

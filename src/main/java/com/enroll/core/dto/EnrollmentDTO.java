@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.enroll.common.DateUtils;
 import com.enroll.core.enums.EnrollStatus;
+import com.enroll.rest.dto.RestFieldValue;
 
 
 public class EnrollmentDTO implements Serializable {
@@ -59,6 +60,14 @@ public class EnrollmentDTO implements Serializable {
 		if (array[1] == null) {
 			array[1] = new FormFieldValueDTO();
 		}
+		return list;
+	}
+	
+	public List<RestFieldValue> getRestFieldValueList() {
+		List<RestFieldValue> list = new ArrayList<>();
+		fieldValueList.stream().forEach(fieldValue -> {
+			list.add(new RestFieldValue(fieldValue.getFieldName(), fieldValue.getValue()));
+		});
 		return list;
 	}
 

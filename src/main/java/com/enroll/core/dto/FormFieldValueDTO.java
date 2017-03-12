@@ -30,10 +30,13 @@ public class FormFieldValueDTO implements Serializable {
 	}
 	
 	public FormFieldValueDTO(long formId, long fieldId, String registrId, String fieldValue) {
-		super();
+		this(formId, fieldId, fieldValue);
+		this.registerId = registrId;
+	}
+	
+	public FormFieldValueDTO(long formId, long fieldId, String fieldValue) {
 		this.formId = formId;
 		this.fieldId = fieldId;
-		this.registerId = registrId;
 		this.fieldValue = fieldValue;
 	}
 

@@ -2,6 +2,7 @@ package com.enroll.core.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,12 +43,25 @@ import com.enroll.core.enums.EnrollStatus;
 import com.enroll.core.enums.FormFieldType;
 import com.enroll.core.enums.FormStatus;
 import com.enroll.core.service.EnrollmentService;
+import com.enroll.rest.dto.PropertyError;
+import com.enroll.rest.dto.RestBasicResult;
+import com.enroll.rest.dto.RestErrorResult;
+import com.enroll.rest.dto.RestRequest;
+import com.enroll.rest.dto.RestResult;
+import com.enroll.rest.enums.RestFieldError;
+import com.enroll.rest.enums.RestResultEnum;
 
 @Service("enrollmentService")
 @Transactional
 public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 
 	private static final Logger LOGGER = LogManager.getLogger(EnrollmentService.class);
+	
+	private static final String PHONE_NUMBER = "phoneNumber";
+	
+	private static final String APPLICANT_NAME = "applicantName";
+	
+	private static final String STATUS = "status";
 
 	@Autowired
 	private EnrollmentDao enrollmentDao;
@@ -109,12 +124,11 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		Objects.requireNonNull(formMetaDTO);
 		FormMeta formMeta = null;
 		LocalDateTime date = LocalDateTime.now();
-		Map<String, FormFieldMeta> formFieldMap = new HashMap<>();
+		@SuppressWarnings("unchecked")
+		Map<String, FormFieldMeta> formFieldMap = MapUtils.EMPTY_SORTED_MAP;
 		if (formMetaDTO.getFormId() > 0) {
 			formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formMetaDTO.getFormId());
-			formMeta.getFormFieldMetaList().stream().forEach(formField -> {
-				formFieldMap.put(StringUtils.trim(formField.getName()), formField);
-			});
+			formFieldMap = formMeta.getFormFieldMetaMap();
 			formMeta.clearAllFormFieldMeta();
 			LOGGER.info("Remove all the form field metadata from {}", formMetaDTO.getFormId());
 		} else {
@@ -341,5 +355,56 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			result.setMessage("当前状态不能取消");
 		}
 		return result;
+	}
+
+	@Override
+	public RestBasicResult saveRestEnrollment(RestRequest request, String registerId) {
+		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, request.getFormId());
+		if (formMeta == null) {
+			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED);
+			errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.MISSING_VALUE, "formId")));
+			return errorResult;
+		}
+		List<PropertyError> fieldErrors = new ArrayList<>();
+		Map<String, FormFieldMeta> formFieldMap = formMeta.getFormFieldMetaMap();
+		EnrollmentDTO dto = new EnrollmentDTO();
+		dto.setFormId(request.getFormId());
+		request.getData().stream().forEach(restFieldValue -> {
+			String fieldName = StringUtils.trim(restFieldValue.getName());
+			if (!(formFieldMap.containsKey(fieldName) || PHONE_NUMBER.equals(fieldName) || APPLICANT_NAME.equals(fieldName)  || STATUS.equals(fieldName))) {
+				fieldErrors.add(new PropertyError(RestFieldError.MISSING_FIELD, fieldName));
+				return;
+			}
+			if (PHONE_NUMBER.equals(fieldName)) {
+				dto.setPhoneNumber(restFieldValue.getValue());
+				return;
+			}
+			if (APPLICANT_NAME.equals(fieldName)) {
+				dto.setApplicantName(restFieldValue.getValue());
+				return;
+			}
+			if (STATUS.equals(fieldName)) {
+				dto.setStatus(restFieldValue.getValue());
+				return;
+			}
+			FormFieldMeta fieldMeta = formFieldMap.get(restFieldValue.getName());
+			FormFieldValueDTO fieldValue = new FormFieldValueDTO(request.getFormId(), fieldMeta.getFieldId(), registerId, restFieldValue.getValue());
+			dto.addFieldValue(fieldValue);
+		});
+		
+		if (!fieldErrors.isEmpty()) {
+			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED);
+			errorResult.setFieldErrors(fieldErrors);
+			return errorResult;
+		}
+		
+		String id = saveEnrollment(dto);
+		RestResult<String> restResult = new RestResult<String>(RestResultEnum.SUCCESS, AppConstant.APP_API_ENROLL_PREFIX + id);
+		return restResult;
+	}
+
+	@Override
+	public RestBasicResult saveRestEnrollment(RestRequest request) {
+		return saveRestEnrollment(request, null);
 	}
 }

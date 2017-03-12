@@ -27,7 +27,7 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/", "/public/**/**", "/css/**/**", "/js/**/**", "/icons/**/**", "/images/**/**", "/index.html",
-				"/error.html", LOGIN_URL, ACCESSDENIED_URL, MAIN_URL);
+				"/error.html", LOGIN_URL, ACCESSDENIED_URL, MAIN_URL, "/api/**/**");
 		web.debug(true);
 	}
 

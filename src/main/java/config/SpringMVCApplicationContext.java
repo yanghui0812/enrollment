@@ -25,7 +25,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({ "com.enroll.web.controller" })
+@ComponentScan({ "com.enroll.web.controller" ,"com.enroll.rest.controller"})
 public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter implements ServletContextAware {
 
 	private ServletContext servletContext;
