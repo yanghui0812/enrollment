@@ -2,6 +2,7 @@ package com.enroll.rest.utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,38 +25,46 @@ public final class Signature {
 
 	@SuppressWarnings("unchecked")
 	public static String getSign(Object obj) {
-		List<String> list = new ArrayList<String>();
-		Class cls = obj.getClass();
+		List<String> nameValuePairList = new ArrayList<String>();
 		List<RestFieldValue> fieldValueList = null;
-		Field[] fields = cls.getDeclaredFields();
+		List<Field> fieldList = getClassFieldList(obj);
 		try {
-			for (Field f : fields) {
-				f.setAccessible(true);
-				if (StringUtils.equals(f.getName(), "data")) {
-					fieldValueList = (List<RestFieldValue>) f.get(obj);
+			for (Field field : fieldList) {
+				field.setAccessible(true);
+				if (StringUtils.equals(field.getName(), "data")) {
+					fieldValueList = (List<RestFieldValue>) field.get(obj);
 					continue;
 				}
-				if (StringUtils.equals(f.getName(), "fieldErrors")) {
-					fieldValueList = (List<RestFieldValue>) f.get(obj);
+				if (StringUtils.equals(field.getName(), "fieldErrors")) {
+					fieldValueList = (List<RestFieldValue>) field.get(obj);
 					continue;
 				}
-				if (!StringUtils.equals(f.getName(), "signature") && f.get(obj) != null
-						&& !StringUtils.EMPTY.equals(f.get(obj))) {
-					list.add(f.getName() + AppConstant.EQUAL_SIGN + f.get(obj));
+				if (!StringUtils.equals(field.getName(), "signature") && field.get(obj) != null
+						&& !StringUtils.EMPTY.equals(field.get(obj))) {
+					nameValuePairList.add(field.getName() + AppConstant.EQUAL_SIGN + field.get(obj));
 				}
 			}
-			list.addAll(getDataPayload(fieldValueList));
-			Collections.sort(list);
-			String result = list.stream().collect(Collectors.joining(AppConstant.AND_SIGN));
-			result += "key=" + AppConstant.WECHAT_KEY;
-			LOGGER.info("String Before Hmac:" + result);
+			nameValuePairList.addAll(getDataPayload(fieldValueList));
+			Collections.sort(nameValuePairList);
+			String result = nameValuePairList.stream().collect(Collectors.joining(AppConstant.AND_SIGN));
+			result += "&key=" + AppConstant.WECHAT_KEY;
+			LOGGER.info("Name and value pairs before HmacSHA256 are:" + result);
 			result = HMACSHA256(result.getBytes("UTF-8"), AppConstant.WECHAT_KEY.getBytes("UTF-8")).toUpperCase();
-			LOGGER.info("Sign Result:" + result);
+			LOGGER.info("Signature is:" + result);
 			return result;
 		} catch (Exception e) {
-			LOGGER.error("Sign Result:" + e);
+			LOGGER.error("Error happened when signing:" + e);
 		}
 		return StringUtils.EMPTY;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private static List<Field> getClassFieldList(Object obj) {
+		Class cls = obj.getClass();
+		List<Field> fieldList = new ArrayList<>();
+		fieldList.addAll(Arrays.asList(cls.getDeclaredFields()));
+		fieldList.addAll(Arrays.asList(cls.getSuperclass().getDeclaredFields()));
+		return fieldList;
 	}
 
 	private static List<String> getDataPayload(List<RestFieldValue> list) {
@@ -77,7 +86,7 @@ public final class Signature {
 		try {
 			signForAPIRequest = getSign(obj);
 		} catch (Exception e) {
-			LOGGER.error("Error happened when sign request " + e);
+			LOGGER.error("Error happened when signing request " + e);
 			return false;
 		}
 		if (!StringUtils.equals(signature, signForAPIRequest)) {
@@ -96,8 +105,8 @@ public final class Signature {
 			return byte2hex(mac.doFinal(data));
 		} catch (Exception e) {
 			LOGGER.error("Error happened when init HMAC" + e);
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 
 	public static String byte2hex(byte[] b) {

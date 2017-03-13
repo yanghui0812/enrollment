@@ -58,8 +58,9 @@ public class EnrollmentRestController {
 		EnrollmentDTO dto = enrollmentService.findEnrollment(registerId);
 		if (dto == null) {
 			result = new RestErrorResult(RestResultEnum.ENROLL_NOT_EXIST, NonceUtils.getNonceString());
+		} else{
+			result = new RestResult<List<RestFieldValue>>(RestResultEnum.SUCCESS, NonceUtils.getNonceString(), dto.getRestFieldValueList());
 		}
-		result = new RestResult<List<RestFieldValue>>(RestResultEnum.SUCCESS, NonceUtils.getNonceString(), dto.getRestFieldValueList());
 		result.setSignature(Signature.getSign(result));
 		return result;
 	}
@@ -73,7 +74,9 @@ public class EnrollmentRestController {
 	@RequestMapping(value = "/enrolls/{registerId}", consumes= "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8", method = RequestMethod.PUT)
 	public RestBasicResult putEnrollment(@RequestBody RestRequest request, @PathVariable String registerId) {
 		if (!Signature.checkSignature(request)) {
-			return RestErrorResult.SIGNATURE_ERROR_RESULT;
+			RestErrorResult errorResult = RestErrorResult.createSignatureErrorResult();
+			errorResult.setSignature(Signature.getSign(errorResult));
+			return errorResult;
 		}
 		if (StringUtils.isNotBlank(registerId)) {
 			RestBasicResult result = enrollmentService.saveRestEnrollment(request, registerId);
@@ -95,8 +98,7 @@ public class EnrollmentRestController {
 	@RequestMapping(value = "/enrolls", consumes= "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
 	public RestBasicResult postEnrollment(@RequestBody RestRequest request) {
 		if (!Signature.checkSignature(request)) {
-			RestErrorResult errorResult = RestErrorResult.SIGNATURE_ERROR_RESULT;
-			errorResult.setNonce(NonceUtils.getNonceString());
+			RestErrorResult errorResult = RestErrorResult.createSignatureErrorResult();
 			errorResult.setSignature(Signature.getSign(errorResult));
 			return errorResult;
 		}

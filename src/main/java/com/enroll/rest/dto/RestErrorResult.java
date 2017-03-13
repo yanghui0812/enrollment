@@ -10,12 +10,10 @@ import org.apache.commons.lang3.StringUtils;
 import com.enroll.common.AppConstant;
 import com.enroll.rest.enums.RestFieldError;
 import com.enroll.rest.enums.RestResultEnum;
+import com.enroll.rest.utils.NonceUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class RestErrorResult extends RestBasicResult {
-	
-	@JsonIgnore
-	public static final RestErrorResult SIGNATURE_ERROR_RESULT = new RestErrorResult(RestResultEnum.MALFORMED, Arrays.asList(new PropertyError(RestFieldError.INVALID_VALUE, "signature")));
 	
 	@JsonIgnore
 	private List<PropertyError> fieldErrors;
@@ -44,6 +42,11 @@ public class RestErrorResult extends RestBasicResult {
 
 	public void setFieldErrors(List<PropertyError> fieldErrors) {
 		this.fieldErrors = fieldErrors;
+	}
+	
+	@JsonIgnore
+	public static RestErrorResult createSignatureErrorResult() {
+		return new RestErrorResult(RestResultEnum.MALFORMED, Arrays.asList(new PropertyError(RestFieldError.INVALID_VALUE, "signature")), NonceUtils.getNonceString());
 	}
 
 	public String getFieldErrorMessage() {

@@ -3,21 +3,21 @@ package com.enroll.rest.enums;
 public enum RestResultEnum {
 
 	SUCCESS(1000, 200, "请求成功"), 
-	CREATE_SUCCESS(1000, 201, "请求成功"), 
+	CREATE_SUCCESS(1000, 201, "创建请求成功"), 
 	UNKNOWN_ERROR(1001, 500, "未知的内部错误"), 
-	MALFORMED(1002, 400, "错误的请求"),
-	ENROLL_NOT_EXIST(1003, 404, "报名信息不存在！"),
-	SIGNATURE_FAIL(1008, 400, "签名校验失败");
+	MALFORMED(1002, 200, "错误的请求"),
+	ENROLL_NOT_EXIST(1003, 200, "报名信息不存在！"),
+	SIGNATURE_FAIL(1008, 200, "签名校验失败");
 
 	private final int code;
 	
-	private final int status;
+	private final int httpStatus;
 
 	private final String message;
 
 	private RestResultEnum(int code, int status, String message) {
 		this.code = code;
-		this.status = status;
+		this.httpStatus = status;
 		this.message = message;
 	}
 
@@ -30,7 +30,7 @@ public enum RestResultEnum {
 	}
 
 	public int getStatus() {
-		return status;
+		return httpStatus;
 	}
 
 	@Override

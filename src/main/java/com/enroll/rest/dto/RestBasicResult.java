@@ -4,7 +4,7 @@ import com.enroll.rest.enums.RestResultEnum;
 
 public class RestBasicResult {
 
-	private int status;
+	private int httpStatus;
 	
 	private int code;
 	
@@ -25,15 +25,7 @@ public class RestBasicResult {
 	public void setMessageAndcode(RestResultEnum result) {
 		this.code = result.getCode();
 		this.message = result.getMessage();
-		this.status = result.getStatus();
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
+		this.httpStatus = result.getStatus();
 	}
 
 	public int getCode() {
@@ -67,9 +59,17 @@ public class RestBasicResult {
 	public void setNonce(String nonce) {
 		this.nonce = nonce;
 	}
+	
+	public int getHttpStatus() {
+		return httpStatus;
+	}
+
+	public void setHttpStatus(int httpStatus) {
+		this.httpStatus = httpStatus;
+	}
 
 	@Override
 	public String toString() {
-		return "RestBasicResult [status=" + status + ", code=" + code + ", message=" + message + "]";
+		return "RestBasicResult [status=" + httpStatus + ", code=" + code + ", message=" + message + "]";
 	}
 }

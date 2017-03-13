@@ -397,10 +397,13 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		}
 		dto.setRegisterId(registerId);
 		String id = saveEnrollment(dto);
+		List<RestFieldValue> list = Arrays.asList(new RestFieldValue(AppConstant.ENROLL_URL, AppConstant.APP_API_ENROLL_PREFIX + id));
+		//Create new enrollment
 		if (StringUtils.isBlank(registerId)) {
-			return new RestResult<RestFieldValue>(RestResultEnum.CREATE_SUCCESS, NonceUtils.getNonceString(), new RestFieldValue(AppConstant.ENROLL_URL, AppConstant.APP_API_ENROLL_PREFIX + id));
+			return new RestResult<List<RestFieldValue>>(RestResultEnum.CREATE_SUCCESS, NonceUtils.getNonceString(), list);
 		}
-		return new RestResult<RestFieldValue>(RestResultEnum.SUCCESS, NonceUtils.getNonceString(), new RestFieldValue(AppConstant.ENROLL_URL, AppConstant.APP_API_ENROLL_PREFIX + id));
+		//Update existing enrollment
+		return new RestResult<List<RestFieldValue>>(RestResultEnum.SUCCESS, NonceUtils.getNonceString(), list);
 	}
 
 	@Override
