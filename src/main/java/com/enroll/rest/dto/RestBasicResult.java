@@ -5,14 +5,21 @@ import com.enroll.rest.enums.RestResultEnum;
 public class RestBasicResult {
 
 	private int status;
+	
 	private int code;
+	
 	private String message;
+	
+	private String signature;
+	
+	private String nonce;
 
 	public RestBasicResult() {
 	}
 
-	public RestBasicResult(RestResultEnum result) {
+	public RestBasicResult(RestResultEnum result, String nonce) {
 		setMessageAndcode(result);
+		this.nonce = nonce;
 	}
 
 	public void setMessageAndcode(RestResultEnum result) {
@@ -43,6 +50,22 @@ public class RestBasicResult {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
+	public String getNonce() {
+		return nonce;
+	}
+
+	public void setNonce(String nonce) {
+		this.nonce = nonce;
 	}
 
 	@Override

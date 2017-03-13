@@ -6,8 +6,8 @@ public class RestResult<T> extends RestBasicResult {
 
 	private T data;
 
-	public RestResult(RestResultEnum result, T data) {
-		super(result);
+	public RestResult(RestResultEnum result, String nonce, T data) {
+		super(result, nonce);
 		this.data = data;
 	}
 

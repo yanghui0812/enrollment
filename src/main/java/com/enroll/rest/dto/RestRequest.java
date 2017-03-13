@@ -1,22 +1,21 @@
 package com.enroll.rest.dto;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-public class RestRequest implements Serializable {
-
-	private static final long serialVersionUID = 5748159200905920457L;
-
+public class RestRequest {
+	
 	@NotNull
-	private Long formId;
+	private String formId;
 	
 	@NotNull
 	private String appId;
 	
 	@NotNull
 	private String signature;
+	
+	private String nonce;
 
 	private List<RestFieldValue> data;
 
@@ -26,14 +25,6 @@ public class RestRequest implements Serializable {
 
 	public void setData(List<RestFieldValue> data) {
 		this.data = data;
-	}
-
-	public Long getFormId() {
-		return formId;
-	}
-
-	public void setFormId(Long formId) {
-		this.formId = formId;
 	}
 
 	public String getAppId() {
@@ -50,5 +41,21 @@ public class RestRequest implements Serializable {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	public String getFormId() {
+		return formId;
+	}
+
+	public void setFormId(String formId) {
+		this.formId = formId;
+	}
+
+	public String getNonce() {
+		return nonce;
+	}
+
+	public void setNonce(String nonce) {
+		this.nonce = nonce;
 	}
 }

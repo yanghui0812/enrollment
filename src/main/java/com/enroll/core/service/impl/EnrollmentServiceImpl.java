@@ -46,10 +46,12 @@ import com.enroll.core.service.EnrollmentService;
 import com.enroll.rest.dto.PropertyError;
 import com.enroll.rest.dto.RestBasicResult;
 import com.enroll.rest.dto.RestErrorResult;
+import com.enroll.rest.dto.RestFieldValue;
 import com.enroll.rest.dto.RestRequest;
 import com.enroll.rest.dto.RestResult;
 import com.enroll.rest.enums.RestFieldError;
 import com.enroll.rest.enums.RestResultEnum;
+import com.enroll.rest.utils.NonceUtils;
 
 @Service("enrollmentService")
 @Transactional
@@ -355,16 +357,16 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 
 	@Override
 	public RestBasicResult saveRestEnrollment(RestRequest request, String registerId) {
-		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, request.getFormId());
+		EnrollmentDTO dto = new EnrollmentDTO();
+		dto.setFormId(Long.valueOf(request.getFormId()));
+		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, dto.getFormId());
 		if (formMeta == null) {
-			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED);
+			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED, NonceUtils.getNonceString());
 			errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.MISSING_VALUE, "formId")));
 			return errorResult;
 		}
 		List<PropertyError> fieldErrors = new ArrayList<>();
 		Map<String, FormFieldMeta> formFieldMap = formMeta.getFormFieldMetaMap();
-		EnrollmentDTO dto = new EnrollmentDTO();
-		dto.setFormId(request.getFormId());
 		request.getData().stream().forEach(restFieldValue -> {
 			String fieldName = StringUtils.trim(restFieldValue.getName());
 			if (!(formFieldMap.containsKey(fieldName) || PHONE_NUMBER.equals(fieldName) || APPLICANT_NAME.equals(fieldName)  || STATUS.equals(fieldName))) {
@@ -384,21 +386,21 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				return;
 			}
 			FormFieldMeta fieldMeta = formFieldMap.get(restFieldValue.getName());
-			FormFieldValueDTO fieldValue = new FormFieldValueDTO(request.getFormId(), fieldMeta.getFieldId(), registerId, restFieldValue.getValue(), fieldMeta.getName());
+			FormFieldValueDTO fieldValue = new FormFieldValueDTO(dto.getFormId(), fieldMeta.getFieldId(), registerId, restFieldValue.getValue(), fieldMeta.getName());
 			dto.addFieldValue(fieldValue);
 		});
 		
 		if (!fieldErrors.isEmpty()) {
-			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED);
+			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED, NonceUtils.getNonceString());
 			errorResult.setFieldErrors(fieldErrors);
 			return errorResult;
 		}
 		dto.setRegisterId(registerId);
 		String id = saveEnrollment(dto);
 		if (StringUtils.isBlank(registerId)) {
-			return new RestResult<String>(RestResultEnum.CREATE_SUCCESS, AppConstant.APP_API_ENROLL_PREFIX + id);
+			return new RestResult<RestFieldValue>(RestResultEnum.CREATE_SUCCESS, NonceUtils.getNonceString(), new RestFieldValue(AppConstant.ENROLL_URL, AppConstant.APP_API_ENROLL_PREFIX + id));
 		}
-		return new RestResult<String>(RestResultEnum.SUCCESS, AppConstant.APP_API_ENROLL_PREFIX + id);
+		return new RestResult<RestFieldValue>(RestResultEnum.SUCCESS, NonceUtils.getNonceString(), new RestFieldValue(AppConstant.ENROLL_URL, AppConstant.APP_API_ENROLL_PREFIX + id));
 	}
 
 	@Override

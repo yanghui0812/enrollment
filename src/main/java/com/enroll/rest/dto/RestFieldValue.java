@@ -1,13 +1,9 @@
 package com.enroll.rest.dto;
 
-import java.io.Serializable;
-
-public class RestFieldValue implements Serializable {
-
-	private static final long serialVersionUID = 6354724255148804197L;
-
+public class RestFieldValue {
+	
 	private String name;
-	private String value;	
+	private String value;
 
 	public RestFieldValue() {
 	}

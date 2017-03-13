@@ -22,6 +22,8 @@ import com.enroll.rest.dto.RestRequest;
 import com.enroll.rest.dto.RestResult;
 import com.enroll.rest.enums.RestFieldError;
 import com.enroll.rest.enums.RestResultEnum;
+import com.enroll.rest.utils.NonceUtils;
+import com.enroll.rest.utils.Signature;
 
 
 /**
@@ -34,7 +36,7 @@ import com.enroll.rest.enums.RestResultEnum;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class EnrollRestController {
+public class EnrollmentRestController {
 	
 	@Resource(name = "enrollmentService")
 	private EnrollmentService enrollmentService;
@@ -47,16 +49,18 @@ public class EnrollRestController {
 	@RequestMapping(value = "/enrolls/{registerId}", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
 	public RestBasicResult getEnrollment(@PathVariable String registerId) {
 		if (StringUtils.isBlank(registerId)) {
-			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED);
+			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED, NonceUtils.getNonceString());
 			errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.MISSING_VALUE, "注册号")));
+			errorResult.setSignature(Signature.getSign(errorResult));
 			return errorResult;
 		}
 		RestBasicResult result = null;
 		EnrollmentDTO dto = enrollmentService.findEnrollment(registerId);
 		if (dto == null) {
-			result = new RestErrorResult(RestResultEnum.ENROLL_NOT_EXIST);
+			result = new RestErrorResult(RestResultEnum.ENROLL_NOT_EXIST, NonceUtils.getNonceString());
 		}
-		result = new RestResult<List<RestFieldValue>>(RestResultEnum.SUCCESS, dto.getRestFieldValueList());
+		result = new RestResult<List<RestFieldValue>>(RestResultEnum.SUCCESS, NonceUtils.getNonceString(), dto.getRestFieldValueList());
+		result.setSignature(Signature.getSign(result));
 		return result;
 	}
 	
@@ -68,11 +72,17 @@ public class EnrollRestController {
 	 */
 	@RequestMapping(value = "/enrolls/{registerId}", consumes= "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8", method = RequestMethod.PUT)
 	public RestBasicResult putEnrollment(@RequestBody RestRequest request, @PathVariable String registerId) {
-		if (StringUtils.isNotBlank(registerId)) {
-			return enrollmentService.saveRestEnrollment(request, registerId);
+		if (!Signature.checkSignature(request)) {
+			return RestErrorResult.SIGNATURE_ERROR_RESULT;
 		}
-		RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED);
-		errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.MISSING_VALUE, "注册号")));
+		if (StringUtils.isNotBlank(registerId)) {
+			RestBasicResult result = enrollmentService.saveRestEnrollment(request, registerId);
+			result.setSignature(Signature.getSign(result));
+			return result;
+		}
+		RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED, NonceUtils.getNonceString());
+		errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.INVALID_VALUE, "注册号")));
+		errorResult.setSignature(Signature.getSign(errorResult));
 		return errorResult;
 	}
 	
@@ -84,7 +94,15 @@ public class EnrollRestController {
 	 */
 	@RequestMapping(value = "/enrolls", consumes= "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
 	public RestBasicResult postEnrollment(@RequestBody RestRequest request) {
-		return enrollmentService.saveRestEnrollment(request);
+		if (!Signature.checkSignature(request)) {
+			RestErrorResult errorResult = RestErrorResult.SIGNATURE_ERROR_RESULT;
+			errorResult.setNonce(NonceUtils.getNonceString());
+			errorResult.setSignature(Signature.getSign(errorResult));
+			return errorResult;
+		}
+		RestBasicResult result = enrollmentService.saveRestEnrollment(request);
+		result.setSignature(Signature.getSign(result));
+		return result;
 	}
 	
 	/**
