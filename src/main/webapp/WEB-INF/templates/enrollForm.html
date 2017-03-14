@@ -6,8 +6,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="description" content="HTML 5 CSS 3 Spring Form" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
-	<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
-	<script type="text/javascript" th:src="@{/js/enroll.js}"></script>
 </head>
 <body>
    <form id="enrollForm" th:action="@{/public/enroll.html}" method="POST">
@@ -40,7 +38,7 @@
 					   <span th:if="${fieldMeta.isRequired()}">*</span>
 					   <span th:text="${fieldMeta.label}"></span>
 					   <div th:if="${fieldMeta.isText()}">
-					        <input class="xlarge form-control" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}">
+					        <input th:class="${fieldMeta.CssClass}" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}">
 					   </div>
 					   <div th:if="${fieldMeta.isSelect()}">
 	                        <select class="form-control" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'">
@@ -71,5 +69,8 @@
 		   <a class="save"     href="javascript:void(0);" style="margin-top:-3px">暂存</a>
 		   <a class="register" href="javascript:void(0);" style="margin-top:-3px">提交</a>
 	</form>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/enroll.js}"></script>
 </body>
 </html>

@@ -326,7 +326,7 @@ $.extend( $.validator, {
 	messages: {
 		required: "请输入必填项.",
 		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
+		email: "请输入有效的邮件地址.",
 		url: "Please enter a valid URL.",
 		date: "Please enter a valid date.",
 		dateISO: "Please enter a valid date ( ISO ).",
@@ -335,7 +335,7 @@ $.extend( $.validator, {
 		creditcard: "Please enter a valid credit card number.",
 		equalTo: "Please enter the same value again.",
 		maxlength: $.validator.format( "请不要输入超过 {0} 位数字." ),
-		minlength: $.validator.format( "Please enter at least {0} characters." ),
+		minlength: $.validator.format( "请输入最少 {0} 字符." ),
 		rangelength: $.validator.format( "Please enter a value between {0} and {1} characters long." ),
 		range: $.validator.format( "Please enter a value between {0} and {1}." ),
 		max: $.validator.format( "Please enter a value less than or equal to {0}." ),

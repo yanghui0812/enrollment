@@ -53,6 +53,9 @@ public class FormFieldMeta implements Serializable {
 	@Column(name = "FIELD_TYPE", nullable = false)
 	private String type;
 	
+	@Column(name = "FIELD_SUBTYPE", nullable = false)
+	private String subtype;
+	
 	@Column(name = "FIELD_CONSTRAINT", nullable = false)
 	private String fieldConstraint;
 	
@@ -215,5 +218,13 @@ public class FormFieldMeta implements Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	public String getSubtype() {
+		return subtype;
+	}
+
+	public void setSubtype(String subtype) {
+		this.subtype = subtype;
 	}
 }

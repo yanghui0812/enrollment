@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum Options {
 
-	TRUE("1", "是"), FALSE("0", "否");
+	TRUE("true", "是"), FALSE("false", "否");
 
 	private String type;
 	private String desc;

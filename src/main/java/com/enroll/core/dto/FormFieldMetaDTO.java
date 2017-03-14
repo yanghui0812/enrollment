@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.enroll.core.enums.FormFieldSubtype;
 import com.enroll.core.enums.FormFieldType;
 import com.enroll.core.enums.Options;
 
@@ -20,6 +21,8 @@ public class FormFieldMetaDTO implements Serializable {
 	private String label;
 
 	private String type;
+
+	private String subtype;
 
 	private String fieldConstraint;
 
@@ -96,6 +99,28 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public boolean isRadioGroup() {
 		return FormFieldType.RADIO_GROUP.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isTel() {
+		return FormFieldSubtype.Tel.equals(FormFieldSubtype.getFieldType(subtype));
+	}
+
+	public String getCssClass() {
+		StringBuilder sb = new StringBuilder();
+		if (isRequired()) {
+			sb.append("required ");
+		}
+		if (isTel()) {
+			sb.append("telphone ");
+		}
+		if (isEmail()) {
+			sb.append("email ");
+		}
+		return sb.toString();
+	}
+
+	public boolean isEmail() {
+		return FormFieldSubtype.EMAIL.equals(FormFieldSubtype.getFieldType(subtype));
 	}
 
 	public boolean hasOptions() {
@@ -196,6 +221,14 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public void setOptions(List<FormFieldOptionDTO> options) {
 		this.options = options;
+	}
+
+	public String getSubtype() {
+		return subtype;
+	}
+
+	public void setSubtype(String subtype) {
+		this.subtype = subtype;
 	}
 
 	@Override

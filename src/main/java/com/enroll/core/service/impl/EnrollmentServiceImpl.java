@@ -143,6 +143,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				formFieldMeta = new FormFieldMeta();
 			}
 			BeanUtils.copyProperties(formField, formFieldMeta, "options", "fieldId");
+			formFieldMeta.setRequired(formField.getRequired());
 			formMeta.addFormFieldMeta(formFieldMeta);
 
 			// Group the options data if any
