@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -141,11 +142,24 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 	}
 
 	@Override
-	public SearchResult<Enrollment> findEnrollmentPage(SearchCriteria<EnrollmentQuery> query) {
+	public SearchResult<Enrollment> findEnrollmentPage(SearchCriteria<EnrollmentQuery> searchCriteria) {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
 		Root<Enrollment> root = countCriteria.from(Enrollment.class);
-		Predicate predicate = builder.like(root.get("phoneNumber"), query.getLikeSearchValue());
+		Predicate predicate = null; 
+		EnrollmentQuery query = searchCriteria.getCondition();
+		/*if (StringUtils.isNotBlank(query.get)) {
+			predicate = builder.like(root.get("phoneNumber"), searchCriteria.getLikeSearchValue());
+		}*/
+		
+		if (query.getFormId() > 0) {
+			predicate = builder.equal(root.get("formId"), query.getFormId());
+		}
+		
+		if (StringUtils.isNotBlank(query.getStatus())) {
+			predicate = builder.and(predicate, builder.equal(root.get("status"), query.getStatus()));
+		}
+		
 		countCriteria.select(builder.countDistinct(root));
 		countCriteria.where(predicate);
 		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
@@ -153,8 +167,8 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 		CriteriaQuery<Enrollment> criteria = builder.createQuery(Enrollment.class);
 		criteria.select(criteria.from(Enrollment.class));
 		criteria.where(predicate);
-		List<Enrollment> formMetasList = getEntityManager().createQuery(criteria).setFirstResult(query.getStart())
-				.setMaxResults(query.getPageSize()).getResultList();
+		List<Enrollment> formMetasList = getEntityManager().createQuery(criteria).setFirstResult(searchCriteria.getStart())
+				.setMaxResults(searchCriteria.getPageSize()).getResultList();
 
 		SearchResult<Enrollment> searchResult = new SearchResult<Enrollment>();
 

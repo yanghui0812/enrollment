@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ import com.enroll.core.entity.FormFieldOption;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
 import com.enroll.core.enums.AjaxResultStatus;
-import com.enroll.core.enums.EnrollStatus;
+import com.enroll.core.enums.EnrollmentStatus;
 import com.enroll.core.enums.FormFieldType;
 import com.enroll.core.enums.FormStatus;
 import com.enroll.core.service.EnrollmentService;
@@ -145,18 +146,34 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			BeanUtils.copyProperties(formField, formFieldMeta, "options", "fieldId");
 			formFieldMeta.setRequired(formField.getRequired());
 			formMeta.addFormFieldMeta(formFieldMeta);
-
+			
+			boolean isApplicantSlot = formField.isSelect() && formField.hasApplicantSlot();
+			
 			// Group the options data if any
 			if (!CollectionUtils.isEmpty(formField.getOptions())) {
+				Map<String, FormFieldOption> optionMap = formFieldMeta.getFieldOptionMetaMap();
+				formFieldMeta.clearFieldOption();
 				for (FormFieldOptionDTO option : formField.getOptions()) {
-					FormFieldOption fieldOption = new FormFieldOption();
+					FormFieldOption fieldOption = null;
+					if (optionMap.containsKey(option.getLabel())) {
+						fieldOption = optionMap.get(option.getLabel());
+					} else {
+						fieldOption = new FormFieldOption();
+					}
+					
 					BeanUtils.copyProperties(option, fieldOption);
 					formFieldMeta.addFormFieldOption(fieldOption);
+					if (isApplicantSlot) {
+						fieldOption.setSlot(option.getValue());
+						fieldOption.setValue(fieldOption.getLabel());
+						LOGGER.info("The number of applicant for form {} is limited to {} at {}", formMeta.getFormName(), option.getValue(), option.getLabel());
+					}
 					if (StringUtils.isBlank(option.getValue())) {
 						fieldOption.setValue(String.valueOf(formFieldMeta.getSizeOfFieldOptions()));
 					}
 				}
 			}
+			
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.info("Form {} has field metadata {}", formMetaDTO.getFormId(), formFieldMeta.toString());
 			}
@@ -334,8 +351,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	public AjaxResult<String> confirmEnrollment(String registerId) {
 		AjaxResult<String> result = new AjaxResult<String>(AjaxResultStatus.SUCCESS);
 		Enrollment enrollment = enrollmentDao.readGenericEntity(Enrollment.class, registerId);
-		if (EnrollStatus.DRAFT.getType().equals(enrollment.getStatus())) {
-			enrollment.setStatus(EnrollStatus.ENROLL.getType());
+		if (EnrollmentStatus.DRAFT.getType().equals(enrollment.getStatus())) {
+			enrollment.setStatus(EnrollmentStatus.ENROLL.getType());
 		} else {
 			result.setAjaxResultStatus(AjaxResultStatus.FAIL);
 			result.setMessage("当前状态不能取消");
@@ -347,8 +364,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	public AjaxResult<String> cancelEnrollment(String registerId) {
 		AjaxResult<String> result = new AjaxResult<String>(AjaxResultStatus.SUCCESS);
 		Enrollment enrollment = enrollmentDao.readGenericEntity(Enrollment.class, registerId);
-		if (EnrollStatus.DRAFT.getType().equals(enrollment.getStatus()) || EnrollStatus.ENROLL.getType().equals(enrollment.getStatus())) {
-			enrollment.setStatus(EnrollStatus.CANCEL.getType());
+		if (EnrollmentStatus.DRAFT.getType().equals(enrollment.getStatus()) || EnrollmentStatus.ENROLL.getType().equals(enrollment.getStatus())) {
+			enrollment.setStatus(EnrollmentStatus.CANCEL.getType());
 		} else {
 			result.setAjaxResultStatus(AjaxResultStatus.FAIL);
 			result.setMessage("当前状态不能取消");
@@ -368,28 +385,35 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		}
 		List<PropertyError> fieldErrors = new ArrayList<>();
 		Map<String, FormFieldMeta> formFieldMap = formMeta.getFormFieldMetaMap();
-		request.getData().stream().forEach(restFieldValue -> {
+		
+		String slotField = StringUtils.EMPTY;
+		for (RestFieldValue restFieldValue : request.getData()) {
+		
 			String fieldName = StringUtils.trim(restFieldValue.getName());
 			if (!(formFieldMap.containsKey(fieldName) || PHONE_NUMBER.equals(fieldName) || APPLICANT_NAME.equals(fieldName)  || STATUS.equals(fieldName))) {
 				fieldErrors.add(new PropertyError(RestFieldError.MISSING_FIELD, fieldName));
-				return;
+				break;
 			}
 			if (PHONE_NUMBER.equals(fieldName)) {
 				dto.setPhoneNumber(restFieldValue.getValue());
-				return;
+				continue;
 			}
 			if (APPLICANT_NAME.equals(fieldName)) {
 				dto.setApplicantName(restFieldValue.getValue());
-				return;
+				continue;
 			}
 			if (STATUS.equals(fieldName)) {
 				dto.setStatus(restFieldValue.getValue());
-				return;
+				continue;
 			}
 			FormFieldMeta fieldMeta = formFieldMap.get(restFieldValue.getName());
+			
+			if (fieldMeta.hasApplicantSlot()) {
+				slotField = restFieldValue.getValue();
+			}
 			FormFieldValueDTO fieldValue = new FormFieldValueDTO(dto.getFormId(), fieldMeta.getFieldId(), registerId, restFieldValue.getValue(), fieldMeta.getName());
 			dto.addFieldValue(fieldValue);
-		});
+		}
 		
 		if (!fieldErrors.isEmpty()) {
 			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED, NonceUtils.getNonceString());
@@ -397,6 +421,12 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			return errorResult;
 		}
 		dto.setRegisterId(registerId);
+		
+		//Make sure that the applicant slot is still available;
+		if (!isApplicantSlotAvailable(Long.valueOf(request.getFormId()), slotField)) {
+			return new RestErrorResult(RestResultEnum.NO_SLOT_AVAILABLE, NonceUtils.getNonceString());
+		}
+		
 		String id = saveEnrollment(dto);
 		List<RestFieldValue> list = Arrays.asList(new RestFieldValue(AppConstant.ENROLL_URL, AppConstant.APP_API_ENROLL_PREFIX + id));
 		//Create new enrollment
@@ -410,5 +440,93 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	@Override
 	public RestBasicResult saveRestEnrollment(RestRequest request) {
 		return saveRestEnrollment(request, null);
+	}
+
+	@Override
+	public RestBasicResult findApplicantSlot(Long formId) {
+		Map<String, String> slotMap = findApplicantSlotMap(formId);
+		if (slotMap.isEmpty()) {
+			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED, NonceUtils.getNonceString());
+			errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.INVALID_VALUE, "formId")));
+			return errorResult;
+		}
+		List<RestFieldValue> result = new ArrayList<>();
+		slotMap.entrySet().stream().forEach(entry -> {
+			result.add(new RestFieldValue(entry.getKey(), entry.getValue()));
+		});
+		return new RestResult<List<RestFieldValue>>(RestResultEnum.SUCCESS, NonceUtils.getNonceString(), result);
+	}
+	
+	private boolean isApplicantSlotAvailable(Long formId, String fieldValue) {
+		if (StringUtils.isBlank(fieldValue) || formId == null) {
+			return false;
+		}
+		Map<String, String> map = findApplicantSlotMap(formId);
+		String[] array = map.get(fieldValue).split(COLON);
+		return Integer.valueOf(array[0]) > Integer.valueOf(array[1]);
+	}
+	
+	private Map<String, String> findApplicantSlotMap(Long formId) {
+		Map<String, String> resultMap = new HashMap<>();
+		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
+		if (formMeta == null) {
+			return resultMap;
+		}
+				
+		//Get the enrollment with enroll status
+		SearchResult<Enrollment> searchResult = getAllApplicantsByFormId(formId);
+		Map<String, List<FormFieldValue>> map = null;
+		
+		//Find the number of applicant
+		for (FormFieldMeta fieldMeta : formMeta.getFormFieldMetaList()) {
+			if (fieldMeta.hasApplicantSlot()) {
+				if (map == null) {
+					map = searchResult.getData().stream().flatMap(enrollment -> enrollment.getFieldValueList().stream())
+							.filter(value -> fieldMeta.getFieldId() == value.getFieldId())
+							.collect(Collectors.groupingBy(FormFieldValue::getFieldValue));
+				}
+				for (FormFieldOption option : fieldMeta.getFieldOptionList()) {
+					List<FormFieldValue> fieldValueList = map.get(option.getValue());
+					if (CollectionUtils.isEmpty(fieldValueList)) {
+						resultMap.put(option.getValue(), option.getSlot() + COLON + 0);
+					} else{
+						resultMap.put(option.getValue(), option.getSlot() + COLON + fieldValueList.size());
+					}
+				}
+				break;
+			}
+		}
+		return resultMap;
+	}
+	
+	private SearchResult<Enrollment> getAllApplicantsByFormId(long formId) {
+		SearchCriteria<EnrollmentQuery> query = new SearchCriteria<EnrollmentQuery>(0, 0, Integer.MAX_VALUE);
+		EnrollmentQuery enrollmentQuery = new EnrollmentQuery();
+		enrollmentQuery.setFormId(formId);
+		enrollmentQuery.setStatus(EnrollmentStatus.ENROLL.getType());
+		query.setCondition(enrollmentQuery);
+		return enrollmentDao.findEnrollmentPage(query);
+		
+	}
+	
+	public boolean isApplicantSlotAvailable(Map<Long, String> map, long formId) {
+		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
+		Optional<FormFieldOption> option = formMeta.getFormFieldMetaList().stream().filter(FormFieldMeta::hasApplicantSlot).map(fieldMeta -> {
+			Map<String, FormFieldOption> optionMap = fieldMeta.getFieldOptionMetaMap();
+			return optionMap.get(map.get(fieldMeta.getFieldId()));
+		}).findAny();
+		
+		if (!option.isPresent()) {
+			return true;
+		}
+		
+		long fieldId = option.get().getFormField().getFieldId();
+		String value = map.get(fieldId);
+		
+		//Get the enrollment with enroll status
+		SearchResult<Enrollment> searchResult = getAllApplicantsByFormId(formId);
+		long count = searchResult.getData().stream().flatMap(enrollment -> enrollment.getFieldValueList()
+				.stream()).filter(fieldValue -> fieldId == fieldValue.getFieldId() && StringUtils.equals(fieldValue.getFieldValue(), value)).count();
+		return Long.valueOf(option.get().getSlot()) > count;
 	}
 }

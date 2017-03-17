@@ -30,6 +30,9 @@ public class FormFieldOption implements Serializable {
 	@Column(name = "LABEL", nullable = false)
 	private String label;
 	
+	@Column(name = "SLOT", nullable = false)
+	private String slot;
+	
 	@Column(name = "SELECTED", nullable = false)
 	private String selected;
 
@@ -94,6 +97,14 @@ public class FormFieldOption implements Serializable {
 
 	public void setSelected(String selected) {
 		this.selected = selected;
+	}
+
+	public String getSlot() {
+		return slot;
+	}
+
+	public void setSlot(String slot) {
+		this.slot = slot;
 	}
 
 	@Override

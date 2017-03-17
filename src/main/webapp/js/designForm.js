@@ -1,4 +1,4 @@
-jQuery(document).ready(function($) {
+$(document).ready(function($) {
 	window.sessionStorage.removeItem('formData');
 	var buildWrap = document.querySelector('.build-wrap'),
     renderWrap = document.querySelector('.render-wrap'),

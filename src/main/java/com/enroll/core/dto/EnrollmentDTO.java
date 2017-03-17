@@ -3,13 +3,15 @@ package com.enroll.core.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.enroll.common.AppConstant;
 import com.enroll.common.DateUtils;
-import com.enroll.core.enums.EnrollStatus;
+import com.enroll.core.enums.EnrollmentStatus;
 import com.enroll.rest.dto.RestFieldValue;
 
 
@@ -74,6 +76,14 @@ public class EnrollmentDTO implements Serializable {
 		list.add(new RestFieldValue(AppConstant.STATUS, getStatus()));
 		return list;
 	}
+	
+	public Map<Long, String> getFieldValueMap() {
+		Map<Long, String> map = new HashMap<>();
+		fieldValueList.stream().forEach(fieldValue -> {
+			map.put(fieldValue.getFieldId(), fieldValue.getFieldValue());
+		});
+		return map;
+	}
 
 	public void setFieldValueList(List<FormFieldValueDTO> fieldValueList) {
 		this.fieldValueList = fieldValueList;
@@ -88,7 +98,7 @@ public class EnrollmentDTO implements Serializable {
 	}
 	
 	public String getStatusDesc() {
-		EnrollStatus enrollStatus = EnrollStatus.getEnrollStatus(status);
+		EnrollmentStatus enrollStatus = EnrollmentStatus.getEnrollStatus(status);
 		if (enrollStatus != null) {
 			return enrollStatus.getDesc();
 		}
@@ -132,18 +142,18 @@ public class EnrollmentDTO implements Serializable {
 	}
 	
 	public boolean isDraft() {
-		return EnrollStatus.DRAFT.getType().equals(status);
+		return EnrollmentStatus.DRAFT.getType().equals(status);
 	}
 	
 	public boolean canConfirm() {
-		return EnrollStatus.DRAFT.getType().equals(status);
+		return EnrollmentStatus.DRAFT.getType().equals(status);
 	}
 	
 	public boolean canCancel() {
-		if (EnrollStatus.CANCEL.getType().equals(status)) {
+		if (EnrollmentStatus.CANCEL.getType().equals(status)) {
 			return Boolean.FALSE;
 		}
-		return EnrollStatus.DRAFT.getType().equals(status) || EnrollStatus.ENROLL.getType().equals(status);
+		return EnrollmentStatus.DRAFT.getType().equals(status) || EnrollmentStatus.ENROLL.getType().equals(status);
 	}
 
 	public LocalDateTime getModifiedDate() {

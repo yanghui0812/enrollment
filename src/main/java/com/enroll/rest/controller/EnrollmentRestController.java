@@ -66,6 +66,26 @@ public class EnrollmentRestController {
 	}
 	
 	/**
+	 * Get how many slot available and the total number of slot;
+	 * 
+	 * @param formId
+	 * @param option
+	 * @return RestBasicResult
+	 */
+	@RequestMapping(value = "/slots", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+	public RestBasicResult getApplicantSlot(String formId) {
+		if (StringUtils.isBlank(formId)) {
+			RestErrorResult errorResult = new RestErrorResult(RestResultEnum.MALFORMED, NonceUtils.getNonceString());
+			errorResult.setFieldErrors(Arrays.asList(new PropertyError(RestFieldError.MISSING_VALUE, "表单号")));
+			errorResult.setSignature(Signature.getSign(errorResult));
+			return errorResult;
+		}
+		RestBasicResult result = enrollmentService.findApplicantSlot(Long.valueOf(formId));
+		result.setSignature(Signature.getSign(result));
+		return result;
+	}
+	
+	/**
 	 * Update the register information;
 	 * @param request
 	 * @param registerId
@@ -90,7 +110,7 @@ public class EnrollmentRestController {
 	}
 	
 	/**
-	 * Post register information
+	 * Post register information and it will return error message if applicant slot is not available;
 	 * @param registerId
 	 * @param status
 	 * @return RestBasicResult

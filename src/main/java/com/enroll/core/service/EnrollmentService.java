@@ -1,6 +1,7 @@
 package com.enroll.core.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.EnrollmentDTO;
@@ -105,6 +106,15 @@ public interface EnrollmentService {
 	public EnrollmentDTO findEnrollment(String registerId);
 	
 	/**
+	 * Find the applicant slot
+	 * 
+	 * @param formId
+	 * @param option
+	 * @return RestBasicResult
+	 */
+	public RestBasicResult findApplicantSlot(Long formId);
+	
+	/**
 	 * @param String
 	 * @return SearchResult<EnrollmentDTO>
 	 */
@@ -115,4 +125,13 @@ public interface EnrollmentService {
 	 * @return
 	 */
 	public SearchResult<FormMetaDTO> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria);
+	
+	/**
+	 * Check if applicant slot is still available;
+	 * 
+	 * @param map
+	 * @param formId
+	 * @return boolean
+	 */
+	public boolean isApplicantSlotAvailable(Map<Long, String> map, long formId);
 }

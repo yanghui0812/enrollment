@@ -4,6 +4,8 @@ public interface AppConstant {
 
 	public static final String COMMA = ",";
 	
+	public static final String COLON = ":";
+	
 	/** represent true **/
 	public static final String TRUE = "Y";
 

@@ -106,6 +106,30 @@ public class Enrollment implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
+	public String getRegisterId() {
+		return registerId;
+	}
+
+	public void setRegisterId(String registerId) {
+		this.registerId = registerId;
+	}
+
+	public LocalDateTime getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(LocalDateTime registerDate) {
+		this.registerDate = registerDate;
+	}
+
+	public String getApplicantName() {
+		return applicantName;
+	}
+
+	public void setApplicantName(String applicantName) {
+		this.applicantName = applicantName;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -129,29 +153,5 @@ public class Enrollment implements Serializable {
 		} else if (!registerId.equals(other.registerId))
 			return false;
 		return true;
-	}
-
-	public String getRegisterId() {
-		return registerId;
-	}
-
-	public void setRegisterId(String registerId) {
-		this.registerId = registerId;
-	}
-
-	public LocalDateTime getRegisterDate() {
-		return registerDate;
-	}
-
-	public void setRegisterDate(LocalDateTime registerDate) {
-		this.registerDate = registerDate;
-	}
-
-	public String getApplicantName() {
-		return applicantName;
-	}
-
-	public void setApplicantName(String applicantName) {
-		this.applicantName = applicantName;
 	}
 }

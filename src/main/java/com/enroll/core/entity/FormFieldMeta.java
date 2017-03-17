@@ -41,9 +41,6 @@ public class FormFieldMeta implements Serializable {
 	@JoinColumn(name = "FORM_ID", nullable = false)
 	private FormMeta formMeta;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "formField", fetch = FetchType.LAZY)
-	private List<FormFieldOption> fieldOptionList = new ArrayList<FormFieldOption>();
-	
 	@Column(name = "FIELD_NAME", nullable = false)
 	private String name;
 	
@@ -56,6 +53,9 @@ public class FormFieldMeta implements Serializable {
 	@Column(name = "FIELD_SUBTYPE", nullable = false)
 	private String subtype;
 	
+	@Column(name = "FIELD_IS_SLOT", nullable = false)
+	private String slot;
+	
 	@Column(name = "FIELD_CONSTRAINT", nullable = false)
 	private String fieldConstraint;
 	
@@ -64,6 +64,9 @@ public class FormFieldMeta implements Serializable {
 	
 	@Column(name = "FIELD_STYLE", nullable = false)
 	private String fieldStyle;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "formField", fetch = FetchType.LAZY)
+	private List<FormFieldOption> fieldOptionList = new ArrayList<FormFieldOption>();	
 
 	public FormFieldMeta() {
 	}
@@ -132,10 +135,22 @@ public class FormFieldMeta implements Serializable {
 		return Collections.unmodifiableCollection(fieldOptionList);
 	}
 	
+	public void clearFieldOption() {
+		fieldOptionList.clear();
+	}
+	
 	public Map<String, String> getFieldOptionMap() {
 		Map<String, String> map = new HashMap<>();
 		fieldOptionList.stream().forEach(option -> {
 			map.put(option.getValue(), option.getLabel());
+		});
+		return map;
+	}
+	
+	public Map<String, FormFieldOption> getFieldOptionMetaMap() {
+		Map<String, FormFieldOption> map = new HashMap<>();
+		fieldOptionList.stream().forEach(option -> {
+			map.put(option.getLabel(), option);
 		});
 		return map;
 	}
@@ -147,6 +162,10 @@ public class FormFieldMeta implements Serializable {
 	public void addFormFieldOption(FormFieldOption dto) {
 		dto.setFormField(this);
 		fieldOptionList.add(dto);
+	}
+	
+	public boolean hasApplicantSlot() {
+		return "true".equals(getSlot());
 	}
 
 	public int getPosition() {
@@ -226,5 +245,13 @@ public class FormFieldMeta implements Serializable {
 
 	public void setSubtype(String subtype) {
 		this.subtype = subtype;
+	}
+
+	public String getSlot() {
+		return slot;
+	}
+
+	public void setSlot(String slot) {
+		this.slot = slot;
 	}
 }

@@ -23,8 +23,7 @@ public class FormFieldOptionDTO implements Serializable {
 	public FormFieldOptionDTO() {
 	}
 
-	public FormFieldOptionDTO(int position, FormFieldMetaDTO formField, String value, String display,
-			String description) {
+	public FormFieldOptionDTO(int position, FormFieldMetaDTO formField, String value, String display, String description) {
 		super();
 		this.position = position;
 		this.formField = formField;
@@ -77,6 +76,22 @@ public class FormFieldOptionDTO implements Serializable {
 		this.formField = formField;
 	}
 
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getSelected() {
+		return selected;
+	}
+
+	public void setSelected(String selected) {
+		this.selected = selected;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -121,21 +136,5 @@ public class FormFieldOptionDTO implements Serializable {
 		} else if (!value.equals(other.value))
 			return false;
 		return true;
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	public String getSelected() {
-		return selected;
-	}
-
-	public void setSelected(String selected) {
-		this.selected = selected;
 	}
 }

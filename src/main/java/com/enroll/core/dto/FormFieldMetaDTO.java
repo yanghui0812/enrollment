@@ -23,6 +23,8 @@ public class FormFieldMetaDTO implements Serializable {
 	private String type;
 
 	private String subtype;
+	
+	private String slot;
 
 	private String fieldConstraint;
 
@@ -103,6 +105,10 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public boolean isTel() {
 		return FormFieldSubtype.Tel.equals(FormFieldSubtype.getFieldType(subtype));
+	}
+	
+	public boolean hasApplicantSlot() {
+		return "true".equals(getSlot());
 	}
 
 	public String getCssClass() {
@@ -322,5 +328,13 @@ public class FormFieldMetaDTO implements Serializable {
 				+ label + ", type=" + type + ", fieldConstraint=" + fieldConstraint + ", fieldDefaultValue="
 				+ fieldDefaultValue + ", className=" + className + ", name=" + name + ", inputFieldValue="
 				+ inputFieldValue + ", formMeta=" + formMeta + ", options=" + options + "]";
+	}
+
+	public String getSlot() {
+		return slot;
+	}
+
+	public void setSlot(String slot) {
+		this.slot = slot;
 	}
 }

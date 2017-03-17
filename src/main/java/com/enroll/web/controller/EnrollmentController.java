@@ -16,7 +16,7 @@ import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
-import com.enroll.core.enums.EnrollStatus;
+import com.enroll.core.enums.EnrollmentStatus;
 import com.enroll.core.service.EnrollmentService;
 
 /**
@@ -56,6 +56,10 @@ public class EnrollmentController {
 	 */
 	@RequestMapping(value = "/enroll.html", method = RequestMethod.POST)
 	public String saveEnrollment(EnrollmentDTO enroll) {
+		boolean available = enrollmentService.isApplicantSlotAvailable(enroll.getFieldValueMap(), enroll.getFormId());
+		if (!available) {
+			return "redirect:/public/error";
+		}
 		String registrId = enrollmentService.saveEnrollment(enroll);
 		return "redirect:/public/enroll.html?registerId=" + registrId;
 	}
@@ -68,9 +72,9 @@ public class EnrollmentController {
 	 */
 	@RequestMapping(value = "/enrolls/{registerId}", method = RequestMethod.POST)
 	public String updateEnrollment(@PathVariable String registerId, String status) {
-		if (EnrollStatus.ENROLL.getType().equals(status)) {
+		if (EnrollmentStatus.ENROLL.getType().equals(status)) {
 			enrollmentService.confirmEnrollment(registerId);
-		} else if (EnrollStatus.CANCEL.getType().equals(status)) {
+		} else if (EnrollmentStatus.CANCEL.getType().equals(status)) {
 			enrollmentService.confirmEnrollment(registerId);
 		}
 		return "redirect:/public/enroll.html?registerId=" + registerId;

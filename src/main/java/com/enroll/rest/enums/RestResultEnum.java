@@ -6,7 +6,8 @@ public enum RestResultEnum {
 	CREATE_SUCCESS(1000, 201, "创建请求成功"), 
 	UNKNOWN_ERROR(1001, 500, "未知的内部错误"), 
 	MALFORMED(1002, 200, "错误的请求"),
-	ENROLL_NOT_EXIST(1003, 200, "报名信息不存在！"),
+	ENROLL_NOT_EXIST(1003, 200, "报名信息不存在"),
+	NO_SLOT_AVAILABLE(1004, 200, "报名名额已满"),
 	SIGNATURE_FAIL(1008, 200, "签名校验失败");
 
 	private final int code;
