@@ -519,7 +519,6 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		if (!option.isPresent()) {
 			return true;
 		}
-		
 		long fieldId = option.get().getFormField().getFieldId();
 		String value = map.get(fieldId);
 		
