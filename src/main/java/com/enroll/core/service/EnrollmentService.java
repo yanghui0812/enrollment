@@ -46,6 +46,14 @@ public interface EnrollmentService {
 	public AjaxResult<String> publishForm(Long formId);
 	
 	/**
+	 * Copy the current and save as a new form
+	 * 
+	 * @param formId
+	 * @return AjaxResult<String>
+	 */
+	public AjaxResult<String> duplicateForm(Long formId);
+	
+	/**
 	 * @Description
 	 * Disable the form;
 	 * @param formId

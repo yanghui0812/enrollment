@@ -29,6 +29,7 @@ $(document).ready(function() {
 		            	var updateUrl = '<a href="' + prefixForUpdate + '">修改</a>';
 		            	var publishUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + '" data-status="publish">发布</a>';
 		            	var inactiveUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + '" data-status="inactive">删除</a>';
+		            	var copyUrl = '<a class="copyForm" href="javascript:void(0);" data-formId="' + data + '">复制</a>';
 		            	var result = '';
 		            	if (full.canUpdate) {
 		            		result = updateUrl;
@@ -39,7 +40,8 @@ $(document).ready(function() {
 		            	if (full.canInactive) {
 		            		result = result + '</br>' + inactiveUrl;
 		            	}
-		            	result = result + '</br><a href="' + prefixForEnroll + '?formId=' + data + '">去报名</a>';
+		            	result = result + '</br>' + copyUrl;
+		            	result = result + '</br><a href="' + prefixForEnroll + '?formId=' + data + '">预览</a>';
 		    			return result; 
 			    	 } }
 		        ],
@@ -48,13 +50,24 @@ $(document).ready(function() {
 	    	$( '.publishOrInactive' ).bind( "click", function(event) {
         		var op = $(event.target).data('status');
         		var formId = $(event.target).data('formid');
-        		var url = ($(':hidden[name=formMetaUpdateUrl]').val()).replace('{formId}', formId);
-        		$.post(url, {"status": op}, function(data) {
+        		var requestUrl = ($(':hidden[name=formMetaUpdateUrl]').val()).replace('{formId}', formId);
+        		$.ajax({method: "POST", url: requestUrl, data: {"status": op}, dataType: "json"}).done(function( data ) {
         			formTable.draw( 'full-hold' );
         			if (data.status == '200') {
         				alert(data.message);
         			}
-        		}, "json");
+        		});
+        	});
+	    	
+	    	$( '.copyForm' ).bind( "click", function(event) {
+        		var formId = $(event.target).data('formid');
+        		var requestUrl = $(':hidden[name=copyUrl]').val();
+        		$.ajax({method: "POST", url: requestUrl, data: {"formId": formId}}).done(function( data ) {
+        			formTable.draw( 'full-hold' );
+        			if (data.status == '200') {
+        				alert(data.message);
+        			}
+        		});
         	});
 	   });
 });

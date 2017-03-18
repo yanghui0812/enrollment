@@ -93,13 +93,18 @@ $(document).ready(function($) {
 		},
 		submitHandler: function(form){
 			var para = groupParameter();
-			var url = $("#saveFormMeta").val();
-			$.post(url, para, function( data ) {
-			  if (data.status == 'success') {
-				  $('#formId').val(data.data);
-				  $('#message').text('保存成功');
-			  }
-		  });
+			var requestMethod = "POST";
+			var requestUrl = $("#saveFormMeta").val();
+			if ($("#formId").val()) {
+				requestMethod = "PUT";
+				requestUrl = requestUrl + "/" + $("#formId").val();
+			}
+			$.ajax({method: requestMethod, url: requestUrl, data: JSON.stringify(para), dataType: "json", contentType : "application/json"}).done(function( data ) {
+				if (data.status == 'success') {
+					$('#formId').val(data.data);
+					$('#message').text('保存成功');
+				}
+    		});
         } 
   });
 });

@@ -529,4 +529,39 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				.stream()).filter(fieldValue -> fieldId == fieldValue.getFieldId() && StringUtils.equals(fieldValue.getFieldValue(), value)).count();
 		return Long.valueOf(option.get().getSlot()) > count;
 	}
+
+	@Override
+	public AjaxResult<String> duplicateForm(Long formId) {
+		AjaxResult<String> result = new AjaxResult<String>(AjaxResultStatus.SUCCESS);
+		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
+		if (formMeta == null) {
+			result.setAjaxResultStatus(AjaxResultStatus.FAIL);
+			result.setMessage("表单不存在");
+			return result;
+		}
+		
+		FormMeta newFormMeta = new FormMeta();
+		BeanUtils.copyProperties(formMeta, newFormMeta, "formFieldMetaList", "formId", "modifiedDate");
+		String formName = LocalDateTime.now().format(DateUtils.YYYYMMDDHHMMSSSSS) + "_" + formMeta.getFormName();
+		if (formName.length() > 50) {
+			formName = StringUtils.substring(LocalDateTime.now().format(DateUtils.YYYYMMDDHHMMSSSSS) + "_" + formMeta.getFormName(), 0, 50);
+		}
+		newFormMeta.setFormName(formName);
+		newFormMeta.setStatus(FormStatus.DRAFT.getType());
+		
+		List<FormFieldMeta> newFieldMetaList = formMeta.getFormFieldMetaList().stream().map(fieldMeta -> {
+			FormFieldMeta newFieldMeta = new FormFieldMeta();
+			BeanUtils.copyProperties(fieldMeta, newFieldMeta, "fieldOptionList", "fieldId");
+			fieldMeta.getFieldOptionList().stream().forEach(option -> {
+				FormFieldOption newOption = new FormFieldOption();
+				BeanUtils.copyProperties(option, newOption);
+				newFieldMeta.addFormFieldOption(newOption);
+			});
+			newFieldMeta.setFormMeta(newFormMeta);
+			return newFieldMeta;
+		}).collect(Collectors.toList());
+		newFormMeta.setFormFieldMetaList(newFieldMetaList);
+		enrollmentDao.save(newFormMeta);
+		return result;
+	}
 }

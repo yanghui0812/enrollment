@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,7 +76,7 @@ public class FormDesignController {
 	 */
 	@RequestMapping(value = "/forms/{formId}", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult<String> updateForm(@PathVariable Long formId, String status){
+	public AjaxResult<String> updateFormStatus(@PathVariable Long formId, String status){
 		if (FormStatus.PUBLISH.getType().equals(status)) {
 			return enrollmentService.publishForm(formId);
 		}
@@ -83,22 +84,46 @@ public class FormDesignController {
 			return enrollmentService.inactiveForm(formId);
 		}
 		AjaxResult<String> ajaxResult = new AjaxResult<String>(AjaxResultStatus.FAIL);
-		ajaxResult.setMessage("不支持当天操作");
+		ajaxResult.setMessage("不支持当前的操作");
 		return ajaxResult;
+	}
+	
+	@RequestMapping(value = "/copyForm", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult<String> duplicateForm(Long formId){
+		return enrollmentService.duplicateForm(formId);
 	}
 	
 	/**
 	 * @Description
-	 * Save all the fields on design form and the default status is draft. It has to be published if 
+	 * Save all the fields of design form and the default status is draft. It has to be published if 
 	 * it wants to be used for enrollment.
 	 * @param formMeta
 	 * @param result
 	 * @param model
 	 * @return AjaxResult<String>
 	 */
-	@RequestMapping(value = "/forms", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+	@RequestMapping(value = "/forms", consumes = {"application/json"}, produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult<Long> saveForm(FormMetaDTO formMeta, BindingResult result, Model model){
+	public AjaxResult<Long> saveForm(@RequestBody FormMetaDTO formMeta, BindingResult result, Model model){
+		formMeta.setStatus(FormStatus.DRAFT.getType());
+		formMeta = enrollmentService.saveFormMeta(formMeta);
+		AjaxResult<Long> ajaxResult = new AjaxResult<Long>(AjaxResultStatus.SUCCESS);
+		ajaxResult.setData(formMeta.getFormId());
+		return ajaxResult;
+	}
+	
+	/**
+	 * @Description
+	 * Update the existing design form
+	 * @param formMeta
+	 * @param result
+	 * @param model
+	 * @return AjaxResult<Long>
+	 */
+	@RequestMapping(value = "/forms/{formId}", consumes = {"application/json"}, produces = "application/json; charset=UTF-8", method = RequestMethod.PUT)
+	@ResponseBody
+	public AjaxResult<Long> updateForm(@RequestBody FormMetaDTO formMeta, BindingResult result, Model model){
 		formMeta.setStatus(FormStatus.DRAFT.getType());
 		formMeta = enrollmentService.saveFormMeta(formMeta);
 		AjaxResult<Long> ajaxResult = new AjaxResult<Long>(AjaxResultStatus.SUCCESS);
