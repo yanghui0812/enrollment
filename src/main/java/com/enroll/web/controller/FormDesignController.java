@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -103,27 +102,9 @@ public class FormDesignController {
 	 * @param model
 	 * @return AjaxResult<String>
 	 */
-	@RequestMapping(value = "/forms", consumes = {"application/json"}, produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+	@RequestMapping(value = "/forms", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult<Long> saveForm(@RequestBody FormMetaDTO formMeta, BindingResult result, Model model){
-		formMeta.setStatus(FormStatus.DRAFT.getType());
-		formMeta = enrollmentService.saveFormMeta(formMeta);
-		AjaxResult<Long> ajaxResult = new AjaxResult<Long>(AjaxResultStatus.SUCCESS);
-		ajaxResult.setData(formMeta.getFormId());
-		return ajaxResult;
-	}
-	
-	/**
-	 * @Description
-	 * Update the existing design form
-	 * @param formMeta
-	 * @param result
-	 * @param model
-	 * @return AjaxResult<Long>
-	 */
-	@RequestMapping(value = "/forms/{formId}", consumes = {"application/json"}, produces = "application/json; charset=UTF-8", method = RequestMethod.PUT)
-	@ResponseBody
-	public AjaxResult<Long> updateForm(@RequestBody FormMetaDTO formMeta, BindingResult result, Model model){
+	public AjaxResult<Long> saveForm(FormMetaDTO formMeta, BindingResult result, Model model){
 		formMeta.setStatus(FormStatus.DRAFT.getType());
 		formMeta = enrollmentService.saveFormMeta(formMeta);
 		AjaxResult<Long> ajaxResult = new AjaxResult<Long>(AjaxResultStatus.SUCCESS);

@@ -4,9 +4,11 @@ $(document).ready(function() {
 		"serverSide":true,
 		"srollY": "200px",
 		"sScrollX": true,
+		"searchDelay": 200,
 		"language": {
 			 "sLengthMenu": "显示 _MENU_ 项结果",
 		     "emptyTable": "没有数据",
+		     "search": "搜索:",
 		     "info": "显示第 _PAGE_ 页，共 _PAGES_ 页, _TOTAL_ 条记录",
 		     "paginate": {
 		           "next": "下一页",

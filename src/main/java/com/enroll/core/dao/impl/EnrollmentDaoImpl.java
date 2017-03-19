@@ -151,22 +151,27 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
 		/*if (StringUtils.isNotBlank(query.get)) {
 			predicate = builder.like(root.get("phoneNumber"), searchCriteria.getLikeSearchValue());
 		}*/
-		
-		if (query.getFormId() > 0) {
-			predicate = builder.equal(root.get("formId"), query.getFormId());
-		}
-		
-		if (StringUtils.isNotBlank(query.getStatus())) {
-			predicate = builder.and(predicate, builder.equal(root.get("status"), query.getStatus()));
+		if (query != null) {
+			if (query.getFormId() > 0) {
+				predicate = builder.equal(root.get("formId"), query.getFormId());
+			}
+			if (StringUtils.isNotBlank(query.getStatus())) {
+				predicate = builder.and(predicate, builder.equal(root.get("status"), query.getStatus()));
+			}
 		}
 		
 		countCriteria.select(builder.countDistinct(root));
-		countCriteria.where(predicate);
+		if (predicate != null) {
+			countCriteria.where(predicate);
+		}
+
 		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
 
 		CriteriaQuery<Enrollment> criteria = builder.createQuery(Enrollment.class);
 		criteria.select(criteria.from(Enrollment.class));
-		criteria.where(predicate);
+		if (predicate != null) {
+			criteria.where(predicate);
+		}
 		List<Enrollment> formMetasList = getEntityManager().createQuery(criteria).setFirstResult(searchCriteria.getStart())
 				.setMaxResults(searchCriteria.getPageSize()).getResultList();
 

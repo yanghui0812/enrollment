@@ -15,10 +15,21 @@ import com.enroll.core.entity.User;
 
 public interface EnrollmentDao {
 
+	/**
+	 * @param object
+	 * @return
+	 */
 	public <T> T saveOrUpdate(T object);
 
+	/**
+	 * @param object
+	 */
 	public void evict(Object object);
 
+	/**
+	 * @param object
+	 * @return
+	 */
 	public Object merge(Object object);
 
 	/**
@@ -38,6 +49,11 @@ public interface EnrollmentDao {
 	 */
 	public <T> T save(T object);
 
+	/**
+	 * @param formId
+	 * @param id
+	 * @return
+	 */
 	public List<FormFieldValue> findFormFieldValueList(long formId, String id);
 
 	/**
@@ -54,18 +70,45 @@ public interface EnrollmentDao {
 	 */
 	public void remove(Object object);
 
+	/**
+	 * 
+	 */
 	public void flush();
 
+	/**
+	 * 
+	 */
 	public void clear();
 
+	/**
+	 * @param object
+	 * @return
+	 */
 	public boolean sessionContains(Object object);
 	
+	/**
+	 * @param userName
+	 * @return
+	 * @throws DataAccessException
+	 */
 	public User readUserByName(String userName) throws DataAccessException;
 
+	/**
+	 * @param query
+	 * @return
+	 */
 	public List<FormMeta> findFormMetaList(FormMetaQuery query);
 
+	/**
+	 * @param criteria
+	 * @return
+	 */
 	public SearchResult<FormMeta> findFormMetaPage(SearchCriteria<FormMetaQuery> criteria);
 	
+	/**
+	 * @param criteria
+	 * @return
+	 */
 	public SearchResult<Enrollment> findEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria);
 
 }
