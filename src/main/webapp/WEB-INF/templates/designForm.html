@@ -72,7 +72,8 @@
 			        <form action="" id="designForm">
 				    <input type="hidden" id="saveFormMeta"            th:value="@{/forms}">
 				    <input type="hidden" name="formId" id="formId"    th:value="${formMeta != null} ? ${formMeta.formId} : ''">
-			        <input id="save-form" class="submit" type="submit" value="保存"><button id="edit-form" type="button">继续编辑</button>
+			        <input id="save-form" class="submit" type="submit" value="保存">
+			        <button id="edit-form" type="button">继续编辑</button>
 			        <div id="message"></div>
 		            <div class="container-fluid">
 		                <div class="row">
@@ -109,6 +110,7 @@
 					</div>
 	            </div>
 	        </div>
+	    </div>
             <footer class="footer">
 	            <div class="container-fluid">
 	                <p class="copyright">

@@ -1,44 +1,122 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>页面设计列表</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>上海商业会计学校</title>
+<meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="description" content="HTML 5 CSS 3 Spring Form" />
-<meta name="viewport"    content="width=device-width,initial-scale=1" />
-<link rel="stylesheet"   type="text/css" th:href="@{/css/jquery.dataTables.min.css}" />
-<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
-<script type="text/javascript" th:src="@{/js/lib/jquery.dataTables.js}"></script>
-<script type="text/javascript" th:src="@{/js/enrollList.js}"></script>
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+	name='viewport' />
+<meta name="viewport" content="width=device-width" />
+<link rel="apple-touch-icon" sizes="76x76"
+	th:src="@{/img/apple-icon.png}" />
+<link rel="icon" type="image/png" th:src="@{/img/favicon.png}" />
+<link rel="stylesheet" type='text/css'
+	th:href="@{/css/bootstrap.min.css}" />
+<link rel='stylesheet' type='text/css'
+	th:href="@{/css/material-icons.css}">
+<link rel="stylesheet" type='text/css' th:href="@{/css/main.min.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery.dataTables.min.css}" />
 </head>
 <body>
-	<input type="hidden" name="enrollPageJson"     th:value="@{/public/enrolls}">
-	<input type="hidden" name="enrollDetail"       th:value="@{/public/enroll.html}">
-	<input type="hidden" name="enrollUpdateUrl"    th:value="@{/public/updateEnroll.html}">
-	
-	<table style="width: 67%; margin: 0 auto 2em auto;" border="0">
-        <thead>
-            <tr>
-                <th>Target</th>
-                <th>Search text</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr id="filter_global">
-                <td>Global search</td>
-                <td align="center"><input class="global_filter" id="global_filter" type="text"></td>
-            </tr>
-            <tr id="filter_col3" data-column="3">
-                <td>注册日期开始</td>
-                <td align="center"><input class="column_filter" id="col3_filter" type="text"></td>
-            </tr>
-            <tr id="filter_col4" data-column="3">
-                <td>注册日期结束</td>
-                <td align="center"><input class="column_filter" id="col4_filter" type="text"></td>
-            </tr>
-        </tbody>
-    </table>
-    
-	<table id="enrollTable" class="display" width="100%" cellspacing="0"></table>
+	<div class="wrapper">
+		<div class="sidebar" data-color="green" th:data-image="@{/img/sidebar.jpg}">
+			<div class="logo">
+				<a href="#" class="logo-img"> 上海商业会计学校 </a>
+			</div>
+			<div class="sidebar-wrapper">
+				<ul class="nav">
+					<li class="active"><a href="index.html"> <i
+							class="material-icons">home</i>
+							<p>首页</p>
+					</a></li>
+					<li class=""><a th:href="@{/forms/.html}"> <i
+							class="material-icons">create</i>
+							<p>设计表单</p>
+					</a></li>
+					<li class=""><a th:href="@{/forms.html}"> <i
+							class="material-icons">assignment</i>
+							<p>所有表单</p>
+					</a></li>
+					<li class=""><a th:href="@{/public/enrolls.html}"> <i
+							class="material-icons">dashboard</i>
+							<p>报名列表</p>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="main-panel">
+			<nav class="navbar navbar-transparent navbar-absolute">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse">
+							<span class="sr-only">切换菜单</span> <span class="icon-bar"></span>
+							<span class="icon-bar"></span> <span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#"><i class="material-icons">dashboard</i>&nbsp;&nbsp;报名列表</a>
+					</div>
+				</div>
+			</nav>
+			<div class="content">
+	            <div class="container-fluid">
+	            	<div class="row">
+ 					   <div class="col-md-12">
+						   <div class="card-content table-responsive">
+							    <input type="hidden" name="enrollPageJson"     th:value="@{/public/enrolls}">
+								<input type="hidden" name="enrollDetail"       th:value="@{/public/enroll.html}">
+								<input type="hidden" name="enrollUpdateUrl"    th:value="@{/public/updateEnroll.html}">
+								<div class="col-md-4">
+									<div class="form-group label-floating">
+										<label class="control-label">注册日期从</label>
+										<input type="text" class="form-control">
+									</div>
+                               </div>
+                               <div class="col-md-4">
+									<div class="form-group label-floating">
+										<label class="control-label">注册日期结到</label>
+										<input type="text"  class="form-control">
+									</div>
+                               </div>
+                               <div class="col-md-4">
+	                               <div class="form-group label-floating">
+										<div class="form-group">
+				                        	<input type="text" class="form-control" placeholder="搜索">
+				                        	<span class="material-input"></span>
+										</div>
+	 							   </div>
+ 							   </div>
+						   </div>
+ 					   </div>
+	                <div class="row">
+						<div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-content table-responsive">
+	                              <input type="hidden" name="enrollPageJson"     th:value="@{/public/enrolls}">
+								  <input type="hidden" name="enrollDetail"       th:value="@{/public/enroll.html}">
+								  <input type="hidden" name="enrollUpdateUrl"    th:value="@{/public/updateEnroll.html}">
+								  <table id="enrollTable" class="display"></table>
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
+	            </div>
+	        </div>
+			<footer class="footer">
+				<div class="container-fluid">
+					<p class="copyright">
+						&copy; 2017 <a href="#">上海商业会计学校</a>
+					</p>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.dataTables.js}"></script>
+	<script type="text/javascript" th:src="@{/js/material.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/main.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/enrollList.js}"></script>
 </body>
 </html>
