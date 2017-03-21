@@ -26,7 +26,7 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 	private static final Logger LOGGER = LogManager.getLogger(SecurityApplicationContext.class);
 
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/", "/public/**/**", "/css/**/**", "/js/**/**", "/icons/**/**", "/images/**/**", "/index.html",
+		web.ignoring().antMatchers("/", "/public/**/**", "/css/**/**", "/js/**/**", "/icons/**/**", "/images/**/**", "/img/**/**", "/index.html",
 				"/error.html", LOGIN_URL, ACCESSDENIED_URL, MAIN_URL, "/api/**/**");
 		web.debug(true);
 	}
