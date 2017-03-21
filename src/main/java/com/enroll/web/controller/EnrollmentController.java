@@ -75,7 +75,7 @@ public class EnrollmentController {
 		if (EnrollmentStatus.ENROLL.getType().equals(status)) {
 			enrollmentService.confirmEnrollment(registerId);
 		} else if (EnrollmentStatus.CANCEL.getType().equals(status)) {
-			enrollmentService.confirmEnrollment(registerId);
+			enrollmentService.cancelEnrollment(registerId);
 		}
 		return "redirect:/public/enroll.html?registerId=" + registerId;
 	}

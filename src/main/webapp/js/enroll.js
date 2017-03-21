@@ -17,6 +17,11 @@ $(document).ready(function() {
 		$('#detailForm').submit();
 	});
 	
+	$('.update').click(function() {
+		var href = $( '.update').data( "href" );
+		window.location.href=href; 
+	});
+	
 	
 	$("#enrollForm").validate();
 	$.validator.addMethod("telphone", function(value, element) { 
