@@ -32,23 +32,11 @@ $(document).ready(function() {
 		 order: [[ 2, 'asc' ]]
 	    });
 	
-		function filterGlobal () {
-			table.search(
-		        $('#global_filter').val()
-		    ).draw();
-		}
-		 
-		function filterColumn ( i ) {
-			table.columns(3).search($('#col3_filter').val());
-			table.columns(4).search($('#col4_filter').val());
-			table.draw();
-		}
-	
-		$('input.global_filter').on( 'keyup click', function () {
-			 filterGlobal();
-	    } );
-	 
-	    $('input.column_filter').on( 'keyup click', function () {
-	    	 filterColumn();
+		$('#enrollTable_filter').hide();
+		$('input.global_filter').on( 'keyup click', function () {alert('ddd');
+			var begin = $('input[name=registerDateBegin]').val();
+			var end =   $('input[name=registerDateEnd]').val();
+			table.columns(3).search(begin + '~' + end);
+			table.search($('input[name=search]').val()).draw();
 	    } );
 });

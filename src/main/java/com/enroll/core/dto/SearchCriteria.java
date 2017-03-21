@@ -17,28 +17,10 @@ public class SearchCriteria<T> {
 	private Integer draw;
 	private String type;
 	private T condition;
-
+	
 	public SearchCriteria() {
 		super();
 	}
-
-	/*
-	 * public SearchCriteria(ParameterMap map) { start =
-	 * Integer.valueOf(map.get("start")); pageSize =
-	 * Integer.valueOf(map.get("length")); draw =
-	 * Integer.valueOf(map.get("draw")); search = map.get("search[value]"); type
-	 * = map.get("type"); mappingSearchParameter(map, map.get("search[value]"),
-	 * condition); }
-	 */
-
-	/*
-	 * public SearchCriteria(Map map, T condition) { start =
-	 * Integer.valueOf(map.get("start")); pageSize =
-	 * Integer.valueOf(map.get("length")); draw =
-	 * Integer.valueOf(map.get("draw")); search = map.get("search[value]"); type
-	 * = map.get("type"); this.condition = condition;
-	 * mappingSearchParameter(map, map.get("search[value]"), condition); }
-	 */
 
 	public SearchCriteria(T condition) {
 		this.condition = condition;
@@ -158,11 +140,5 @@ public class SearchCriteria<T> {
 			return search.get("regex");
 		}
 		return StringUtils.EMPTY;
-	}
-
-	@Override
-	public String toString() {
-		return "SearchCriteria [page=" + page + ", start=" + start + ", pageSize=" + pageSize + ", search=" + search
-				+ ", draw=" + draw + ", type=" + type + ", condition=" + condition + "]";
 	}
 }
