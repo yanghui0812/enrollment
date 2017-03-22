@@ -136,7 +136,7 @@ public class FormMetaDTO implements Serializable {
 	}
 	
 	public String getFormatCreatedDate() {
-		return LocalDateTime.now().format(DateUtils.YYYY_MM_DD);
+		return LocalDateTime.now().format(DateUtils.YYYY_MM_DD_HH_MM);
 	}
 
 	public void setCreatedDate(LocalDateTime createdDate) {

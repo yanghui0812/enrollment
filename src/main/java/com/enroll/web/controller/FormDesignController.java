@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
-import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.enums.AjaxResultStatus;
 import com.enroll.core.enums.FormStatus;
+import com.enroll.core.search.SearchCriteria;
 import com.enroll.core.service.EnrollmentService;
 
 /**
@@ -57,10 +58,12 @@ public class FormDesignController {
 	 * @param criteria
 	 * @return SearchResult<FormMetaDTO>
 	 */
-	@RequestMapping(value = "/forms", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryForms", consumes = "application/json; charset=UTF-8", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public SearchResult<FormMetaDTO> designFormPage(SearchCriteria<FormMetaQuery> criteria){
-		SearchResult<FormMetaDTO> result = enrollmentService.findFormMetaPage(criteria);
+	public SearchResult<FormMetaDTO> designFormPage(@RequestBody SearchCriteria criteria){
+		FormMetaQuery query = new FormMetaQuery();
+		criteria.searchMapping(query);
+		SearchResult<FormMetaDTO> result = enrollmentService.findFormMetaPage(query);
 		return result;
 	}
 	

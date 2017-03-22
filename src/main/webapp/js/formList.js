@@ -18,7 +18,11 @@ $(document).ready(function() {
 		  },
 		"ajax": {
 				  "url": $(':hidden[name=formMetaPageUrl]').val(),
-			      "type": "GET"
+				  "contentType": "application/json",
+                  "type": "POST",
+                  "data": function ( d ) {
+                     return JSON.stringify( d );
+                  }
 			   },
 		"columns": [{ "title": "编号", 	"data": "formId" },
 		            { "title": "名字", 	"data": "formName" },
@@ -72,4 +76,9 @@ $(document).ready(function() {
         		});
         	});
 	   });
+	
+	   $('#formTable_filter').hide();
+	   $('input.global_filter').on( 'keyup click', function () {
+		   formTable.search($('input[name=search]').val()).draw();
+	    });
 });

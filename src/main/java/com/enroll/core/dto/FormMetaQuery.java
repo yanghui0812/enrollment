@@ -1,28 +1,43 @@
 package com.enroll.core.dto;
 
-import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
 
-public class FormMetaQuery implements Serializable {
+import com.enroll.core.search.CommonQuery;
+import com.enroll.core.search.SearchField;
 
-	private static final long serialVersionUID = -1791723346286706414L;
+public class FormMetaQuery extends CommonQuery {
 
-	private long formId;
+	private SearchField formId;
 
-	private String formName;
+	private SearchField formName;
 
-	public long getFormId() {
+	public SearchField getFormId() {
 		return formId;
 	}
 
-	public void setFormId(long formId) {
+	public void setFormId(SearchField formId) {
 		this.formId = formId;
 	}
 
-	public String getFormName() {
+	public SearchField getFormName() {
 		return formName;
 	}
 
-	public void setFormName(String formName) {
+	public void setFormName(SearchField formName) {
 		this.formName = formName;
+	}
+
+	public long getSearchFormId() {
+		if (formId != null && formId.getSearch() != null) {
+			return Long.valueOf(formId.getSearch().getValue());
+		}
+		return 0;
+	}
+
+	public String getSearchFormName() {
+		if (formName != null && formName.getSearch() != null) {
+			return formName.getSearch().getValue();
+		}
+		return StringUtils.EMPTY;
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,9 +15,9 @@ import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
-import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.enums.EnrollmentStatus;
+import com.enroll.core.search.SearchCriteria;
 import com.enroll.core.service.EnrollmentService;
 
 /**
@@ -131,10 +132,12 @@ public class EnrollmentController {
 	 * @param criteria
 	 * @return SearchResult<EnrollmentDTO> 
 	 */
-	@RequestMapping(value = "/enrolls", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/enrolls", consumes = "application/json; charset=UTF-8", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public SearchResult<EnrollmentDTO> getEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria){
-		SearchResult<EnrollmentDTO> result = enrollmentService.findEnrollmentPage(criteria);
+	public SearchResult<EnrollmentDTO> getEnrollmentPage(@RequestBody SearchCriteria criteria){
+		EnrollmentQuery query = new EnrollmentQuery();
+		criteria.searchMapping(query);
+		SearchResult<EnrollmentDTO> result = enrollmentService.findEnrollmentPage(query);
 		return result;
 	}
 }

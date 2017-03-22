@@ -161,11 +161,11 @@ public class EnrollmentDTO implements Serializable {
 	}
 	
 	public String getRegisterDateStr() {
-		return registerDate.format(DateUtils.YYYY_MM_DD);
+		return registerDate.format(DateUtils.YYYY_MM_DD_HH_MM);
 	}
 	
 	public void setRegisterDate(String modifiedDateStr) {
-		registerDate = LocalDateTime.parse(modifiedDateStr, DateUtils.YYYY_MM_DD);
+		registerDate = LocalDateTime.parse(modifiedDateStr, DateUtils.YYYY_MM_DD_HH_MM);
 	}
 	
 	public String getModifiedDateStr() {

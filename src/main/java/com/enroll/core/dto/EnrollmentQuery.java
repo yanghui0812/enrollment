@@ -1,69 +1,130 @@
 package com.enroll.core.dto;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-public class EnrollmentQuery implements Serializable {
+import org.apache.commons.lang3.StringUtils;
 
-	private static final long serialVersionUID = -1791723346286706414L;
+import com.enroll.common.AppConstant;
+import com.enroll.common.DateUtils;
+import com.enroll.core.search.CommonQuery;
+import com.enroll.core.search.Search;
+import com.enroll.core.search.SearchField;
 
-	private String registerId;
+public class EnrollmentQuery extends CommonQuery {
 
-	private String status;
+	private SearchField registerId;
 
-	private String phoneNumber;
+	private SearchField status;
 
-	private String id;
+	private SearchField phoneNumber;
 
-	private long formId;
+	private SearchField id;
 
-	private LocalDateTime registerDate;
+	private SearchField formId;
 
-	public String getRegisterId() {
+	private SearchField registerDate;
+
+	private LocalDateTime begin;
+
+	private LocalDateTime end;
+
+	public EnrollmentQuery() {
+		super();
+	}
+
+	public EnrollmentQuery(int pageSize, int start) {
+		this.pageSize = pageSize;
+		this.start = start;
+	}
+
+	public SearchField getRegisterId() {
 		return registerId;
 	}
 
-	public void setRegisterId(String registerId) {
+	public void setRegisterId(SearchField registerId) {
 		this.registerId = registerId;
 	}
 
-	public String getStatus() {
+	public SearchField getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(SearchField status) {
 		this.status = status;
 	}
 
-	public String getPhoneNumber() {
+	public SearchField getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(SearchField phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getId() {
+	public SearchField getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(SearchField id) {
 		this.id = id;
 	}
 
-	public long getFormId() {
+	public SearchField getFormId() {
 		return formId;
 	}
 
-	public void setFormId(long formId) {
+	public void setFormId(SearchField formId) {
 		this.formId = formId;
 	}
 
-	public LocalDateTime getRegisterDate() {
+	public SearchField getRegisterDate() {
 		return registerDate;
 	}
 
-	public void setRegisterDate(LocalDateTime registerDate) {
+	public void setRegisterDate(SearchField registerDate) {
 		this.registerDate = registerDate;
+		if (registerDate.getSearch() == null || StringUtils.isBlank(registerDate.getSearch().getValue())) {
+			return;
+		}
+		String[] array = StringUtils.split(registerDate.getSearch().getValue(), AppConstant.CURVE);
+
+		if (StringUtils.isNotBlank(array[0])) {
+			begin = LocalDateTime.of(LocalDate.parse(array[0], DateUtils.MM_DD_YYYY), LocalTime.of(0, 0));
+		}
+		if (array.length > 1 && StringUtils.isNotBlank(array[1])) {
+			end = LocalDateTime.of(LocalDate.parse(array[1], DateUtils.MM_DD_YYYY), LocalTime.of(0, 0));
+		}
+	}
+
+	public String getSearchStatus() {
+		if (status != null && status.getSearch() != null) {
+			return status.getSearch().getValue();
+		}
+		return StringUtils.EMPTY;
+	}
+
+	public long getSearchFormId() {
+		if (formId != null && formId.getSearch() != null) {
+			return Long.valueOf(formId.getSearch().getValue());
+		}
+		return 0;
+	}
+
+	public void setSearchFormId(long formId) {
+		this.formId = new SearchField(new Search(String.valueOf(formId)));
+	}
+
+	public void setSearchStatus(String status) {
+		this.formId = new SearchField(new Search(status));
+	}
+
+	public LocalDateTime getBegin() {
+		return begin;
+	}
+
+	public LocalDateTime getEnd() {
+		return end;
 	}
 }

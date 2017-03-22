@@ -16,6 +16,8 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.BatchSize;
 
+import com.enroll.common.AppConstant;
+
 @Entity
 @Table(name = "TBL_ENROLLMENT" )
 public class Enrollment implements Serializable {
@@ -40,6 +42,9 @@ public class Enrollment implements Serializable {
 	
 	@Column(name = "ID")
 	private String id;
+	
+	@Column(name = "SEARCH_FIELD")
+	private String search;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "enrollment")
 	@BatchSize(size = 100)
@@ -130,6 +135,14 @@ public class Enrollment implements Serializable {
 		this.applicantName = applicantName;
 	}
 
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -153,5 +166,10 @@ public class Enrollment implements Serializable {
 		} else if (!registerId.equals(other.registerId))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return status + AppConstant.BLANK + phoneNumber + AppConstant.BLANK + applicantName + AppConstant.BLANK + id;
 	}
 }

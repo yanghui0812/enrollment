@@ -6,7 +6,6 @@ import org.springframework.dao.DataAccessException;
 
 import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaQuery;
-import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
@@ -85,7 +84,7 @@ public interface EnrollmentDao {
 	 * @return
 	 */
 	public boolean sessionContains(Object object);
-	
+
 	/**
 	 * @param userName
 	 * @return
@@ -103,12 +102,12 @@ public interface EnrollmentDao {
 	 * @param criteria
 	 * @return
 	 */
-	public SearchResult<FormMeta> findFormMetaPage(SearchCriteria<FormMetaQuery> criteria);
-	
+	public SearchResult<FormMeta> findFormMetaPage(FormMetaQuery query);
+
 	/**
 	 * @param criteria
 	 * @return
 	 */
-	public SearchResult<Enrollment> findEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria);
+	public SearchResult<Enrollment> findEnrollmentPage(EnrollmentQuery query);
 
 }

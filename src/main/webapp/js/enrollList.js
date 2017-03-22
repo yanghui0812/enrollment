@@ -15,8 +15,12 @@ $(document).ready(function() {
 		           "first": "第一页"}
 		  },
 		"ajax": {
-				  "url": $(':hidden[name=enrollPageJson]').val(),
-				  "type": "GET"
+				  "url": $(':hidden[name=enrollPageJson]').val(), 
+				  "contentType": "application/json",
+                  "type": "POST",
+                  "data": function ( d ) {
+                     return JSON.stringify( d );
+                  }
 			   },
 		"columns": [{ "title": "注册号", 	"data": "registerId" },
 		            { "title": "电话", 	"data": "phoneNumber" },
@@ -33,10 +37,41 @@ $(document).ready(function() {
 	    });
 	
 		$('#enrollTable_filter').hide();
-		$('input.global_filter').on( 'keyup click', function () {alert('ddd');
+		$('input.global_filter').on( 'keyup click', function () {
 			var begin = $('input[name=registerDateBegin]').val();
 			var end =   $('input[name=registerDateEnd]').val();
 			table.columns(3).search(begin + '~' + end);
 			table.search($('input[name=search]').val()).draw();
-	    } );
+	    });
+		
+		//Select date range
+		var dateFormat = "mm/dd/yy",
+	      from = $( "#from" )
+	        .datepicker({
+	          defaultDate: "+1w",
+	          changeMonth: true,
+	          numberOfMonths: 2
+	        })
+	        .on( "change", function() {
+	          to.datepicker( "option", "minDate", getDate( this ) );
+	        }),
+	      to = $( "#to" ).datepicker({
+	        defaultDate: "+1w",
+	        changeMonth: true,
+	        numberOfMonths: 2
+	      })
+	      .on( "change", function() {
+	        from.datepicker( "option", "maxDate", getDate( this ) );
+	      });
+	 
+	    function getDate( element ) {
+	      var date;
+	      try {
+	        date = $.datepicker.parseDate( dateFormat, element.value );
+	      } catch( error ) {
+	        date = null;
+	      }
+	 
+	      return date;
+	    }
 });

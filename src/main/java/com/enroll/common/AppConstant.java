@@ -6,6 +6,8 @@ public interface AppConstant {
 	
 	public static final String COLON = ":";
 	
+	public static final String BLANK = " ";
+	
 	/** represent true **/
 	public static final String TRUE = "Y";
 
@@ -14,7 +16,11 @@ public interface AppConstant {
 	
 	public static final String EQUAL_SIGN = "=";
 	
+	public static final String CURVE = "~";
+	
 	public static final String AND_SIGN = "&";
+	
+	public static final String PERCENT_SIGN = "%";
 	
 	public static final String PHONE_NUMBER = "phoneNumber";
 	

@@ -8,7 +8,6 @@ import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
-import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.rest.dto.RestBasicResult;
 import com.enroll.rest.dto.RestRequest;
@@ -126,13 +125,13 @@ public interface EnrollmentService {
 	 * @param String
 	 * @return SearchResult<EnrollmentDTO>
 	 */
-	public SearchResult<EnrollmentDTO> findEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria);
+	public SearchResult<EnrollmentDTO> findEnrollmentPage(EnrollmentQuery criteria);
 	
 	/**
 	 * @param searchCriteria
 	 * @return
 	 */
-	public SearchResult<FormMetaDTO> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria);
+	public SearchResult<FormMetaDTO> findFormMetaPage(FormMetaQuery searchCriteria);
 	
 	/**
 	 * Check if applicant slot is still available;

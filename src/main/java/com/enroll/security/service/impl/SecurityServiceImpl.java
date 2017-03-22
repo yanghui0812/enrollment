@@ -28,7 +28,7 @@ public class SecurityServiceImpl implements SecurityService, UserDetailsService 
     
     @Override 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	LOGGER.info("User {} log onto application at {}.", username, LocalDateTime.now().format(DateUtils.YYYY_MM_DD));
+    	LOGGER.info("User {} log onto application at {}.", username, LocalDateTime.now().format(DateUtils.YYYY_MM_DD_HH_MM));
 		User user = enrollmentDao.readUserByName(username);
         user.addAuthority(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		return user;

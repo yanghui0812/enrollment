@@ -32,7 +32,6 @@ import com.enroll.core.dto.FormFieldOptionDTO;
 import com.enroll.core.dto.FormFieldValueDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
-import com.enroll.core.dto.SearchCriteria;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldMeta;
@@ -211,6 +210,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			}
 			formFieldMap.put(field.getFieldId(), field);
 		});
+		
+		StringBuilder sb = new StringBuilder(enrollment.toString());
 
 		// Loop to copy and save field value
 		enrollmentDTO.getFieldValueList().stream().forEach(value -> {
@@ -221,11 +222,14 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				if (fieldkeyValueMap.containsKey(value.getFieldId())) {
 					fieldValue.setFieldDisplay(getFieldDisplay(value.getFieldId(), value.getFieldValue(), fieldkeyValueMap));
 				}
+				sb.append(value.getFieldValue());
+				sb.append(AppConstant.BLANK);
 				fieldValue.setFieldtype(fieldMeta.getType());
 				fieldValue.setLabel(fieldMeta.getLabel());
 				enrollment.addFieldValue(fieldValue);
 			}
 		});
+		enrollment.setSearch(sb.toString());
 		enrollmentDao.saveOrUpdate(enrollment);
 		return enrollmentDTO.getRegisterId();
 	}
@@ -291,8 +295,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	}
 
 	@Override
-	public SearchResult<FormMetaDTO> findFormMetaPage(SearchCriteria<FormMetaQuery> searchCriteria) {
-		SearchResult<FormMeta> searchResult = enrollmentDao.findFormMetaPage(searchCriteria);
+	public SearchResult<FormMetaDTO> findFormMetaPage(FormMetaQuery query) {
+		SearchResult<FormMeta> searchResult = enrollmentDao.findFormMetaPage(query);
 		SearchResult<FormMetaDTO> result = new SearchResult<FormMetaDTO>();
 
 		BeanUtils.copyProperties(searchResult, result, "data");
@@ -310,8 +314,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	}
 
 	@Override
-	public SearchResult<EnrollmentDTO> findEnrollmentPage(SearchCriteria<EnrollmentQuery> criteria) {
-		SearchResult<Enrollment> searchResult = enrollmentDao.findEnrollmentPage(criteria);
+	public SearchResult<EnrollmentDTO> findEnrollmentPage(EnrollmentQuery query) {
+		SearchResult<Enrollment> searchResult = enrollmentDao.findEnrollmentPage(query);
 		SearchResult<EnrollmentDTO> result = new SearchResult<EnrollmentDTO>();
 		BeanUtils.copyProperties(searchResult, result, "data");
 		searchResult.getData().stream().forEach(enrollment -> {
@@ -500,11 +504,9 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	}
 	
 	private SearchResult<Enrollment> getAllApplicantsByFormId(long formId) {
-		SearchCriteria<EnrollmentQuery> query = new SearchCriteria<EnrollmentQuery>(0, 0, Integer.MAX_VALUE);
-		EnrollmentQuery enrollmentQuery = new EnrollmentQuery();
-		enrollmentQuery.setFormId(formId);
-		enrollmentQuery.setStatus(EnrollmentStatus.ENROLL.getType());
-		query.setCondition(enrollmentQuery);
+		EnrollmentQuery query = new EnrollmentQuery(Integer.MAX_VALUE, 0);
+		query.setSearchFormId(formId);
+		query.setSearchStatus(EnrollmentStatus.ENROLL.getType());
 		return enrollmentDao.findEnrollmentPage(query);
 		
 	}
