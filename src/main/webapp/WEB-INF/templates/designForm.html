@@ -85,7 +85,7 @@
 								   <div class="card-content">
 									  <div class="form-group label-floating">
 										   <label class="control-label">表单名称</label>
-										   <input type="text" name="formName" id="formName" class="form-control" >
+										   <input type="text" name="formName" id="formName" class="form-control" th:value="${formMeta != null} ? ${formMeta.formName} : ''" >
 									   </div>
 									   <div class="form-group">
 										   <div class="form-group label-floating">

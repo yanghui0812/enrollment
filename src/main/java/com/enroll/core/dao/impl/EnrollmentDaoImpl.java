@@ -154,7 +154,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		Expression<String> empty = builder.literal("");
 		Predicate predicate = builder.equal(empty, empty);
 		
-		if (StringUtils.isNotBlank(query.getSearch().getValue())) {
+		if (query.getSearch() != null && StringUtils.isNotBlank(query.getSearch().getValue())) {
 			predicate = builder.like(root.get("search"), PERCENT_SIGN +  query.getSearch().getValue() + PERCENT_SIGN);
 		}
 		

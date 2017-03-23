@@ -13,7 +13,21 @@ $(document).ready(function($) {
     	    clearAll: '清除',
     	    save: '预览',
     	    no: '否',
-    	    yes: '是'
+    	    yes: '是',
+    	    required: '必需的',
+    	    maxlength: '最大长度',
+    	    label: '标签',
+    	    name: '名称',
+    	    placeholder: '占位符',
+    	    appslot:  '申请人数',
+            appmaxsize: '是否将下面的选项值作为对应的人数限制?',
+            uniqueKey: '唯一键',
+            uniqueKeyMessage: '是否作为唯一申请标示',
+            selectionsMessage: '是否允许多选?',
+            description: '帮助文本',
+            subtype: '类型',
+            value: '值',
+            selectOptions: '选项:'
       }
     };
 

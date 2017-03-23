@@ -117,7 +117,7 @@ public class EnrollmentQuery extends CommonQuery {
 	}
 
 	public void setSearchStatus(String status) {
-		this.formId = new SearchField(new Search(status));
+		this.status = new SearchField(new Search(status));
 	}
 
 	public LocalDateTime getBegin() {

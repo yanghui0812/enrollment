@@ -1557,6 +1557,8 @@ function formBuilderEventsFn() {
         required: 'Required',
         appslot:  'Applicant slot',
         appmaxsize: 'The values of the following opitons is max size.',
+        uniqueKey:'Unique Key',
+        uniqueKeyMessage:'Is unique key for this application',
         richText: 'Rich Text Editor',
         roles: 'Access',
         save: 'Save',
@@ -2103,6 +2105,8 @@ function formBuilderEventsFn() {
         advFields.push(boolAttribute('toggle', values, { first: opts.messages.toggle }));
       }
 
+      advFields.push(isUniqueKey(values));
+      
       advFields.push(textAttribute('label', values));
 
       values.size = values.size || 'm';
@@ -2478,6 +2482,20 @@ function formBuilderEventsFn() {
 
         return appslot;
       };
+      
+     var isUniqueKey = function limitApplicantField(values) {
+      	var noMake = [], uniqueKey = '';
+          if (values.type != 'text') {
+            noMake.push(true);
+          }
+          if (!noMake.some(function (elem) {
+            return elem === true;
+          })) {
+        	  uniqueKey = boolAttribute('uniqueKey', values, { first: opts.messages.uniqueKey, second: opts.messages.uniqueKeyMessage});
+          }
+
+          return uniqueKey;
+     };
 
     // Append the new field to the editor
     var appendNewField = function appendNewField(values) {

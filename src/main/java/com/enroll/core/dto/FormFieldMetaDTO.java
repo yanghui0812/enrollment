@@ -25,6 +25,8 @@ public class FormFieldMetaDTO implements Serializable {
 	private String subtype;
 	
 	private String slot;
+	
+	private String uniqueKey;
 
 	private String fieldConstraint;
 
@@ -236,6 +238,22 @@ public class FormFieldMetaDTO implements Serializable {
 	public void setSubtype(String subtype) {
 		this.subtype = subtype;
 	}
+	
+	public String getSlot() {
+		return slot;
+	}
+
+	public void setSlot(String slot) {
+		this.slot = slot;
+	}
+
+	public String getUniqueKey() {
+		return uniqueKey;
+	}
+
+	public void setUniqueKey(String uniqueKey) {
+		this.uniqueKey = uniqueKey;
+	}
 
 	@Override
 	public int hashCode() {
@@ -328,13 +346,5 @@ public class FormFieldMetaDTO implements Serializable {
 				+ label + ", type=" + type + ", fieldConstraint=" + fieldConstraint + ", fieldDefaultValue="
 				+ fieldDefaultValue + ", className=" + className + ", name=" + name + ", inputFieldValue="
 				+ inputFieldValue + ", formMeta=" + formMeta + ", options=" + options + "]";
-	}
-
-	public String getSlot() {
-		return slot;
-	}
-
-	public void setSlot(String slot) {
-		this.slot = slot;
 	}
 }

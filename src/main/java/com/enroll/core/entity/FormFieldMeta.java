@@ -56,6 +56,9 @@ public class FormFieldMeta implements Serializable {
 	@Column(name = "FIELD_IS_SLOT", nullable = false)
 	private String slot;
 	
+	@Column(name = "IS_UNIQUE_KEY", nullable = false) 
+	private String uniqueKey;
+	
 	@Column(name = "FIELD_CONSTRAINT", nullable = false)
 	private String fieldConstraint;
 	
@@ -208,6 +211,30 @@ public class FormFieldMeta implements Serializable {
 		this.type = type;
 	}
 
+	public String getSubtype() {
+		return subtype;
+	}
+
+	public void setSubtype(String subtype) {
+		this.subtype = subtype;
+	}
+
+	public String getSlot() {
+		return slot;
+	}
+
+	public void setSlot(String slot) {
+		this.slot = slot;
+	}
+
+	public String getUniqueKey() {
+		return uniqueKey;
+	}
+
+	public void setUniqueKey(String uniqueKey) {
+		this.uniqueKey = uniqueKey;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -237,21 +264,5 @@ public class FormFieldMeta implements Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
-	}
-
-	public String getSubtype() {
-		return subtype;
-	}
-
-	public void setSubtype(String subtype) {
-		this.subtype = subtype;
-	}
-
-	public String getSlot() {
-		return slot;
-	}
-
-	public void setSlot(String slot) {
-		this.slot = slot;
 	}
 }
