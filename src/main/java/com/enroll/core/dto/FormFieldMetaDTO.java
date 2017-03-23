@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.enroll.common.AppConstant;
 import com.enroll.core.enums.FormFieldSubtype;
 import com.enroll.core.enums.FormFieldType;
 import com.enroll.core.enums.Options;
@@ -110,7 +113,11 @@ public class FormFieldMetaDTO implements Serializable {
 	}
 	
 	public boolean hasApplicantSlot() {
-		return "true".equals(getSlot());
+		return AppConstant.TRUE.equals(getSlot());
+	}
+	
+	public boolean isUniqueKey() {
+		return AppConstant.TRUE.equals(StringUtils.trim(getUniqueKey()));
 	}
 
 	public String getCssClass() {

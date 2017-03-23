@@ -8,11 +8,9 @@ public interface AppConstant {
 	
 	public static final String BLANK = " ";
 	
-	/** represent true **/
-	public static final String TRUE = "Y";
+	public static final String TRUE = "true";
 
-	/** represent true **/
-	public static final String FALSE = "N";
+	public static final String FALSE = "false";
 	
 	public static final String EQUAL_SIGN = "=";
 	

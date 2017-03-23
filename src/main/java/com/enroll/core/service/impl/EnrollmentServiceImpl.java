@@ -96,6 +96,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		formMeta.getFormFieldMetaList().forEach(formField -> {
 			FormFieldMetaDTO formFieldMeta = new FormFieldMetaDTO();
 			BeanUtils.copyProperties(formField, formFieldMeta, "fieldOptionList");
+			formFieldMeta.setUniqueKey(formField.getUniqueKey());
 			result.addFormFieldMeta(formFieldMeta);
 
 			// Fill in the field value if present
@@ -501,6 +502,15 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			}
 		}
 		return resultMap;
+	}
+	
+	public String findRegisterIdByFormIdAndUniqueKey(long formId, long fieldId, String value) {
+		Objects.requireNonNull(value);
+		FormFieldValue formFieldValue = enrollmentDao.findFormFieldValue(formId, fieldId, value);
+		if (formFieldValue == null) {
+			return StringUtils.EMPTY;
+		}	
+		return formFieldValue.getEnrollment().getRegisterId();
 	}
 	
 	private SearchResult<Enrollment> getAllApplicantsByFormId(long formId) {

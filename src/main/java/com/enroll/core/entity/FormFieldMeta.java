@@ -20,6 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.enroll.common.AppConstant;
+
 @Entity
 @Table(name = "TBL_FORM_FIELD_META" )
 public class FormFieldMeta implements Serializable {
@@ -168,7 +172,11 @@ public class FormFieldMeta implements Serializable {
 	}
 	
 	public boolean hasApplicantSlot() {
-		return "true".equals(getSlot());
+		return AppConstant.TRUE.equals(StringUtils.trim(getSlot()));
+	}
+	
+	public boolean isUniqueKey() {
+		return AppConstant.TRUE.equals(StringUtils.trim(getUniqueKey()));
 	}
 
 	public int getPosition() {

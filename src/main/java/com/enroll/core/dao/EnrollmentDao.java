@@ -109,5 +109,13 @@ public interface EnrollmentDao {
 	 * @return
 	 */
 	public SearchResult<Enrollment> findEnrollmentPage(EnrollmentQuery query);
+	
+	/**
+	 * @param formId
+	 * @param fieldId
+	 * @param value
+	 * @return
+	 */
+	public FormFieldValue findFormFieldValue(long formId, long fieldId, String value);
 
 }

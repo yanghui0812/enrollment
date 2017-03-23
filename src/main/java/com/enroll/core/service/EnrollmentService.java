@@ -141,4 +141,16 @@ public interface EnrollmentService {
 	 * @return boolean
 	 */
 	public boolean isApplicantSlotAvailable(Map<Long, String> map, long formId);
+	
+	/**
+	 * 
+	 * Find the enrollment with form id, field id and field value in order to avoid
+	 * someone applying more than one times
+	 * 
+	 * @param formId
+	 * @param fieldId
+	 * @param value
+	 * @return String
+	 */
+	public String findRegisterIdByFormIdAndUniqueKey(long formId, long fieldId, String value);
 }

@@ -77,6 +77,8 @@
 									<p class="category">请填写您的信息</p>
 	                            </div>
 	                            <div class="card-content">
+	                              <input type="hidden" name="checkUniqueKey" th:value="@{/public/checkUniqueKey}">
+	                              <input type="hidden" name="existingEnroll" th:value="@{/public/enroll.html}">
 	                              <form id="enrollForm" th:action="@{/public/enroll.html}" method="POST">
 	                                <input type="hidden" name="formId"               th:value="${formMeta.formId}">
 							        <input type="hidden" name="registerId"           th:value="${enroll.registerId}"      th:if="${enroll != null}">
@@ -105,8 +107,6 @@
 												</div>
 	                                        </div>
 	                                    </div>
-	                                    
-	                                    
 	                   				 <div class="row" th:each="fieldArray, row: ${formMeta.pageFields}">
 	                                        <div class="col-md-6" th:each="fieldMeta, stat : ${fieldArray}" th:with="fieldIndex=${formMeta.fieldIndex}">
 	                                           <input type="hidden" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldId'"       th:value="${fieldMeta.fieldId}">
@@ -114,38 +114,43 @@
 						                       <input type="hidden" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldName'"     th:value="${fieldMeta.name}">
 								  			   <div th:if="${fieldMeta.isText()}" class="form-group label-floating">
 											   		<label class="control-label" th:text="${fieldMeta.label}"></label>
-											        <input th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}">
+											   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
+											        <input  th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}">
 											   </div>
 											   <div th:if="${fieldMeta.isSelect()}" class="form-group label-floating">
 											   		<label class="control-label" th:text="${fieldMeta.label}"></label>
-							                        <select class="form-control" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'">
+											   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
+							                        <select th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" class="form-control">
 								                        <option th:each="option, s : ${fieldMeta.options}" th:value="${option.value}" th:text="${option.label}" th:selected="${option.isChecked()}"/>
 							                        </select>
 							                   </div>
 							                   <div th:if="${fieldMeta.isCheckboxGroup()}" class="form-group label-floating">
 							                  		<label class="control-label" th:text="${fieldMeta.label}"></label>
+							                  		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
 							                        <label th:each="option, s : ${fieldMeta.options}">
-														<input th:value="${option.value}" type="checkbox" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:checked="${option.isChecked()}">
+														<input th:value="${option.value}" class="form-control" type="checkbox" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:checked="${option.isChecked()}">
 														<span th:text="${option.label}"></span>
 													</label>
 							                   </div>
-							                   
 							                   <div th:if="${fieldMeta.isRadioGroup()}" class="form-group label-floating">
 							                   		<label class="control-label" th:text="${fieldMeta.label}"></label>
+							                   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
 							                        <label th:each="option, s : ${fieldMeta.options}">
-							                            <input th:value="${option.value}" type="radio" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:checked="${option.isChecked()}">
+							                            <input th:value="${option.value}" class="form-control" type="radio" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:checked="${option.isChecked()}">
 							                            <span th:text="${option.label}"></span>
 							                        </label>
 							                   </div>
-							                   
 							                   <div th:if="${fieldMeta.isTextarea()}" class="form-group label-floating">
-							                 		 <label class="control-label" th:text="${fieldMeta.label}"></label>
+							                 		<label class="control-label" th:text="${fieldMeta.label}"></label>
+							                 		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
 							                        <input class="xlarge form-control" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'">
 									           </div>
 		                                  </div>
 		                              </div>
+		                                <span style="color:red" id="message"></span>
 		                                <button type="button" class="btn btn-success pull-right register">提交信息</button>
 		                             	<button type="button" class="btn btn-info pull-right save">暂存信息</button>
+		                             	<button type="button" class="btn btn-info pull-right gotoanother" data-id="">去那个报名信息</button>
 	                                    <div class="clearfix"></div>
 	                                </form>
 	                            </div>

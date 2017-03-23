@@ -10,6 +10,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -197,5 +198,20 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		criteria.where(builder.equal(root.get("name"), userName));
 		User user = getEntityManager().createQuery(criteria).getSingleResult();
 		return user;
+	}
+
+	@Override
+	public FormFieldValue findFormFieldValue(long formId, long fieldId, String value) {
+		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<FormFieldValue> criteria = builder.createQuery(FormFieldValue.class);
+		Root<FormFieldValue> root = criteria.from(FormFieldValue.class);
+		Predicate predicate = builder.and(builder.equal(root.get("formId"), formId), builder.equal(root.get("fieldId"), fieldId), builder.equal(root.get("fieldValue"), value));
+		criteria.select(root);
+		criteria.where(predicate);
+		List<FormFieldValue> list = getEntityManager().createQuery(criteria).getResultList();
+		if (CollectionUtils.isNotEmpty(list)) {
+			return list.get(0);
+		}
+		return null;
 	}	
 }
