@@ -4,22 +4,16 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.EnrollmentDTO;
-import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaDTO;
-import com.enroll.core.dto.FormMetaQuery;
-import com.enroll.core.dto.SearchResult;
 import com.enroll.core.enums.AjaxResultStatus;
 import com.enroll.core.enums.EnrollmentStatus;
-import com.enroll.core.search.SearchCriteria;
 import com.enroll.core.service.EnrollmentService;
 
 /**
@@ -113,34 +107,6 @@ public class EnrollmentController {
 		EnrollmentDTO enroll = enrollmentService.findEnrollment(registerId);
 		model.addAttribute("enroll", enroll);
 		return "enrollDetail";
-	}
-	
-	/**
-	 * @Description
-	 * Go to all the enrollment information with pagination;
-	 * @param query
-	 * @param result
-	 * @param model
-	 * @return String
-	 */
-	@RequestMapping(value = "/enrolls.html", method = RequestMethod.GET)
-	public String enrollmentPage(FormMetaQuery query, BindingResult result, Model model) {
-		return "enrollList";
-	}
-	
-	/**
-	 * @Description
-	 * Search enrollment by search criteria
-	 * @param criteria
-	 * @return SearchResult<EnrollmentDTO> 
-	 */
-	@RequestMapping(value = "/enrolls", consumes = "application/json; charset=UTF-8", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
-	@ResponseBody
-	public SearchResult<EnrollmentDTO> getEnrollmentPage(@RequestBody SearchCriteria criteria) {
-		EnrollmentQuery query = new EnrollmentQuery();
-		criteria.searchMapping(query);
-		SearchResult<EnrollmentDTO> result = enrollmentService.findEnrollmentPage(query);
-		return result;
 	}
 	
 	/**

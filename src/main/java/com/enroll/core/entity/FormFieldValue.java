@@ -9,12 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.enroll.core.enums.FormFieldType;
+
 @Entity
-@Table(name = "TBL_FORM_FIELD_VALUE" )
+@Table(name = "TBL_FORM_FIELD_VALUE")
 public class FormFieldValue implements Serializable {
-	
+
 	private static final long serialVersionUID = 5411862982785736942L;
-	
+
 	@Id
 	@Column(name = "FIELD_ID", nullable = false)
 	private long fieldId;
@@ -22,24 +24,24 @@ public class FormFieldValue implements Serializable {
 	@Id
 	@Column(name = "FORM_ID", nullable = false)
 	private long formId;
-	
+
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "REGISTER_ID", nullable = false)
 	private Enrollment enrollment;
-	
+
 	@Column(name = "FIELD_VALUE", nullable = false)
 	private String fieldValue;
-	
+
 	@Column(name = "FIELD_NAME", nullable = false)
 	private String fieldName;
-	
+
 	@Column(name = "FIELD_LABEL", nullable = false)
 	private String label;
-	
+
 	@Column(name = "FIELD_DISPLAY", nullable = false)
 	private String fieldDisplay;
-	
+
 	@Column(name = "FIELD_TYPE", nullable = false)
 	private String fieldtype;
 
@@ -82,7 +84,7 @@ public class FormFieldValue implements Serializable {
 	public void setFieldId(long fieldId) {
 		this.fieldId = fieldId;
 	}
-	
+
 	public Enrollment getEnrollment() {
 		return enrollment;
 	}
@@ -106,7 +108,7 @@ public class FormFieldValue implements Serializable {
 	public void setFieldDisplay(String fieldDisplay) {
 		this.fieldDisplay = fieldDisplay;
 	}
-	
+
 	public String getFieldtype() {
 		return fieldtype;
 	}
@@ -121,6 +123,38 @@ public class FormFieldValue implements Serializable {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public boolean isText() {
+		return FormFieldType.TEXT.equals(FormFieldType.getFieldType(fieldtype));
+	}
+
+	public boolean isSelect() {
+		return FormFieldType.SELECT.equals(FormFieldType.getFieldType(fieldtype));
+	}
+
+	public boolean isCheckbox() {
+		return FormFieldType.CHECKBOX.equals(FormFieldType.getFieldType(fieldtype));
+	}
+
+	public boolean isRadio() {
+		return FormFieldType.RADIO.equals(FormFieldType.getFieldType(fieldtype));
+	}
+
+	public boolean isTextarea() {
+		return FormFieldType.TEXTAREA.equals(FormFieldType.getFieldType(fieldtype));
+	}
+
+	public boolean isCheckboxGroup() {
+		return FormFieldType.CHECKBOX_GROUP.equals(FormFieldType.getFieldType(fieldtype));
+	}
+
+	public boolean isRadioGroup() {
+		return FormFieldType.RADIO_GROUP.equals(FormFieldType.getFieldType(fieldtype));
+	}
+
+	public boolean hasOptions() {
+		return isCheckbox() || isRadio() || isSelect();
 	}
 
 	@Override

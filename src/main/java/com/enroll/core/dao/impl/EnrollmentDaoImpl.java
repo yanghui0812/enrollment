@@ -78,6 +78,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		CriteriaQuery<FormMeta> criteria = builder.createQuery(FormMeta.class);
 		Root<FormMeta> root = criteria.from(FormMeta.class);
 		criteria.select(root);
+		criteria.where(builder.equal(root.get("status"), query.getSearchFormStatus()));
 		List<FormMeta> list = entityManager.createQuery(criteria).getResultList();
 		return list;
 	}
@@ -137,8 +138,8 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		CriteriaQuery<FormMeta> criteria = builder.createQuery(FormMeta.class);
 		criteria.select(criteria.from(FormMeta.class));
 		criteria.where(predicate);
-		List<FormMeta> formMetasList = getEntityManager().createQuery(criteria)
-				.setFirstResult(query.getStart()).setMaxResults(query.getPageSize()).getResultList();
+		List<FormMeta> formMetasList = getEntityManager().createQuery(criteria).setFirstResult(query.getStart())
+				.setMaxResults(query.getPageSize()).getResultList();
 
 		SearchResult<FormMeta> searchResult = new SearchResult<FormMeta>();
 
@@ -154,11 +155,11 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		Root<Enrollment> root = countCriteria.from(Enrollment.class);
 		Expression<String> empty = builder.literal("");
 		Predicate predicate = builder.equal(empty, empty);
-		
+
 		if (query.getSearch() != null && StringUtils.isNotBlank(query.getSearch().getValue())) {
-			predicate = builder.like(root.get("search"), PERCENT_SIGN +  query.getSearch().getValue() + PERCENT_SIGN);
+			predicate = builder.like(root.get("search"), PERCENT_SIGN + query.getSearch().getValue() + PERCENT_SIGN);
 		}
-		
+
 		if (query.getSearchFormId() > 0) {
 			predicate = builder.equal(root.get("formId"), query.getSearchFormId());
 		}
@@ -166,12 +167,17 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 			predicate = builder.and(predicate, builder.equal(root.get("status"), query.getSearchStatus()));
 		}
 		if (query.getBegin() != null) {
-			predicate = builder.and(predicate, builder.greaterThanOrEqualTo(root.get("registerDate"), query.getBegin()));
+			predicate = builder.and(predicate,
+					builder.greaterThanOrEqualTo(root.get("registerDate"), query.getBegin()));
 		}
 		if (query.getEnd() != null) {
 			predicate = builder.and(predicate, builder.lessThanOrEqualTo(root.get("registerDate"), query.getEnd()));
 		}
 		
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("Enrollment search parameter ", query);
+		}
+
 		countCriteria.select(builder.countDistinct(root));
 		countCriteria.where(predicate);
 		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
@@ -190,7 +196,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 	}
 
 	@Override
-	public User readUserByName(String userName) throws DataAccessException{
+	public User readUserByName(String userName) throws DataAccessException {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<User> criteria = builder.createQuery(User.class);
 		Root<User> root = criteria.from(User.class);
@@ -205,7 +211,8 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<FormFieldValue> criteria = builder.createQuery(FormFieldValue.class);
 		Root<FormFieldValue> root = criteria.from(FormFieldValue.class);
-		Predicate predicate = builder.and(builder.equal(root.get("formId"), formId), builder.equal(root.get("fieldId"), fieldId), builder.equal(root.get("fieldValue"), value));
+		Predicate predicate = builder.and(builder.equal(root.get("formId"), formId),
+				builder.equal(root.get("fieldId"), fieldId), builder.equal(root.get("fieldValue"), value));
 		criteria.select(root);
 		criteria.where(predicate);
 		List<FormFieldValue> list = getEntityManager().createQuery(criteria).getResultList();
@@ -213,5 +220,5 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 			return list.get(0);
 		}
 		return null;
-	}	
+	}
 }

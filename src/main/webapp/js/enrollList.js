@@ -23,6 +23,7 @@ $(document).ready(function() {
                   }
 			   },
 		"columns": [{ "title": "注册号", 	"data": "registerId" },
+					{ "title": "表单号", 	"data": "formId", "visible":false},
 		            { "title": "电话", 	"data": "phoneNumber" },
 		            { "title": "身份证号", "data": "id" },
 		            { "title": "注册日期", "data": "registerDateStr" },
@@ -40,9 +41,14 @@ $(document).ready(function() {
 		$('input.global_filter').on( 'keyup click', function () {
 			var begin = $('input[name=registerDateBegin]').val();
 			var end =   $('input[name=registerDateEnd]').val();
-			table.columns(3).search(begin + '~' + end);
+			table.columns(1).search($('.formId').val());
+			table.columns(4).search(begin + '~' + end);
 			table.search($('input[name=search]').val()).draw();
 	    });
+		
+		$('#downloadEnroll').click(function() {
+			$('#downloadForm').submit();
+		});			
 		
 		//Select date range
 		var dateFormat = "mm/dd/yy",
@@ -51,8 +57,7 @@ $(document).ready(function() {
 	          defaultDate: "+1w",
 	          changeMonth: true,
 	          numberOfMonths: 2
-	        })
-	        .on( "change", function() {
+	        }).on( "change", function() {
 	          to.datepicker( "option", "minDate", getDate( this ) );
 	        }),
 	      to = $( "#to" ).datepicker({

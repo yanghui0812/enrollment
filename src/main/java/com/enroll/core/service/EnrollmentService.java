@@ -3,6 +3,8 @@ package com.enroll.core.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.EnrollmentQuery;
@@ -153,4 +155,12 @@ public interface EnrollmentService {
 	 * @return String
 	 */
 	public String findRegisterIdByFormIdAndUniqueKey(long formId, long fieldId, String value);
+	
+	
+	/**
+	 * Export enrollments according to the query criteria;
+	 * @param query
+	 * @return XSSFWorkbook
+	 */
+	public XSSFWorkbook exportEnrollment(EnrollmentQuery query);
 }

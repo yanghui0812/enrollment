@@ -20,9 +20,8 @@ $(document).ready(function() {
 	$('.update').click(function() {
 		var href = $( '.update').data( "href" );
 		window.location.href=href; 
-	});
+	});	
 	
-	$('.gotoanother').hide();
 	$('.gotoanother').click(function() {
 		window.location.href = $( ':input[name=existingEnroll]' ).val() + "?registerId=" +  $(this).data( "id");
 	});

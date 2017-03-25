@@ -15,6 +15,9 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -574,5 +577,54 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		newFormMeta.setFormFieldMetaList(newFieldMetaList);
 		enrollmentDao.save(newFormMeta);
 		return result;
+	}
+
+	@Override
+	public XSSFWorkbook exportEnrollment(EnrollmentQuery query) {
+		XSSFWorkbook book = new XSSFWorkbook();
+		SearchResult<Enrollment> searchResult = enrollmentDao.findEnrollmentPage(query);
+		if (CollectionUtils.isEmpty(searchResult.getData())) {
+			return book;
+		}
+		
+		int i = 0;
+		int j = 0;
+		Enrollment firstRow = searchResult.getData().get(0);
+		XSSFSheet sheet = book.createSheet();
+		
+		//write the title row;
+		XSSFRow row = sheet.createRow(i++);
+		row.createCell(j++).setCellValue("注册号");
+		row.createCell(j++).setCellValue("姓名");
+		row.createCell(j++).setCellValue("电话");
+		row.createCell(j++).setCellValue("身份证号");
+		row.createCell(j++).setCellValue("注册日期");
+		row.createCell(j++).setCellValue("注册状态");
+		for (FormFieldValue fieldValue : firstRow.getFieldValueList()) {
+			row.createCell(j++).setCellValue(fieldValue.getLabel());
+		}
+
+		//write the concrete row;
+		for (Enrollment enrollment : searchResult.getData()) {
+			j = 0;
+			row = sheet.createRow(i++);
+			row.createCell(j++).setCellValue(enrollment.getRegisterId());
+			row.createCell(j++).setCellValue(enrollment.getApplicantName());
+			row.createCell(j++).setCellValue(enrollment.getPhoneNumber());
+			row.createCell(j++).setCellValue(enrollment.getId());
+			row.createCell(j++).setCellValue(enrollment.getRegisterDate().format(DateUtils.YYYY_MM_DD_HH_MM));
+			EnrollmentStatus enrollStatus = EnrollmentStatus.getEnrollStatus(enrollment.getStatus());
+			if (enrollStatus != null) {
+				row.createCell(j++).setCellValue(enrollStatus.getDesc());
+			}
+			for (FormFieldValue fieldValue : enrollment.getFieldValueList()) {
+				if (fieldValue.hasOptions()) {
+					row.createCell(j++).setCellValue(fieldValue.getFieldDisplay());
+				} else {
+					row.createCell(j++).setCellValue(fieldValue.getFieldValue());
+				}				
+			}
+		}
+		return book;
 	}
 }

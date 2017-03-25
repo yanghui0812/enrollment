@@ -55,4 +55,9 @@ public class SearchField {
 		this.search = search;
 	}
 
+	@Override
+	public String toString() {
+		return "SearchField [data=" + data + ", name=" + name + ", searchable=" + searchable + ", orderable="
+				+ orderable + ", search=" + search + "]";
+	}
 }

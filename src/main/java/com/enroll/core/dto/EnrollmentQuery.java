@@ -106,7 +106,7 @@ public class EnrollmentQuery extends CommonQuery {
 	}
 
 	public long getSearchFormId() {
-		if (formId != null && formId.getSearch() != null) {
+		if (formId != null && StringUtils.isNotBlank(formId.getSearch().getValue())) {
 			return Long.valueOf(formId.getSearch().getValue());
 		}
 		return 0;
@@ -114,6 +114,10 @@ public class EnrollmentQuery extends CommonQuery {
 
 	public void setSearchFormId(long formId) {
 		this.formId = new SearchField(new Search(String.valueOf(formId)));
+	}
+	
+	public void setSearchRegisterDate(String registerDate) {
+		setRegisterDate(new SearchField(new Search(registerDate)));
 	}
 
 	public void setSearchStatus(String status) {
@@ -126,5 +130,13 @@ public class EnrollmentQuery extends CommonQuery {
 
 	public LocalDateTime getEnd() {
 		return end;
+	}
+
+	@Override
+	public String toString() {
+		return "EnrollmentQuery [registerId=" + registerId + ", status=" + status + ", phoneNumber=" + phoneNumber
+				+ ", id=" + id + ", formId=" + formId + ", registerDate=" + registerDate + ", begin=" + begin + ", end="
+				+ end + ", pageSize=" + pageSize + ", start=" + start + ", draw=" + draw + ", getSearch()="
+				+ getSearch() + "]";
 	}
 }
