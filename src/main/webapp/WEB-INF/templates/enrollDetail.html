@@ -14,44 +14,7 @@
 </head>
 <body>
 	<div class="wrapper">
-	    <div class="sidebar" data-color="green" th:data-image="@{/img/sidebar.jpg}">
-
-			<div class="logo">
-				<a href="#" class="logo-img">
-					上海商业会计学校
-				</a>
-			</div>
-
-	    	<div class="sidebar-wrapper">
-	            <ul class="nav">
-	                <li class="active">
-	                    <a href="index.html">
-	                        <i class="material-icons">home</i>
-	                        <p>首页</p>
-	                    </a>
-	                </li>
-                    <li class="">
-	                    <a th:href="@{/forms/.html}">
-	                        <i class="material-icons">create</i>
-	                        <p>设计表单</p>
-	                    </a>
-	                </li>
-                    <li class="">
-	                    <a th:href="@{/forms.html}">
-	                        <i class="material-icons">assignment</i>
-	                        <p>所有表单</p>
-	                    </a>
-	                </li>
-                    <li class="">
-	                    <a th:href="@{/manage/enrolls.html}">
-	                        <i class="material-icons">dashboard</i>
-	                        <p>报名列表</p>
-	                    </a>
-	                </li>
-	            </ul>
-	    	</div>
-		</div>
-
+	    <div class="sidebar" data-color="green" th:data-image="@{/img/sidebar.jpg}" th:include="fragments/sidebar::sidebar"></div>
 	    <div class="main-panel">
 			<nav class="navbar navbar-transparent navbar-absolute">
 				<div class="container-fluid">
@@ -116,9 +79,10 @@
 												</div>
 											</div>
 										</div>
-										<button type="button" class="btn btn-danger pull-right confirm" th:if="${enroll.canConfirm()}">我要确认</button>
-										<button type="button" class="btn btn-danger pull-right update"  th:if="${enroll.isDraft()}" th:data-href="@{/public/updateEnroll.html?registerId=} + ${enroll.registerId}">我要修改一下</button>
-										<button type="button" class="btn btn-danger pull-right cancel"  th:if="${enroll.canCancel()}">我要取消</button>
+										<button type="button" class="btn btn-success pull-right backToList"  th:if="${viewType == 'manage'}" th:data-href="@{/manage/enrolls.html}">返回列表</button>
+										<button type="button" class="btn btn-danger pull-right confirm"  th:if="${enroll.canConfirm() and viewType != 'manage'}">我要确认</button>
+										<button type="button" class="btn btn-success pull-right update"  th:if="${enroll.isDraft() and viewType != 'manage'}" th:data-href="@{/public/updateEnroll.html?registerId=} + ${enroll.registerId}">我要修改一下</button>
+										<button type="button" class="btn btn-danger pull-right cancel"   th:if="${enroll.canCancel()}">我要取消</button>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -126,13 +90,7 @@
 					</form>
 	            </div>
 	        </div>
-            <footer class="footer">
-	            <div class="container-fluid">
-	                <p class="copyright">
-	                    &copy; 2017 <a href="#">上海商业会计学校</a>
-	                </p>
-	            </div>
-	        </footer>
+            <footer class="footer" th:include="fragments/footer::footer"></footer>
 	    </div>
 	</div>
 	<script th:src="@{/js/jquery-3.1.0.min.js}" type="text/javascript"></script>

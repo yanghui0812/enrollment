@@ -24,32 +24,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		<div class="sidebar" data-color="green"
-			th:data-image="@{/img/sidebar.jpg}">
-			<div class="logo">
-				<a href="#" class="logo-img"> 上海商业会计学校 </a>
-			</div>
-			<div class="sidebar-wrapper">
-				<ul class="nav">
-					<li class="active"><a href="index.html"> <i
-							class="material-icons">home</i>
-							<p>首页</p>
-					</a></li>
-					<li class=""><a th:href="@{/forms/.html}"> <i
-							class="material-icons">create</i>
-							<p>设计表单</p>
-					</a></li>
-					<li class=""><a th:href="@{/forms.html}"> <i
-							class="material-icons">assignment</i>
-							<p>所有表单</p>
-					</a></li>
-					<li class=""><a th:href="@{/manage/enrolls.html}"> <i
-							class="material-icons">dashboard</i>
-							<p>报名列表</p>
-					</a></li>
-				</ul>
-			</div>
-		</div>
+		<div class="sidebar" data-color="green" th:data-image="@{/img/sidebar.jpg}" th:include="fragments/sidebar::sidebar"></div>
 		<div class="main-panel">
 			<nav class="navbar navbar-transparent navbar-absolute">
 				<div class="container-fluid">
@@ -112,12 +87,10 @@
 									<div class="col-md-6">
 										<div class="form-group label-floating">
 											<div class="form-group">
-												<input type="text" class="form-control global_filter"
-													placeholder="搜索" name="search"> <span
-													class="material-input"></span>
+												<input type="text" class="form-control global_filter" placeholder="搜索" name="search">
+												 <span class="material-input"></span>
 											</div>
-											<button type="submit"
-												class="btn btn-white btn-round btn-just-icon">
+											<button type="submit" class="btn btn-white btn-round btn-just-icon">
 												<i class="material-icons">search</i>
 												<div class="ripple-container"></div>
 											</button>
@@ -144,22 +117,16 @@
 					<div class="row">
 						<div class="col-md-12">
 							<input type="hidden" name="enrollPageJson"  th:value="@{/manage/enrolls}">
-							<input type="hidden" name="enrollDetail"    th:value="@{/public/enroll.html}">
+							<input type="hidden" name="enrollDetail"    th:value="@{/manage/enroll.html}">
 							<input type="hidden" name="enrollUpdateUrl" th:value="@{/public/updateEnroll.html}">
 							<table id="enrollTable" class="display"></table>
 						</div>
 					</div>
 				</div>
 			</div>
+			<footer class="footer" th:include="fragments/footer::footer"></footer>
 		</div>
 	</div>
-	<footer class="footer">
-		<div class="container-fluid">
-			<p class="copyright">
-				&copy; 2017 <a href="#">上海商业会计学校</a>
-			</p>
-		</div>
-	</footer>
 	<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/lib/jquery.dataTables.js}"></script>

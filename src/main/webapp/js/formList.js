@@ -24,9 +24,11 @@ $(document).ready(function() {
                      return JSON.stringify( d );
                   }
 			   },
-		"columns": [{ "title": "编号", 	"data": "formId" },
+		"order": [[ 3, "desc" ]],
+		"columns": [{ "title": "编号", 	"data": "formId"},
 		            { "title": "名字", 	"data": "formName" },
-		            { "title": "创建时间", "data": "formatCreatedDate" },
+		            { "title": "创建时间", "data": "createdDate", "visible":false},
+		            { "title": "创建时间", "data": "formatCreatedDate"},
 		            { "title": "描述", 	"data": "formDescription", "orderable": false },
 		            { "title": "状态", 	"data": "statusDesc" },
 		            { "title": "操作", 	"data": "formId", "orderable": false, "searchable": false, "render": function (data, type, full) {

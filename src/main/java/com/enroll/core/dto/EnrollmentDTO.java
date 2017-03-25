@@ -150,10 +150,10 @@ public class EnrollmentDTO implements Serializable {
 	}
 	
 	public boolean canCancel() {
-		if (EnrollmentStatus.CANCEL.getType().equals(status)) {
-			return Boolean.FALSE;
+		if (EnrollmentStatus.ENROLL.getType().equals(status)) {
+			return Boolean.TRUE;
 		}
-		return EnrollmentStatus.DRAFT.getType().equals(status) || EnrollmentStatus.ENROLL.getType().equals(status);
+		return Boolean.FALSE;
 	}
 
 	public LocalDateTime getModifiedDate() {

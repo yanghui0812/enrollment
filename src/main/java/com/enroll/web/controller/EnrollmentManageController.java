@@ -45,6 +45,36 @@ public class EnrollmentManageController {
 
 	@Resource(name = "enrollmentService")
 	private EnrollmentService enrollmentService;
+	
+	/**
+	 * @Description 
+	 * View the detailed enrollment information
+	 * @param registerId
+	 * @param model
+	 * @return String
+	 */
+	@RequestMapping(value = "/enroll.html", method = RequestMethod.GET)
+	public String getEnrollment(String registerId, Model model){
+		EnrollmentDTO enroll = enrollmentService.findEnrollment(registerId);
+		model.addAttribute("enroll", enroll);
+		model.addAttribute("viewType", "manage");
+		return "enrollDetail";
+	}
+	
+	/**
+	 * @Description 
+	 * Prepare the design form information for enrollment
+	 * @param formId
+	 * @param model
+	 * @return String
+	 */
+	@RequestMapping(value = "/enrollForm.html", method = RequestMethod.GET)
+	public String previewDesignForm(Long formId, Model model) {
+		FormMetaDTO formMetaDTO = enrollmentService.findFormMetaById(formId);
+		model.addAttribute("formMeta", formMetaDTO);
+		model.addAttribute("viewType", "manage");
+		return "enrollForm";
+	}
 
 	/**
 	 * @Description Go to all the enrollment information with pagination;

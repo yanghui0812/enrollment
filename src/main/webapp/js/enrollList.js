@@ -31,7 +31,8 @@ $(document).ready(function() {
 		            { "title": "操作", 	"data": "registerId", "orderable": false, "searchable": false, "render": function (data, type, full) {
 		            	var prefixForUpdate = $(':hidden[name=enrollUpdateUrl]').val();
 		            	var prefixForDetail = $(':hidden[name=enrollDetail]').val();
-		    			return '<a href="' + prefixForUpdate + '?registerId=' + data + '" style="margin-top:-3px">修改</a></br><a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
+		    			//return '<a href="' + prefixForUpdate + '?registerId=' + data + '" style="margin-top:-3px">修改</a></br><a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
+		            	return '<a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
 			    	 } }
 		        ],
 		 order: [[ 2, 'asc' ]]

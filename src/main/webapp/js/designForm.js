@@ -111,7 +111,7 @@ $(document).ready(function($) {
 			$.ajax({method: "POST", url: requestUrl, data: para}).done(function( data ) {
 				if (data.status == 'success') {
 					$('#formId').val(data.data);
-					$('#message').text('保存成功');
+					window.location.href = $('#backToList').val();
 				}
     		});
         } 
