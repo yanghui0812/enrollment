@@ -397,7 +397,6 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		
 		String slotField = StringUtils.EMPTY;
 		for (RestFieldValue restFieldValue : request.getData()) {
-		
 			String fieldName = StringUtils.trim(restFieldValue.getName());
 			if (!(formFieldMap.containsKey(fieldName) || PHONE_NUMBER.equals(fieldName) || APPLICANT_NAME.equals(fieldName)  || STATUS.equals(fieldName))) {
 				fieldErrors.add(new PropertyError(RestFieldError.MISSING_FIELD, fieldName));
@@ -419,6 +418,14 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			
 			if (fieldMeta.hasApplicantSlot()) {
 				slotField = restFieldValue.getValue();
+			}
+			
+			//Check to make sure there is no duplicated registration
+			if (fieldMeta.isUniqueKey()) {
+				String existingRegisterId = findRegisterIdByFormIdAndUniqueKey(fieldMeta.getFormMeta().getFormId(), fieldMeta.getFieldId(), restFieldValue.getValue());
+				if (StringUtils.isNotBlank(existingRegisterId)) {
+					return new RestErrorResult(RestResultEnum.DUPLICATED_ENROLL, NonceUtils.getNonceString());
+				}
 			}
 			FormFieldValueDTO fieldValue = new FormFieldValueDTO(dto.getFormId(), fieldMeta.getFieldId(), registerId, restFieldValue.getValue(), fieldMeta.getName());
 			dto.addFieldValue(fieldValue);

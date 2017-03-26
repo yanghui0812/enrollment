@@ -8,6 +8,7 @@ public enum RestResultEnum {
 	MALFORMED(1002, 200, "错误的请求"),
 	ENROLL_NOT_EXIST(1003, 200, "报名信息不存在"),
 	NO_SLOT_AVAILABLE(1004, 200, "报名名额已满"),
+	DUPLICATED_ENROLL(1005, 200, "重复的报名信息"),
 	SIGNATURE_FAIL(1008, 200, "签名校验失败");
 
 	private final int code;
