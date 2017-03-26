@@ -38,8 +38,7 @@ public class FormDesignController {
 	 * Go to form design page and there is an initialized page with some default fields;
 	 * @param formId
 	 * @param model
-	 * @param op
-	 * @return
+	 * @return String
 	 */
 	@RequestMapping(value = "/forms/{formId}", method = RequestMethod.GET)
 	public String designForm(@PathVariable Long formId, Model model){

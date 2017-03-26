@@ -22,20 +22,19 @@ $(document).ready(function() {
                      return JSON.stringify( d );
                   }
 			   },
-		"columns": [{ "title": "注册号", 	"data": "registerId" },
-					{ "title": "表单号", 	"data": "formId", "visible":false},
-		            { "title": "电话", 	"data": "phoneNumber" },
-		            { "title": "身份证号", "data": "id" },
-		            { "title": "注册日期", "data": "registerDateStr" },
-		            { "title": "注册状态", "data": "statusDesc" },
-		            { "title": "操作", 	"data": "registerId", "orderable": false, "searchable": false, "render": function (data, type, full) {
+		"columns": [{ "title": "注册号", 	  "data": "registerId", "name" : "registerId"},
+					{ "title": "表单号",   "data": "formId", "visible":false},
+		            { "title": "电话", 	  "data": "phoneNumber", "name" : "phoneNumber"},
+		            { "title": "身份证号",  "data": "id", "name" : "id"},
+		            { "title": "注册日期",  "data": "registerDateStr", "name" : "registerDate"},
+		            { "title": "注册状态",  "data": "statusDesc", "name" : "status"},
+		            { "title": "操作", 	  "data": "registerId", "orderable": false, "searchable": false, "render": function (data, type, full) {
 		            	var prefixForUpdate = $(':hidden[name=enrollUpdateUrl]').val();
 		            	var prefixForDetail = $(':hidden[name=enrollDetail]').val();
 		    			//return '<a href="' + prefixForUpdate + '?registerId=' + data + '" style="margin-top:-3px">修改</a></br><a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
 		            	return '<a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
 			    	 } }
-		        ],
-		 order: [[ 2, 'asc' ]]
+		        ]
 	    });
 	
 		$('#enrollTable_filter').hide();

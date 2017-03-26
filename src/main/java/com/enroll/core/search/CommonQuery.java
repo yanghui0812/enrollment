@@ -8,7 +8,7 @@ public class CommonQuery {
 	protected int start;
 	protected int draw;
 	private Search search;
-	private List<Order> order;
+	private List<SearchOrder> order;
 	
 	public int getStart() {
 		return start;
@@ -34,11 +34,11 @@ public class CommonQuery {
 		this.search = search;
 	}
 
-	public List<Order> getOrder() {
+	public List<SearchOrder> getOrder() {
 		return order;
 	}
 
-	public void setOrder(List<Order> order) {
+	public void setOrder(List<SearchOrder> order) {
 		this.order = order;
 	}
 

@@ -1,5 +1,6 @@
 package com.enroll.core.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -28,6 +30,7 @@ import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
 import com.enroll.core.entity.User;
+import com.enroll.core.search.SearchOrder;
 
 @Repository
 public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
@@ -126,16 +129,26 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
 		Root<FormMeta> root = countCriteria.from(FormMeta.class);
-		Expression<String> empty = builder.literal("");
+		Expression<String> empty = builder.literal(StringUtils.EMPTY);
 		Predicate predicate = builder.equal(empty, empty);
 		if (StringUtils.isNotBlank(query.getSearch().getValue())) {
 			predicate = builder.like(root.get("formName"), PERCENT_SIGN + query.getSearch().getValue() + PERCENT_SIGN);
 		}
+		
 		countCriteria.select(builder.countDistinct(root));
 		countCriteria.where(predicate);
 		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
 
 		CriteriaQuery<FormMeta> criteria = builder.createQuery(FormMeta.class);
+		List<javax.persistence.criteria.Order> orderList = new ArrayList<>();
+		for (SearchOrder order : query.getOrder()) {
+			if (StringUtils.equalsIgnoreCase(order.getDir(), "desc")) {
+				orderList.add(builder.desc(root.get(order.getField().getName())));
+			} else if (StringUtils.equalsIgnoreCase(order.getDir(), "asc")) {
+				orderList.add(builder.asc(root.get(order.getField().getName())));
+			}
+		}
+		criteria.orderBy(orderList);
 		criteria.select(criteria.from(FormMeta.class));
 		criteria.where(predicate);
 		List<FormMeta> formMetasList = getEntityManager().createQuery(criteria).setFirstResult(query.getStart())
@@ -147,13 +160,13 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		searchResult.setRecordsTotal(count);
 		return searchResult;
 	}
-
+	
 	@Override
 	public SearchResult<Enrollment> findEnrollmentPage(EnrollmentQuery query) {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
 		Root<Enrollment> root = countCriteria.from(Enrollment.class);
-		Expression<String> empty = builder.literal("");
+		Expression<String> empty = builder.literal(StringUtils.EMPTY);
 		Predicate predicate = builder.equal(empty, empty);
 
 		if (query.getSearch() != null && StringUtils.isNotBlank(query.getSearch().getValue())) {
@@ -167,8 +180,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 			predicate = builder.and(predicate, builder.equal(root.get("status"), query.getSearchStatus()));
 		}
 		if (query.getBegin() != null) {
-			predicate = builder.and(predicate,
-					builder.greaterThanOrEqualTo(root.get("registerDate"), query.getBegin()));
+			predicate = builder.and(predicate, builder.greaterThanOrEqualTo(root.get("registerDate"), query.getBegin()));
 		}
 		if (query.getEnd() != null) {
 			predicate = builder.and(predicate, builder.lessThanOrEqualTo(root.get("registerDate"), query.getEnd()));
@@ -183,13 +195,21 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
 
 		CriteriaQuery<Enrollment> criteria = builder.createQuery(Enrollment.class);
+		List<Order> orderList = new ArrayList<>();
+		for (SearchOrder order : query.getOrder()) {
+			if (StringUtils.equalsIgnoreCase(order.getDir(), "desc")) {
+				orderList.add(builder.desc(root.get(order.getField().getName())));
+			} else if (StringUtils.equalsIgnoreCase(order.getDir(), "asc")) {
+				orderList.add(builder.asc(root.get(order.getField().getName())));
+			}
+		}
+		criteria.orderBy(orderList);
 		criteria.select(criteria.from(Enrollment.class));
 		criteria.where(predicate);
 		List<Enrollment> formMetasList = getEntityManager().createQuery(criteria).setFirstResult(query.getStart())
 				.setMaxResults(query.getPageSize()).getResultList();
 
 		SearchResult<Enrollment> searchResult = new SearchResult<Enrollment>();
-
 		searchResult.addAll(formMetasList);
 		searchResult.setRecordsTotal(count);
 		return searchResult;

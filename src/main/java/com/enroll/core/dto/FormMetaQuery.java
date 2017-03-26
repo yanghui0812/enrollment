@@ -13,6 +13,8 @@ public class FormMetaQuery extends CommonQuery {
 	private SearchField formName;
 
 	private SearchField status;
+	
+	private SearchField createdDate;
 
 	public SearchField getFormId() {
 		return formId;
@@ -35,6 +37,14 @@ public class FormMetaQuery extends CommonQuery {
 			return Long.valueOf(formId.getSearch().getValue());
 		}
 		return 0;
+	}
+
+	public SearchField getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(SearchField createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public String getSearchFormName() {

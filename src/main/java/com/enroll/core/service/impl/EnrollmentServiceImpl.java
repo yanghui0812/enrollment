@@ -148,6 +148,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			}
 			BeanUtils.copyProperties(formField, formFieldMeta, "options", "fieldId");
 			formFieldMeta.setRequired(formField.getRequired());
+			formFieldMeta.setUniqueKey(formField.getUniqueKey());
 			formMeta.addFormFieldMeta(formFieldMeta);
 			
 			boolean isApplicantSlot = formField.isSelect() && formField.hasApplicantSlot();
@@ -555,14 +556,14 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		}
 		
 		FormMeta newFormMeta = new FormMeta();
+		LocalDateTime current = LocalDateTime.now();
 		BeanUtils.copyProperties(formMeta, newFormMeta, "formFieldMetaList", "formId", "modifiedDate");
-		String formName = LocalDateTime.now().format(DateUtils.YYYYMMDDHHMMSSSSS) + "_" + formMeta.getFormName();
+		String formName = current.format(DateUtils.YYYYMMDDHHMMSSSSS) + "_" + formMeta.getFormName();
 		if (formName.length() > 50) {
 			formName = StringUtils.substring(LocalDateTime.now().format(DateUtils.YYYYMMDDHHMMSSSSS) + "_" + formMeta.getFormName(), 0, 50);
 		}
 		newFormMeta.setFormName(formName);
 		newFormMeta.setStatus(FormStatus.DRAFT.getType());
-		
 		List<FormFieldMeta> newFieldMetaList = formMeta.getFormFieldMetaList().stream().map(fieldMeta -> {
 			FormFieldMeta newFieldMeta = new FormFieldMeta();
 			BeanUtils.copyProperties(fieldMeta, newFieldMeta, "fieldOptionList", "fieldId");
@@ -575,6 +576,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			return newFieldMeta;
 		}).collect(Collectors.toList());
 		newFormMeta.setFormFieldMetaList(newFieldMetaList);
+		newFormMeta.setCreatedDate(current);
+		newFormMeta.setModifiedDate(current);
 		enrollmentDao.save(newFormMeta);
 		return result;
 	}

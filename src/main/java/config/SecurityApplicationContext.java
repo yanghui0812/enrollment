@@ -1,7 +1,5 @@
 package config;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,15 +17,11 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 
 	private static final String HOME_URL = "/home.html";
 
-	private static final String MAIN_URL = "/main.html";
-
 	private static final String ACCESSDENIED_URL = "/error.html";
 
-	private static final Logger LOGGER = LogManager.getLogger(SecurityApplicationContext.class);
-
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/", "/public/**/**", "/css/**/**", "/js/**/**", "/icons/**/**", "/images/**/**", "/img/**/**", "/index.html",
-				"/error.html", LOGIN_URL, ACCESSDENIED_URL, MAIN_URL, "/api/**/**");
+		web.ignoring().antMatchers("/", "/public/**/**", "/css/**/**", "/js/**/**", "/icons/**/**", "/images/**/**", "/img/**/**",
+				"/error.html", LOGIN_URL, ACCESSDENIED_URL, "/api/**/**");
 		web.debug(true);
 	}
 
@@ -51,6 +45,7 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().accessDeniedPage(ACCESSDENIED_URL);
 
 		http.authorizeRequests().anyRequest().authenticated().antMatchers("/forms/**").hasRole("ADMIN");
+		http.authorizeRequests().anyRequest().authenticated().antMatchers(HOME_URL).hasRole("ADMIN");
 	}
 
 	@Bean(name = "authenticationManager")

@@ -5,7 +5,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 public class SearchCriteria {
@@ -16,7 +15,7 @@ public class SearchCriteria {
 	private Search search;
 	private int draw;
 	private String type;
-	private List<Order> order;
+	private List<SearchOrder> order;
 	private List<SearchField> columns;
 
 	public SearchCriteria() {
@@ -80,23 +79,17 @@ public class SearchCriteria {
 
 	public void searchMapping(Object obj) {
 		BeanUtils.copyProperties(this, obj);
-		for (Order order : order) {
+		for (SearchOrder order : order) {
 			order.setField(columns.get(order.getColumn()));
 		}
 		for (SearchField field : columns) {
-			setObjectPropertyValue(field.getData(), obj, field);
+			setObjectPropertyValue(field.getName(), obj, field);
 		}
 	}
 
 	private void setObjectPropertyValue(String name, Object obj, Object value) {
 		try {
 			PropertyDescriptor pd = BeanUtils.getPropertyDescriptor(obj.getClass(), name);
-			if (pd == null && StringUtils.endsWith(name, "Str")) {
-				pd = BeanUtils.getPropertyDescriptor(obj.getClass(), StringUtils.substringBeforeLast(name, "Str"));
-			}
-			if (pd == null && StringUtils.endsWith(name, "Desc")) {
-				pd = BeanUtils.getPropertyDescriptor(obj.getClass(), StringUtils.substringBeforeLast(name, "Desc"));
-			}
 			if (pd == null) {
 				return;
 			}
@@ -107,11 +100,11 @@ public class SearchCriteria {
 		}
 	}
 
-	public List<Order> getOrder() {
+	public List<SearchOrder> getOrder() {
 		return order;
 	}
 
-	public void setOrder(List<Order> order) {
+	public void setOrder(List<SearchOrder> order) {
 		this.order = order;
 	}
 

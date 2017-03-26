@@ -24,14 +24,13 @@ $(document).ready(function() {
                      return JSON.stringify( d );
                   }
 			   },
-		"order": [[ 3, "desc" ]],
-		"columns": [{ "title": "编号", 	"data": "formId"},
-		            { "title": "名字", 	"data": "formName" },
-		            { "title": "创建时间", "data": "createdDate", "visible":false},
-		            { "title": "创建时间", "data": "formatCreatedDate"},
-		            { "title": "描述", 	"data": "formDescription", "orderable": false },
-		            { "title": "状态", 	"data": "statusDesc" },
-		            { "title": "操作", 	"data": "formId", "orderable": false, "searchable": false, "render": function (data, type, full) {
+		"order": [[ 2, "desc" ]],
+		"columns": [{ "title": "编号", 	 "data": "formId", "name" : "formId", "width": "10%"},
+		            { "title": "表单名称", "data": "formName", "name" : "formName", "width": "23%" },
+		            { "title": "创建时间", "data": "formatCreatedDate", "name" : "createdDate", "width": "20%"},
+		            { "title": "描述", 	 "data": "formDescription", "orderable": false, "width": "30%"},
+		            { "title": "状态", 	 "data": "statusDesc", "name" : "status", "width": "7%"},
+		            { "title": "操作", 	 "data": "formId", "orderable": false, "width": "10%", "searchable": false, "render": function (data, type, full) {
 		            	var prefixForUpdate = ($(':hidden[name=formMetaUpdateUrl]').val()).replace('{formId}', data);
 		            	var prefixForEnroll = $(':hidden[name=enrollUrl]').val();
 		            	var updateUrl = '<a href="' + prefixForUpdate + '">修改</a>';
@@ -52,8 +51,7 @@ $(document).ready(function() {
 		            	result = result + '</br><a href="' + prefixForEnroll + '?formId=' + data + '">预览</a>';
 		    			return result; 
 			    	 } }
-		        ],
-		 order: [[ 2, 'asc' ]]
+		        ]
 	    }).on( 'draw.dt', function () {
 	    	$( '.publishOrInactive' ).bind( "click", function(event) {
         		var op = $(event.target).data('status');

@@ -1,6 +1,6 @@
 package com.enroll.core.search;
 
-public class Order {
+public class SearchOrder {
 
 	private int column;
 	private String dir;
