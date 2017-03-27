@@ -195,15 +195,17 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		int count = getEntityManager().createQuery(countCriteria).getSingleResult().intValue();
 
 		CriteriaQuery<Enrollment> criteria = builder.createQuery(Enrollment.class);
-		List<Order> orderList = new ArrayList<>();
-		for (SearchOrder order : query.getOrder()) {
-			if (StringUtils.equalsIgnoreCase(order.getDir(), "desc")) {
-				orderList.add(builder.desc(root.get(order.getField().getName())));
-			} else if (StringUtils.equalsIgnoreCase(order.getDir(), "asc")) {
-				orderList.add(builder.asc(root.get(order.getField().getName())));
+		if (CollectionUtils.isNotEmpty(query.getOrder())) {
+			List<Order> orderList = new ArrayList<>();
+			for (SearchOrder order : query.getOrder()) {
+				if (StringUtils.equalsIgnoreCase(order.getDir(), "desc")) {
+					orderList.add(builder.desc(root.get(order.getField().getName())));
+				} else if (StringUtils.equalsIgnoreCase(order.getDir(), "asc")) {
+					orderList.add(builder.asc(root.get(order.getField().getName())));
+				}
 			}
+			criteria.orderBy(orderList);
 		}
-		criteria.orderBy(orderList);
 		criteria.select(criteria.from(Enrollment.class));
 		criteria.where(predicate);
 		List<Enrollment> formMetasList = getEntityManager().createQuery(criteria).setFirstResult(query.getStart())

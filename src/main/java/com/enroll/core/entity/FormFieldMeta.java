@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 
 import com.enroll.common.AppConstant;
+import com.enroll.core.enums.FormFieldType;
+import com.enroll.core.enums.Options;
 
 @Entity
 @Table(name = "TBL_FORM_FIELD_META" )
@@ -169,6 +171,42 @@ public class FormFieldMeta implements Serializable {
 	public void addFormFieldOption(FormFieldOption dto) {
 		dto.setFormField(this);
 		fieldOptionList.add(dto);
+	}
+	
+	public boolean isRequired() {
+		return Options.TRUE.equals(Options.getOption(required));
+	}
+
+	public boolean isText() {
+		return FormFieldType.TEXT.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isSelect() {
+		return FormFieldType.SELECT.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isCheckbox() {
+		return FormFieldType.CHECKBOX.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isRadio() {
+		return FormFieldType.RADIO.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isTextarea() {
+		return FormFieldType.TEXTAREA.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isCheckboxGroup() {
+		return FormFieldType.CHECKBOX_GROUP.equals(FormFieldType.getFieldType(type));
+	}
+
+	public boolean isRadioGroup() {
+		return FormFieldType.RADIO_GROUP.equals(FormFieldType.getFieldType(type));
+	}
+	
+	public boolean hasOptions() {
+		return isCheckbox() || isRadio() || isSelect();
 	}
 	
 	public boolean hasApplicantSlot() {

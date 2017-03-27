@@ -8,7 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 public enum RestFieldError {
 	
 	MISSING_VALUE(Arrays.asList("NotNull"), 2001, "<字段名字>缺失"),
-	INVALID_VALUE(Arrays.asList("Min"), 2002, "值<字段名字>无效"),
+	INVALID_MIN_VALUE(Arrays.asList("Min"), 2002, "值<字段名字>无效"),
+	INVALID_VALUE(Arrays.asList("Enum"), 2004, "<字段名字>值无效"),
 	INVALID_FORMAT(Arrays.asList("Pattern"), 2003, "值<字段名字>格式错误"),
 	INVALID_VALUE_DETAIL(Arrays.asList("Min"), 2002, "值<字段名字>无效，<详细信息>"),
 	MISSING_FIELD(Arrays.asList(), 2004, "<字段名字>不存在");

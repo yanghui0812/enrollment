@@ -416,6 +416,10 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			}
 			FormFieldMeta fieldMeta = formFieldMap.get(restFieldValue.getName());
 			
+			if (fieldMeta.hasOptions() && !fieldMeta.getFieldOptionMap().containsValue(restFieldValue.getValue())) {
+				fieldErrors.add(new PropertyError(RestFieldError.INVALID_VALUE, fieldName));
+			}
+			
 			if (fieldMeta.hasApplicantSlot()) {
 				slotField = restFieldValue.getValue();
 			}
