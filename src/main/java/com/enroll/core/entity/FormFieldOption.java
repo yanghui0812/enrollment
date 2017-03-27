@@ -14,8 +14,7 @@ import javax.persistence.Table;
 public class FormFieldOption implements Serializable {
 
 	private static final long serialVersionUID = 3730670324483749534L;
-
-	@Id
+	
 	@Column(name = "POSITION", nullable = false)
 	private int position;
 
@@ -24,6 +23,7 @@ public class FormFieldOption implements Serializable {
 	@JoinColumn(name = "FIELD_ID", nullable = false)
 	private FormFieldMeta formField;
 
+	@Id
 	@Column(name = "VALUE", nullable = false)
 	private String value;
 
