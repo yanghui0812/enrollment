@@ -42,7 +42,7 @@ public class EnrollmentController {
 	public String getDesignForm(Long formId, Model model) {
 		FormMetaDTO formMetaDTO = enrollmentService.findFormMetaById(formId);
 		model.addAttribute("formMeta", formMetaDTO);
-		return "enrollForm";
+		return "publicEnrollForm";
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class EnrollmentController {
 		}
 		model.addAttribute("formMeta", enroll.getFormMeta());
 		model.addAttribute("enroll", enroll);
-		return "enrollForm";
+		return "publicEnrollForm";
 	}
 	
 	/**
@@ -106,7 +106,7 @@ public class EnrollmentController {
 	public String getEnrollment(String registerId, Model model){
 		EnrollmentDTO enroll = enrollmentService.findEnrollment(registerId);
 		model.addAttribute("enroll", enroll);
-		return "enrollDetail";
+		return "publicEnrollDetail";
 	}
 	
 	/**

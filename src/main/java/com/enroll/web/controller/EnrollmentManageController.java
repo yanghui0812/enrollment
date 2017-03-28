@@ -42,6 +42,8 @@ import com.enroll.core.service.EnrollmentService;
 public class EnrollmentManageController {
 	
 	private static final Logger LOGGER = LogManager.getLogger(EnrollmentManageController.class);
+	
+	private static final String VIEW_TYPE = "manage";
 
 	@Resource(name = "enrollmentService")
 	private EnrollmentService enrollmentService;
@@ -57,7 +59,7 @@ public class EnrollmentManageController {
 	public String getEnrollment(String registerId, Model model){
 		EnrollmentDTO enroll = enrollmentService.findEnrollment(registerId);
 		model.addAttribute("enroll", enroll);
-		model.addAttribute("viewType", "manage");
+		model.addAttribute("viewType", VIEW_TYPE);
 		return "enrollDetail";
 	}
 	
@@ -72,8 +74,8 @@ public class EnrollmentManageController {
 	public String previewDesignForm(Long formId, Model model) {
 		FormMetaDTO formMetaDTO = enrollmentService.findFormMetaById(formId);
 		model.addAttribute("formMeta", formMetaDTO);
-		model.addAttribute("viewType", "manage");
-		return "enrollForm";
+		model.addAttribute("viewType", VIEW_TYPE);
+		return "previewEnrollForm";
 	}
 
 	/**

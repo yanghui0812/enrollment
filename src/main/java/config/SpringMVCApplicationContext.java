@@ -1,10 +1,13 @@
 package config;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.HandlerAdapter;
@@ -12,10 +15,12 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
+import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -33,6 +38,7 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
+		
 	}
 
 	@Override
@@ -66,6 +72,15 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 	@Bean
 	public HandlerAdapter annotationMethodHandlerAdapter() {
 		return new RequestMappingHandlerAdapter();
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
+		webContentInterceptor.setCacheControl(CacheControl.noStore());
+		CacheControl cacheControl = webContentInterceptor.getCacheControl();
+		cacheControl.sMaxAge(0, TimeUnit.SECONDS);
+		registry.addInterceptor(webContentInterceptor);
 	}
 
 	@Bean
