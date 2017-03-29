@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="error" name="EnrollmentLog">
     <Properties>
@@ -31,4 +32,39 @@
             <AppenderRef ref="STDOUT" />
         </Root>
     </Loggers>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error" name="EnrollmentLog">
+    <Properties>
+        <Property name="filename">/logs/enrollment/enroll-$${sd:type}.log</Property>
+    </Properties>
+    <ThresholdFilter level="debug" />
+    <Appenders>
+        <Console name="STDOUT">
+            <PatternLayout pattern="%m%n" />
+        </Console>
+        <Routing name="Routing">
+            <Routes pattern="$${sd:type}">
+                <Route>
+                    <RollingFile name="Rolling-${sd:type}" fileName="${filename}" filePattern="/logs/enrollment/enroll-${sd:type}.%i.log.gz">
+                        <PatternLayout>
+                            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+                        </PatternLayout>
+                        <SizeBasedTriggeringPolicy size="500" />
+                    </RollingFile>
+                </Route>
+                <Route ref="STDOUT" key="Audit" />
+            </Routes>
+        </Routing>
+    </Appenders>
+ 
+    <Loggers>
+        <Logger name="EventLogger" level="DEBUG" additivity="false">
+            <AppenderRef ref="Routing" />
+        </Logger>
+        <Root level="TRACE">
+            <AppenderRef ref="STDOUT" />
+        </Root>
+    </Loggers>
+>>>>>>> refs/remotes/origin/develop
 </Configuration>
