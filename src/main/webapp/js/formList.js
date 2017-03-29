@@ -25,12 +25,12 @@ $(document).ready(function() {
                   }
 			   },
 		"order": [[ 2, "desc" ]],
-		"columns": [{ "title": "编号", 	 "data": "formId", "name" : "formId", "width": "10%"},
-		            { "title": "表单名称", "data": "formName", "name" : "formName", "width": "23%" },
-		            { "title": "创建时间", "data": "formatCreatedDate", "name" : "createdDate", "width": "20%"},
-		            { "title": "描述", 	 "data": "formDescription", "orderable": false, "width": "30%"},
-		            { "title": "状态", 	 "data": "statusDesc", "name" : "status", "width": "7%"},
-		            { "title": "操作", 	 "data": "formId", "orderable": false, "width": "10%", "searchable": false, "render": function (data, type, full) {
+		"columns": [{ "title": "编号", 	 "data": "formId", "name" : "formId"},
+		            { "title": "表单名称", "data": "formName", "name" : "formName"},
+		            { "title": "创建时间", "data": "formatCreatedDate", "name" : "createdDate"},
+		            { "title": "描述", 	 "data": "formDescription", "orderable": false},
+		            { "title": "状态", 	 "data": "statusDesc", "name" : "status"},
+		            { "title": "操作", 	 "data": "formId", "orderable": false, "searchable": false, "render": function (data, type, full) {
 		            	var prefixForUpdate = ($(':hidden[name=formMetaUpdateUrl]').val()).replace('{formId}', data);
 		            	var prefixForEnroll = $(':hidden[name=enrollUrl]').val();
 		            	var updateUrl = '<a href="' + prefixForUpdate + '">修改</a>';
