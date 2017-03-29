@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" name="RoutingTest" packages="org.apache.logging.log4j.test">
+<Configuration status="error" name="EnrollmentLog">
     <Properties>
         <Property name="filename">/logs/enrollment/enroll-$${sd:type}.log</Property>
     </Properties>
     <ThresholdFilter level="debug" />
- 
     <Appenders>
         <Console name="STDOUT">
             <PatternLayout pattern="%m%n" />
         </Console>
-        <List name="List">
-            <ThresholdFilter level="debug" />
-        </List>
         <Routing name="Routing">
             <Routes pattern="$${sd:type}">
                 <Route>
@@ -23,13 +19,12 @@
                     </RollingFile>
                 </Route>
                 <Route ref="STDOUT" key="Audit" />
-                <Route ref="List"   key="Service" />
             </Routes>
         </Routing>
     </Appenders>
  
     <Loggers>
-        <Logger name="EventLogger" level="info" additivity="false">
+        <Logger name="EventLogger" level="DEBUG" additivity="false">
             <AppenderRef ref="Routing" />
         </Logger>
         <Root level="TRACE">
