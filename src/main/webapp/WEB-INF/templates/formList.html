@@ -38,29 +38,19 @@
 									<h4 class="title">表单列表</h4>
 									<p class="category">查看创建的所有表单</p>
 								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="card-content table-responsive">
-								<div class="form-group label-floating">
-									<div class="form-group">
-										<input type="text" class="form-control global_filter" placeholder="搜索" name="search">
-										<span class="material-input"></span>
-									</div>
-									<button type="submit" class="btn btn-white btn-round btn-just-icon">
-										<i class="material-icons">search</i>
-										<div class="ripple-container"></div>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="card">
 								<div class="card-content table-responsive">
+									<div class="form-group label-floating row">
+										<div class="form-group col-xs-12">
+											<input type="text" class="form-control global_filter pull-left" placeholder="搜索" name="search" style="width: 90%; margin-right: 10px">
+											<span class="material-input"></span>
+											<span class="input-group-btn pull-left">
+												<button type="submit" class="btn btn-white btn-round btn-just-icon">
+													<i class="material-icons">search</i>
+													<div class="ripple-container"></div>
+												</button>
+											</span>
+										</div>
+									</div>
 									<input type="hidden" name="formMetaPageUrl"     th:value="@{/queryForms}"> 
 									<input type="hidden" name="copyUrl" 			th:value="@{/copyForm}"> 
 									<input type="hidden" name="formMetaUpdateUrl"   th:value="@{/forms/{formId}}">

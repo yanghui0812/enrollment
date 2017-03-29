@@ -46,80 +46,63 @@
 									<h4 class="title">报名列表</h4>
 									<p class="category">查看报名信息</p>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				 <div class="collapse navbar-collapse">				
-					<form  id="downloadForm" th:action="@{/manage/exportEnrolls}" method="POST" role="search">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card-content table-responsive">
-									<div class="col-md-6">
-										<div class="form-group label-floating">
-											<label class="control-label">注册日期从</label> <input type="text"
-												id="from" class="form-control" name="registerDateBegin">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group label-floating">
-											<label class="control-label">到</label> <input type="text"
-												id="to" class="form-control" name="registerDateEnd">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card-content table-responsive">
-									<div class="col-md-6">
-										<div class="form-group label-floating">
-											<label class="control-label">所属报名表单</label> <select
-												name="formId" class="form-control formId">
-												<option></option>
-												<option th:each="formMeta: ${formMetaList}"
-													th:value="${formMeta.formId}"
-													th:text="${formMeta.formName}" />
-											</select>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group label-floating">
-											<div class="form-group">
-												<input type="text" class="form-control global_filter" placeholder="搜索" name="search">
-												 <span class="material-input"></span>
+								<div class="card-content table-responsive">				
+									<form id="downloadForm" th:action="@{/manage/exportEnrolls}" method="POST" role="search">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">注册日期从</label> <input type="text"
+																id="from" class="form-control" name="registerDateBegin">
+												</div>
 											</div>
-											<button type="submit" class="btn btn-white btn-round btn-just-icon">
-												<i class="material-icons">search</i>
-												<div class="ripple-container"></div>
-											</button>
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">到</label> <input type="text"
+																id="to" class="form-control" name="registerDateEnd">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group label-floating">
+													<label class="control-label">所属报名表单</label> <select
+																name="formId" class="form-control formId">
+														<option></option>
+														<option th:each="formMeta: ${formMetaList}"
+																	th:value="${formMeta.formId}"
+																	th:text="${formMeta.formName}" />
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<div class="form-group">
+														<input style="width:80%;margin-right:5%" type="text" class="form-control global_filter pull-left" placeholder="搜索" name="search">
+														<span class="material-input"></span>
+														<button type="submit" class="btn btn-white btn-round btn-just-icon pull-left">
+															<i class="material-icons">search</i>
+															<div class="ripple-container"></div>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<button type="button" class="btn btn-success pull-right register" id="downloadEnroll">下载报名信息</button>
+											</div>
+										</div>
+									</form>
+									<div class="row">
+										<div class="col-md-12">
+											<input type="hidden" name="enrollPageJson"  th:value="@{/manage/enrolls}">
+											<input type="hidden" name="enrollDetail"    th:value="@{/manage/enroll.html}">
+											<input type="hidden" name="enrollUpdateUrl" th:value="@{/public/updateEnroll.html}">
+											<table id="enrollTable" class="display"></table>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card-content table-responsive">
-									<div class="col-md-10">
-										<div class="form-group label-floating"></div>
-									</div>
-									<div class="col-md-2">
-										<div class="form-group label-floating">
-											<button type="button" class="btn btn-success pull-right register" id="downloadEnroll">下载报名信息</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</form>
-					<div class="row">
-						<div class="col-md-12">
-							<input type="hidden" name="enrollPageJson"  th:value="@{/manage/enrolls}">
-							<input type="hidden" name="enrollDetail"    th:value="@{/manage/enroll.html}">
-							<input type="hidden" name="enrollUpdateUrl" th:value="@{/public/updateEnroll.html}">
-							<table id="enrollTable" class="display"></table>
 						</div>
 					</div>
 				</div>
