@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="error" name="EnrollmentLog">
-    <Properties>
-        <Property name="filename">/logs/enrollment/enroll-$${sd:type}.log</Property>
-    </Properties>
-    <ThresholdFilter level="debug" />
-    <Appenders>
-        <Console name="STDOUT">
-            <PatternLayout pattern="%m%n" />
-        </Console>
-        <Routing name="Routing">
-            <Routes pattern="$${sd:type}">
-                <Route>
-                    <RollingFile name="Rolling-${sd:type}" fileName="${filename}" filePattern="/logs/enrollment/enroll-${sd:type}.%i.log.gz">
-                        <PatternLayout>
-                            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
-                        </PatternLayout>
-                        <SizeBasedTriggeringPolicy size="500" />
-                    </RollingFile>
-                </Route>
-                <Route ref="STDOUT" key="Audit" />
-            </Routes>
-        </Routing>
-    </Appenders>
- 
-    <Loggers>
-        <Logger name="EventLogger" level="DEBUG" additivity="false">
-            <AppenderRef ref="Routing" />
-        </Logger>
-        <Root level="TRACE">
-            <AppenderRef ref="STDOUT" />
-        </Root>
-    </Loggers>
+	<Properties>
+		<Property name="filename">/logs/enrollment/enroll.log</Property>
+	</Properties>
+	<ThresholdFilter level="debug" />
+	<Appenders>
+		<Console name="STDOUT">
+			<PatternLayout pattern="%m%n"/>
+		</Console>
+		<RollingFile name="RollingFile" fileName="${filename}" filePattern="/logs/enrollment/enroll-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+			<PatternLayout>
+				<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
+			</PatternLayout>
+			<SizeBasedTriggeringPolicy size="20 MB"/>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="DEBUG">
+			<!-- <AppenderRef ref="STDOUT"/> -->
+			<AppenderRef ref="RollingFile"/>
+		</Root>
+	</Loggers>
 </Configuration>
