@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="error" name="EnrollmentLog">
+<Configuration status="ERROR">
 	<Properties>
-		<Property name="filename">/logs/enrollment/enroll.log</Property>
+		<Property name="filename">/logs/enroll.log</Property>
 	</Properties>
-	<ThresholdFilter level="debug" />
 	<Appenders>
 		<Console name="STDOUT">
-			<PatternLayout pattern="%m%n"/>
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
 		</Console>
-		<RollingFile name="RollingFile" fileName="${filename}" filePattern="/logs/enrollment/enroll-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
-			<PatternLayout>
-				<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
-			</PatternLayout>
+		<RollingFile name="RollingFile" fileName="${filename}" filePattern="/logs/enroll-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
 			<SizeBasedTriggeringPolicy size="20 MB"/>
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Root level="DEBUG">
-			<!-- <AppenderRef ref="STDOUT"/> -->
-			<AppenderRef ref="RollingFile"/>
+		<Root level="TRACE">
+			<AppenderRef ref="STDOUT"/>
 		</Root>
 	</Loggers>
 </Configuration>

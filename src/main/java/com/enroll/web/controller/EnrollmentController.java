@@ -88,7 +88,7 @@ public class EnrollmentController {
 	public String getEnrollInfo(String registerId, Model model) {
 		EnrollmentDTO enroll = enrollmentService.findFormMetaWithInputValue(registerId);
 		if (!enroll.isDraft()) {
-			return "error";
+			return "redirect:/public/enroll.html?registerId=" + registerId;
 		}
 		model.addAttribute("formMeta", enroll.getFormMeta());
 		model.addAttribute("enroll", enroll);

@@ -92,6 +92,10 @@ $(document).ready(function($) {
 	  return para;
   }
   
+  $('#save-form').click(function() {		
+		$('#designForm').submit();
+  });
+  
   $("#designForm").validate({
 		rules: {
 			formName: {

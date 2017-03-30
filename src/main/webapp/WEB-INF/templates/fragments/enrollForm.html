@@ -24,8 +24,8 @@
                                   <div class="row">
                                       <div class="col-md-6">
 									<div class="form-group label-floating">
-										<label class="control-label">姓名</label>
-										<input name="applicantName" th:value="${enroll != null} ? ${enroll.applicantName} : ''" class="form-control" autocomplete="off">
+										<label class="control-label">姓名<span class="required-asterisk" style="display: inline;">*</span></label>
+										<input required="required" name="applicantName" th:value="${enroll != null} ? ${enroll.applicantName} : ''" class="form-control" autocomplete="off">
 									</div>
                                       </div>	                                        
                                       <div class="col-md-6">
@@ -45,18 +45,18 @@
                                   </div>
                  				 <div class="row" th:each="fieldArray, row: ${formMeta.pageFields}">
                                       <div class="col-md-6" th:each="fieldMeta, stat : ${fieldArray}" th:with="fieldIndex=${formMeta.fieldIndex}">
-                                         <input type="hidden" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldId'"       th:value="${fieldMeta.fieldId}">
+                                         <input type="hidden" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldId'" th:value="${fieldMeta.fieldId}">
 			                       <input type="hidden" th:name="'fieldValueList[' + ${fieldIndex} + '].formId'"        th:value="${formMeta.formId}">
 			                       <input type="hidden" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldName'"     th:value="${fieldMeta.name}">
 					  			   <div th:if="${fieldMeta.isText()}" class="form-group label-floating">
 								   		<label class="control-label" th:text="${fieldMeta.label}"></label>
 								   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
-								        <input  th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off">
+								        <input th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off">
 								   </div>
 								   <div th:if="${fieldMeta.isSelect()}" class="form-group label-floating">
 								   		<label class="control-label" th:text="${fieldMeta.label}"></label>
 								   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
-				                        <select th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" class="form-control">
+				                        <select th:required="${fieldMeta.isRequired()}" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" class="form-control">
 					                        <option th:each="option, s : ${fieldMeta.options}" th:value="${option.value}" th:text="${option.label}" th:selected="${option.isChecked()}"/>
 				                        </select>
 				                   </div>

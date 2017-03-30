@@ -553,8 +553,7 @@ height
 	margin-top: 12px
 }
 
-[id^=frmb-][id$='-form-wrap'] .frmb .prev-holder .form-group>label:not ([class=fb-checkbox-label]
-	){
+[id^=frmb-][id$='-form-wrap'] .frmb .prev-holder .form-group>label:not ([class=fb-checkbox-label]){
 	display: none
 }
 

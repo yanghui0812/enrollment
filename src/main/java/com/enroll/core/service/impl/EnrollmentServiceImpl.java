@@ -100,6 +100,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			FormFieldMetaDTO formFieldMeta = new FormFieldMetaDTO();
 			BeanUtils.copyProperties(formField, formFieldMeta, "fieldOptionList");
 			formFieldMeta.setUniqueKey(formField.getUniqueKey());
+			formFieldMeta.setRequired(formField.getRequired());
 			result.addFormFieldMeta(formFieldMeta);
 
 			// Fill in the field value if present
