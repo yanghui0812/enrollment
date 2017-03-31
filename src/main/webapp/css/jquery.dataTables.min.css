@@ -510,3 +510,7 @@ table.dataTable, table.dataTable th, table.dataTable td {
 		margin-top: 0.5em
 	}
 }
+
+.dataTables_scrollHeadInner, .dataTable {
+	width: 100%!important;
+}
