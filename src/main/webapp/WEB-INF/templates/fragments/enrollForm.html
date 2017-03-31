@@ -46,7 +46,7 @@
 										        <input th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off">
 										   </div>
 										   <div th:if="${fieldMeta.isSelect()}" class="form-group label-floating">
-										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">*</span></label>
+										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">&nbsp;*</span></label>
 										   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
 						                        <select th:required="${fieldMeta.isRequired()}" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" class="form-control">
 							                        <option th:each="option, s : ${fieldMeta.options}" th:value="${option.value}" th:text="${option.label}" th:selected="${option.isChecked()}"/>
