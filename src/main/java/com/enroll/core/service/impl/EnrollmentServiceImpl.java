@@ -233,6 +233,14 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				fieldValue.setFieldtype(fieldMeta.getType());
 				fieldValue.setLabel(fieldMeta.getLabel());
 				enrollment.addFieldValue(fieldValue);
+				
+				//Check to make sure there is no duplicated registration
+				if (fieldMeta.isUniqueKey()) {
+					String existingRegisterId = findRegisterIdByFormIdAndUniqueKey(fieldMeta.getFormMeta().getFormId(), fieldMeta.getFieldId(), fieldValue.getFieldValue());
+					if (StringUtils.isNotBlank(existingRegisterId) && !StringUtils.equals(existingRegisterId, enrollmentDTO.getRegisterId())) {
+						throw new RuntimeException("Existing register id [" + existingRegisterId + "] so unique key fail");
+					}
+				}
 			}
 		});
 		enrollment.setSearch(sb.toString());
@@ -525,8 +533,12 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		FormFieldValue formFieldValue = enrollmentDao.findFormFieldValue(formId, fieldId, value);
 		if (formFieldValue == null) {
 			return StringUtils.EMPTY;
-		}	
-		return formFieldValue.getEnrollment().getRegisterId();
+		}
+		Enrollment enrollment = formFieldValue.getEnrollment();
+		String id = enrollment.getRegisterId();
+		enrollmentDao.evict(formFieldValue);
+		enrollmentDao.evict(enrollment);
+		return id;
 	}
 	
 	private SearchResult<Enrollment> getAllApplicantsByFormId(long formId) {
