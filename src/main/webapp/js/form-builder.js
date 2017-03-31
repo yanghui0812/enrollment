@@ -1870,13 +1870,7 @@ function formBuilderEventsFn() {
 
     if (opts.showActionButtons) {
       // Build our headers and action links
-      var viewDataText = opts.dataType === 'xml' ? opts.messages.viewXML : opts.messages.viewJSON,
-          viewData = utils.markup('button', viewDataText, {
-        id: frmbID + '-view-data',
-        type: 'button',
-        className: 'view-data btn btn-default'
-      }),
-          clearAll = utils.markup('button', opts.messages.clearAll, {
+      var clearAll = utils.markup('button', opts.messages.clearAll, {
         id: frmbID + '-clear-all',
         type: 'button',
         className: 'clear-all btn btn-default'
@@ -1886,7 +1880,7 @@ function formBuilderEventsFn() {
         id: frmbID + '-save',
         type: 'button'
       }),
-          formActions = utils.markup('div', [clearAll, viewData, saveAll], {
+          formActions = utils.markup('div', [clearAll, saveAll], {
         className: 'form-actions btn-group'
       });
 

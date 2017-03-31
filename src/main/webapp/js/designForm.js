@@ -7,7 +7,7 @@ $(document).ready(function($) {
     editing = true,
     fbOptions = {
       dataType: 'json',
-      disableFields: ['file', 'paragraph', 'header', 'hidden'],
+      disableFields: ['file', 'paragraph', 'header', 'hidden', 'button', 'autocomplete'],
       messages: {
     	    clearAllMessage: '确认要清除所有的字段吗?',
     	    clearAll: '清除',
