@@ -49,6 +49,7 @@ public class FormDesignController {
 				model.addAttribute("rawJson", formMeta.getRawJson());	
 			}
 		}
+		model.addAttribute("active", "designForm");
 		return "designForm";
 	}
 	
@@ -124,6 +125,7 @@ public class FormDesignController {
 	 */
 	@RequestMapping(value = "/forms.html", method = RequestMethod.GET)
 	public String getDesignForms(FormMetaQuery query, BindingResult result, Model model) {
+		model.addAttribute("active", "forms");
 		return "formList";
 	}
 }

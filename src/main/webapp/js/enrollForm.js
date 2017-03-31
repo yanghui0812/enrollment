@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$("#enrollForm").validate();
 	$.validator.addMethod("phone", function(value, element) { 
-	    var tel = /^(130|131|132|133|134|135|136|137|138|139|150|153|157|158|159|180|187|188|189)\d{8}$/; 
+	    var tel = /^(130|131|132|133|134|135|136|137|138|139|150|153|157|158|159|180|181|182|183|184|185|186|187|188|189|170|171|172|173|174|177|178|175|176|179|)\d{8}$/; 
 	    return tel.test(value) || this.optional(element); 
 	}, "请输入正确的手机号码");
 	$('.save').click(function() {		
@@ -23,9 +23,12 @@ $(document).ready(function() {
 	});
 	
 	$('.uniqueKey').next("input").blur(function() {
+		var value = $.trim($(this).val());
+		if (value == '') {
+			return;
+		}
 		var formId = $(':input[name=formId]').val();
 		var fieldId = $('.uniqueKey').val();
-		var value = $.trim($(this).val());
 		var registerId = $(':input[name=registerId]').val();
 		var url = $(':input[name=checkUniqueKey]').val() + '?formId=' + formId + '&fieldId=' + fieldId + '&value=' + value;
 		var keyLabel = $('.uniqueKey').parent().find("label").text();

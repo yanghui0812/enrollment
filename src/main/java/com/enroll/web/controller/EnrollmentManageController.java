@@ -60,6 +60,7 @@ public class EnrollmentManageController {
 		EnrollmentDTO enroll = enrollmentService.findEnrollment(registerId);
 		model.addAttribute("enroll", enroll);
 		model.addAttribute("viewType", VIEW_TYPE);
+		model.addAttribute("active", "enrolls");
 		return "enrollDetail";
 	}
 	
@@ -75,6 +76,7 @@ public class EnrollmentManageController {
 		FormMetaDTO formMetaDTO = enrollmentService.findFormMetaById(formId);
 		model.addAttribute("formMeta", formMetaDTO);
 		model.addAttribute("viewType", VIEW_TYPE);
+		model.addAttribute("active", "forms");
 		return "previewEnrollForm";
 	}
 
@@ -91,6 +93,7 @@ public class EnrollmentManageController {
 		query.setSearchFormStatus(FormStatus.PUBLISH.getType());
 		List<FormMetaDTO> list = enrollmentService.findFormMetaList(query);
 		model.addAttribute("formMetaList", list);
+		model.addAttribute("active", "enrolls");
 		return "enrollList";
 	}
 

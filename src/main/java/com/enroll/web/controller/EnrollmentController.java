@@ -42,7 +42,7 @@ public class EnrollmentController {
 	public String getDesignForm(Long formId, Model model) {
 		FormMetaDTO formMetaDTO = enrollmentService.findFormMetaById(formId);
 		if (!formMetaDTO.isCanEnroll()) {
-			return "redirect:/public/error";
+			return "error";
 		}
 		model.addAttribute("formMeta", formMetaDTO);
 		return "publicEnrollForm";
@@ -58,7 +58,7 @@ public class EnrollmentController {
 	public String saveEnrollment(EnrollmentDTO enroll) {
 		boolean available = enrollmentService.isApplicantSlotAvailable(enroll.getFieldValueMap(), enroll.getFormId());
 		if (!available) {
-			return "redirect:/public/error";
+			return "error";
 		}
 		String registrId = enrollmentService.saveEnrollment(enroll);
 		return "redirect:/public/enroll.html?registerId=" + registrId;
