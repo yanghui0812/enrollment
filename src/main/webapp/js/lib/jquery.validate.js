@@ -240,7 +240,7 @@ $.extend( $.validator, {
 		messages: {},
 		groups: {},
 		rules: {},
-		errorClass: "error",
+		errorClass: "has-error",
 		validClass: "valid",
 		errorElement: "label",
 		focusCleanup: false,
@@ -306,7 +306,7 @@ $.extend( $.validator, {
 			if ( element.type === "radio" ) {
 				this.findByName( element.name ).addClass( errorClass ).removeClass( validClass );
 			} else {
-				$( element ).addClass( errorClass ).removeClass( validClass );
+				$( element ).parent('.form-group').addClass( errorClass ).removeClass( validClass );
 			}
 		},
 		unhighlight: function( element, errorClass, validClass ) {

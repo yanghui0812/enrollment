@@ -334,7 +334,11 @@ height
 
 [id^=frmb-][id$='-form-wrap'] .frmb .prev-holder label, [id^=frmb-][id$='-form-wrap'] .frmb .sortable-options-wrap label,
 	[id^=frmb-][id$='-form-wrap'] .frmb li.no-fields label {
-	font-weight: 400
+	font-weight: 400;
+}
+
+.build-wrap [class^=fb-][class$='-label'] {
+	display: none
 }
 
 [id^=frmb-][id$='-form-wrap'] .frmb {
