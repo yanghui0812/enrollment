@@ -83,6 +83,14 @@ public class FormFieldMetaDTO implements Serializable {
 	public boolean isText() {
 		return FormFieldType.TEXT.equals(FormFieldType.getFieldType(type));
 	}
+	
+	public boolean isDate() {
+		return FormFieldType.DATE.equals(FormFieldType.getFieldType(type));
+	}
+	
+	public boolean isNumber() {
+		return FormFieldType.NUMBER.equals(FormFieldType.getFieldType(type));
+	}
 
 	public boolean isSelect() {
 		return FormFieldType.SELECT.equals(FormFieldType.getFieldType(type));

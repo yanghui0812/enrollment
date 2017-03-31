@@ -38,13 +38,22 @@ $(document).ready(function() {
 	    });
 	
 		$('#enrollTable_filter').hide();
+		
 		$('input.global_filter').on( 'keyup click', function () {
+			submitToSearch();
+	    });
+		
+		$('.searchbtn').on( 'click', function () {
+			submitToSearch();
+	    });
+		
+		function submitToSearch() {
 			var begin = $('input[name=registerDateBegin]').val();
 			var end =   $('input[name=registerDateEnd]').val();
 			table.columns(1).search($('.formId').val());
 			table.columns(4).search(begin + '~' + end);
 			table.search($('input[name=search]').val()).draw();
-	    });
+		}
 		
 		$('#downloadEnroll').click(function() {
 			$('#downloadForm').submit();
