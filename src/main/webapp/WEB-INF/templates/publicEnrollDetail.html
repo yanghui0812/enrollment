@@ -118,6 +118,7 @@
 										<button type="button" class="btn btn-danger pull-right confirm"  th:if="${enroll.canConfirm() and viewType != 'manage'}">我要确认</button>
 										<button type="button" class="btn btn-success pull-right update"  th:if="${enroll.isDraft() and viewType != 'manage'}" th:data-href="@{/public/updateEnroll.html?registerId=} + ${enroll.registerId}">我要修改一下</button>
 										<!-- <button type="button" class="btn btn-danger pull-right cancel"   th:if="${enroll.canCancel()}">我要取消</button> -->
+										<button type="button" class="btn btn-danger pull-right back"   th:if="${enroll.canCancel()}" th:data-href="@{/public/enrollForm.html?formId=} + ${enroll.formId}">返回首页</button>
 		                            </div>
 		                        </div>
 		                    </div>

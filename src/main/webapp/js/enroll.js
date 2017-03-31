@@ -18,4 +18,9 @@ $(document).ready(function() {
 		var href = $( '.backToList').data( "href" );
 		window.location.href = href;
 	});
+	
+	$('.back').click(function() {
+		var href = $( '.back').data( "href" );
+		window.location.href = href;
+	});	
 });
