@@ -35,14 +35,14 @@
 									</div>
                                       </div>
                                   </div>
-                                  <div class="row">
+                                 <!--  <div class="row">
                                       <div class="col-md-12">
 									<div class="form-group label-floating">
 										<label class="control-label">身份证号</label>
 										<input name="id" th:value="${enroll != null} ? ${enroll.id} : ''" class="form-control" autocomplete="off">
 									</div>
                                       </div>
-                                  </div>
+                                  </div> -->
                  				 <div class="row" th:each="fieldArray, row: ${formMeta.pageFields}">
                                       <div class="col-md-6" th:each="fieldMeta, stat : ${fieldArray}" th:with="fieldIndex=${formMeta.fieldIndex}">
                                          <input type="hidden" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldId'" th:value="${fieldMeta.fieldId}">

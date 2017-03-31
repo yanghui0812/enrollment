@@ -39,7 +39,7 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().invalidSessionUrl(LOGIN_URL);
 
 		// Login configuration
-		http.formLogin().loginProcessingUrl("/login").loginPage(LOGIN_URL).failureUrl(LOGIN_URL).defaultSuccessUrl(HOME_URL, true);
+		http.formLogin().loginProcessingUrl("/login").loginPage(LOGIN_URL).failureUrl(LOGIN_URL).defaultSuccessUrl(HOME_URL, false);
 
 		// Exception control configuration
 		http.exceptionHandling().accessDeniedPage(ACCESSDENIED_URL);
