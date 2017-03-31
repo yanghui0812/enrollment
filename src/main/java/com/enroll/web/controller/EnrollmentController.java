@@ -41,6 +41,9 @@ public class EnrollmentController {
 	@RequestMapping(value = "/enrollForm.html", method = RequestMethod.GET)
 	public String getDesignForm(Long formId, Model model) {
 		FormMetaDTO formMetaDTO = enrollmentService.findFormMetaById(formId);
+		if (!formMetaDTO.isCanEnroll()) {
+			return "redirect:/public/error";
+		}
 		model.addAttribute("formMeta", formMetaDTO);
 		return "publicEnrollForm";
 	}

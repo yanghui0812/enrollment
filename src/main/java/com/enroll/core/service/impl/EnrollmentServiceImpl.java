@@ -612,7 +612,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		row.createCell(j++).setCellValue("注册号");
 		row.createCell(j++).setCellValue("姓名");
 		row.createCell(j++).setCellValue("电话");
-		row.createCell(j++).setCellValue("身份证号");
+		/*row.createCell(j++).setCellValue("身份证号");*/
 		row.createCell(j++).setCellValue("注册日期");
 		row.createCell(j++).setCellValue("注册状态");
 		for (FormFieldValue fieldValue : firstRow.getFieldValueList()) {
@@ -626,7 +626,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			row.createCell(j++).setCellValue(enrollment.getRegisterId());
 			row.createCell(j++).setCellValue(enrollment.getApplicantName());
 			row.createCell(j++).setCellValue(enrollment.getPhoneNumber());
-			row.createCell(j++).setCellValue(enrollment.getId());
+		/*	row.createCell(j++).setCellValue(enrollment.getId());*/
 			row.createCell(j++).setCellValue(enrollment.getRegisterDate().format(DateUtils.YYYY_MM_DD_HH_MM));
 			EnrollmentStatus enrollStatus = EnrollmentStatus.getEnrollStatus(enrollment.getStatus());
 			if (enrollStatus != null) {
