@@ -56,18 +56,17 @@
 												</div>
 											</div>
 										</div>
-
 										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group label-floating">
-													<label class="control-label">身份证号</label>
-													<input class="form-control" th:value="${enroll.id}" disabled>
-												</div>
-											</div>
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">注册日期</label>
 													<input type="phone" class="form-control" th:value="${enroll.registerDateStr}" disabled>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">注册状态</label>
+													<input class="form-control" th:value="${enroll.statusDesc}" disabled>
 												</div>
 											</div>
 										</div>
