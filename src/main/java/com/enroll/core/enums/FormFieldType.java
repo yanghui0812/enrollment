@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum FormFieldType {
 
-	TEXT("text", "输入框"), SELECT("select", "下拉框"), CHECKBOX("checkbox", "多选框"), RADIO("radio",
+	TEXT("text", "输入框"), DATE("date", "日期输入框"), NUMBER("number", "数字输入框"), SELECT("select", "下拉框"), CHECKBOX("checkbox", "多选框"), RADIO("radio",
 			"单选框"), TEXTAREA("textarea", "多行的文本输入"), CHECKBOX_GROUP("checkbox-group", "多选框组"), RADIO_GROUP("radio-group", "单选组");
 
 	private String type;
