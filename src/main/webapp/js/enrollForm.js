@@ -25,6 +25,9 @@ $(document).ready(function() {
 	function checkSlotKey() {
 		var value = $.trim($(this).val());
 		if (value == '') {
+			 $('.slotAvailable').text('');
+			 $('.save').show();
+			 $('.register').show();
 			return;
 		}
 		var formId = $(':input[name=formId]').val();
@@ -34,7 +37,7 @@ $(document).ready(function() {
 		$.getJSON(url, function( data ) {
 			 if (data.status == 'success') {
 				 if (!data.data) {
-					 $('.slotAvailable').text('报名人数在' + value + '已满，请选择其它' + keyLabel);
+					 $('.slotAvailable').text('报名人数在' + value + '已满，请选择其它' + keyLabel.replace('*', ''));
 					 $('.save').hide();
 					 $('.register').hide();
 				 } else {
@@ -78,5 +81,5 @@ $(document).ready(function() {
 	
 	$('.uniqueKey').next("input").blur(checkUniqueKey);
 	$('.uniqueKey').next("select").blur(checkUniqueKey);
-	$('.slotKey').next("select").trigger( "change" );
+	
 });
