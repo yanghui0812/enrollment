@@ -45,7 +45,7 @@ $(document).ready(function() {
 							'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
 								'<span aria-hidden="true"><i class="material-icons">clear</i></span>' +
 							'</button>' +
-							'报名人数在' + value + '已满，请选择其它' + 请选择其它' + keyLabel.replace('*', '') +
+							'报名人数在' + value + '已满，请选择其它' + keyLabel.replace('*', '') +
 			            '</div>'
 					 '</div>';
 					 $('.slotAvailable').html(errorMessage);
