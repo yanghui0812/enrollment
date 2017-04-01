@@ -23,9 +23,8 @@ $(document).ready(function() {
                   }
 			   },
 		"columns": [{ "title": "注册号", 	  "data": "registerId", "name" : "registerId"},
-					{ "title": "表单号",   "data": "formId", "visible":false},
+					{ "title": "表单号",   "data": "formId", "visible":false, "name" : "formId"},
 		            { "title": "电话", 	  "data": "phoneNumber", "name" : "phoneNumber"},
-		            { "title": "身份证号",  "data": "id", "name" : "id"},
 		            { "title": "注册日期",  "data": "registerDateStr", "name" : "registerDate"},
 		            { "title": "注册状态",  "data": "statusDesc", "name" : "status"},
 		            { "title": "操作", 	  "data": "registerId", "orderable": false, "searchable": false, "render": function (data, type, full) {
@@ -36,6 +35,8 @@ $(document).ready(function() {
 			    	 } }
 		        ]
 	    });
+		
+		$('.dataTable').addClass('table');
 	
 		$('#enrollTable_filter').hide();
 		
@@ -51,7 +52,7 @@ $(document).ready(function() {
 			var begin = $('input[name=registerDateBegin]').val();
 			var end =   $('input[name=registerDateEnd]').val();
 			table.columns(1).search($('.formId').val());
-			table.columns(4).search(begin + '~' + end);
+			table.columns(3).search(begin + '~' + end);
 			table.search($('input[name=search]').val()).draw();
 		}
 		

@@ -37,11 +37,22 @@ $(document).ready(function() {
 		$.getJSON(url, function( data ) {
 			 if (data.status == 'success') {
 				 if (!data.data) {
-					 $('.slotAvailable').text('报名人数在' + value + '已满，请选择其它' + keyLabel.replace('*', ''));
+					var errorMessage = '<div class="alert alert-warning">' +
+             			'<div class="container-fluid">' +
+							 '<div class="alert-icon">' +
+								'<i class="material-icons">warning</i>' +
+							'</div>' +
+							'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+								'<span aria-hidden="true"><i class="material-icons">clear</i></span>' +
+							'</button>' +
+							'报名人数在' + value + '已满，请选择其它' + 请选择其它' + keyLabel.replace('*', '') +
+			            '</div>'
+					 '</div>';
+					 $('.slotAvailable').html(errorMessage);
 					 $('.save').hide();
 					 $('.register').hide();
 				 } else {
-					 $('.slotAvailable').text('');
+					 $('.slotAvailable').empty();
 					 $('.save').show();
 					 $('.register').show();
 				 }

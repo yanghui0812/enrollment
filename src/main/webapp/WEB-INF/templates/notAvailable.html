@@ -65,7 +65,10 @@
 		</nav>
 		<div class="content">
 			<div class="container-fluid">
-				<span>指定日期或区域名额已满，请尝试其它的日期或区域。</span>
+				<img class="img-responsive center-block" th:src="@{/images/notAvailable.png}">
+				<div class="text-center">
+					<a class="btn btn-primary" href="#" onclick="window.history.go(-1);">返回</a>
+				</div>
 			</div>
 		</div>
 		<footer class="footer" th:include="fragments/footer::footer"></footer>
