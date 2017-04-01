@@ -69,6 +69,7 @@ $(document).ready(function() {
 			    	 } }
 		        ]
 	    }).on( 'draw.dt', function () {
+	    	$('.dataTable').addClass('table');
 	    	$( '.publishOrInactive' ).bind( "click", function(event) {
         		var op = $(event.target).data('status');
         		var formId = $(event.target).data('formid');
