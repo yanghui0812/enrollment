@@ -1,5 +1,8 @@
 package com.enroll.web.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -55,13 +58,31 @@ public class EnrollmentController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/enroll.html", method = RequestMethod.POST)
-	public String saveEnrollment(EnrollmentDTO enroll) {
+	public String saveEnrollment(EnrollmentDTO enroll, Model model) {
 		boolean available = enrollmentService.isApplicantSlotAvailable(enroll.getFieldValueMap(), enroll.getFormId());
 		if (!available) {
-			return "error";
+			return "notAvailable";
 		}
 		String registrId = enrollmentService.saveEnrollment(enroll);
 		return "redirect:/public/enroll.html?registerId=" + registrId;
+	}
+	
+	/**
+	 * Check the availability
+	 * 
+	 * @param enroll
+	 * @param model
+	 * @return AjaxResult<Boolean>
+	 */
+	@RequestMapping(value = "/checkAvailable", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult<Boolean> checkAvailable(long formId, long fieldId, String value) {
+		Map<Long, String> map = new HashMap<>();
+		map.put(fieldId, value);
+		boolean available = enrollmentService.isApplicantSlotAvailable(map, formId);		
+		AjaxResult<Boolean> ajaxResult = new AjaxResult<Boolean>(AjaxResultStatus.SUCCESS);
+		ajaxResult.setData(available);
+		return ajaxResult;
 	}
 	
 	/**

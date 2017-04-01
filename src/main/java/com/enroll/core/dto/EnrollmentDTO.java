@@ -161,6 +161,9 @@ public class EnrollmentDTO implements Serializable {
 	}
 	
 	public String getRegisterDateStr() {
+		if (registerDate == null) {
+			return StringUtils.EMPTY;
+		}
 		return registerDate.format(DateUtils.YYYY_MM_DD_HH_MM);
 	}
 	
@@ -169,6 +172,9 @@ public class EnrollmentDTO implements Serializable {
 	}
 	
 	public String getModifiedDateStr() {
+		if (modifiedDate == null) {
+			return StringUtils.EMPTY;
+		}
 		return modifiedDate.format(DateUtils.YYYYMMDDHHMMSS);
 	}
 	
