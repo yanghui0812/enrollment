@@ -10,10 +10,12 @@
                       <div class="card card-login">
                           <div class="card-header" data-background-color="green">
                               <h4 class="title" th:text=${formMeta.formDescription}></h4>
+                              <div class="slotAvailable"></div>
                               <img th:src="@{/img/logo-small.png}" alt="上海商业会计学校" style="width: 60px;position: absolute;right: 5px;top: 0;padding:5px"/>
                           </div>
                           <div class="card-content">
                             <input type="hidden" name="checkUniqueKey" th:value="@{/public/checkUniqueKey}">
+                            <input type="hidden" name="checkAvailable" th:value="@{/public/checkAvailable}">
                             <input type="hidden" name="existingEnroll" th:value="@{/public/enroll.html}">
                             <form id="enrollForm" th:action="@{/public/enroll.html}" method="POST">
 								<input type="hidden" name="formId"         th:value="${formMeta.formId}">
@@ -48,6 +50,7 @@
 										   <div th:if="${fieldMeta.isSelect()}" class="form-group label-floating">
 										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">&nbsp;*</span></label>
 										   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
+										   		<input type="hidden" class = "slotKey"   th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.hasApplicantSlot()}">
 						                        <select th:required="${fieldMeta.isRequired()}" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" class="form-control">
 							                        <option th:each="option, s : ${fieldMeta.options}" th:value="${option.value}" th:text="${option.label}" th:selected="${option.isChecked()}"/>
 						                        </select>
@@ -76,21 +79,21 @@
 								           <div th:if="${fieldMeta.isDate()}" class="form-group label-floating">
 										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">&nbsp;*</span></label>
 										   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
-										        <input th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off">
+										        <input type="dateISO" th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off">
 										   </div>
 										   <div th:if="${fieldMeta.isNumber()}" class="form-group label-floating">
 										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">&nbsp;*</span></label>
 										   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
-										        <input th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off">
+										        <input type="number"  min="0" th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off">
 										   </div>
                                  </div>
                              </div>
                                <span style="color:red" id="message"></span>
                                <button type="button" class="btn btn-success pull-right backToList"  th:if="${viewType == 'manage'}" th:data-href="@{/forms.html}">返回列表</button>
                                <button type="button" class="btn btn-success pull-right register"    th:if="${viewType != 'manage'}">提交信息</button>
-                            	<button type="button" class="btn btn-info pull-right save"           th:if="${viewType != 'manage'}">暂存信息</button>
-                            	<button type="button" class="btn btn-info pull-right gotoanother" style="display:none;" data-id="" th:if="${viewType != 'manage'}">去那个报名信息</button>
-                                  <div class="clearfix"></div>
+                               <button type="button" class="btn btn-info pull-right save"           th:if="${viewType != 'manage'}">暂存信息</button>
+                               <button type="button" class="btn btn-info pull-right gotoanother" style="display:none;" data-id="" th:if="${viewType != 'manage'}">去那个报名信息</button>
+                               <div class="clearfix"></div>
                               </form>
                           </div>
                       </div>

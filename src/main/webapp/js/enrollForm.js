@@ -22,7 +22,34 @@ $(document).ready(function() {
 		window.location.href = $( ':input[name=existingEnroll]' ).val() + "?registerId=" +  $(this).data( "id");
 	});
 	
-	$('.uniqueKey').next("input").blur(function() {
+	function checkSlotKey() {
+		var value = $.trim($(this).val());
+		if (value == '') {
+			return;
+		}
+		var formId = $(':input[name=formId]').val();
+		var fieldId = $('.slotKey').val();
+		var url = $(':input[name=checkAvailable]').val() + '?formId=' + formId + '&fieldId=' + fieldId + '&value=' + value;
+		var keyLabel = $(this).parent().find("label").text();
+		$.getJSON(url, function( data ) {
+			 if (data.status == 'success') {
+				 if (!data.data) {
+					 $('.slotAvailable').text('报名人数在' + value + '已满，请选择其它' + keyLabel);
+					 $('.save').hide();
+					 $('.register').hide();
+				 } else {
+					 $('.slotAvailable').text('');
+					 $('.save').show();
+					 $('.register').show();
+				 }
+			 }
+		});
+	}
+	
+	$('.slotKey').next("select").change(checkSlotKey);
+	$('.slotKey').next("input").change(checkSlotKey);
+	
+	function checkUniqueKey() {
 		var value = $.trim($(this).val());
 		if (value == '') {
 			return;
@@ -47,5 +74,9 @@ $(document).ready(function() {
 				 }
 			 }
 		});
-	});
+	}
+	
+	$('.uniqueKey').next("input").blur(checkUniqueKey);
+	$('.uniqueKey').next("select").blur(checkUniqueKey);
+	$('.slotKey').next("select").trigger( "change" );
 });
