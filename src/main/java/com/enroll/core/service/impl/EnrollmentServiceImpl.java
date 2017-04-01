@@ -173,9 +173,9 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 						fieldOption.setValue(fieldOption.getLabel());
 						LOGGER.info("The number of applicant for form {} is limited to {} at {}", formMeta.getFormName(), option.getValue(), option.getLabel());
 					}
-					if (StringUtils.isBlank(option.getValue())) {
+					/*if (StringUtils.isBlank(option.getValue())) {
 						fieldOption.setValue(String.valueOf(formFieldMeta.getSizeOfFieldOptions()));
-					}
+					}*/
 				}
 			}
 			
