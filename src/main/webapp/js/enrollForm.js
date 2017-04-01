@@ -62,6 +62,8 @@ $(document).ready(function() {
 	
 	$('.slotKey').next("select").change(checkSlotKey);
 	$('.slotKey').next("input").change(checkSlotKey);
+	$('.slotKey').next("select").trigger( "change" );
+	$('.slotKey').next("input").trigger( "change" );
 	
 	function checkUniqueKey() {
 		var value = $.trim($(this).val());
@@ -92,5 +94,4 @@ $(document).ready(function() {
 	
 	$('.uniqueKey').next("input").blur(checkUniqueKey);
 	$('.uniqueKey').next("select").blur(checkUniqueKey);
-	
 });
