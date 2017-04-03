@@ -151,7 +151,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			formFieldMeta.setRequired(formField.getRequired());
 			formFieldMeta.setUniqueKey(formField.getUniqueKey());
 			formMeta.addFormFieldMeta(formFieldMeta);
-			
+			formFieldMeta.setPosition(formMeta.getFormFieldMetaList().size());
 			boolean isApplicantSlot = formField.isSelect() && formField.hasApplicantSlot();
 			
 			// Group the options data if any
