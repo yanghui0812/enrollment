@@ -3,6 +3,8 @@ package com.enroll.core.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -81,6 +83,9 @@ public class FormMetaDTO implements Serializable {
 		if (fields.isEmpty()) {
 			return list;
 		}
+		
+		Collections.sort(fields, Comparator.comparing(FormFieldMetaDTO::getPosition));
+		
 		int index = 0;
 		FormFieldMetaDTO[] array = new FormFieldMetaDTO[2];
 		for (FormFieldMetaDTO field : fields) {
