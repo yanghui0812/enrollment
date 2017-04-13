@@ -411,14 +411,14 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				fieldErrors.add(new PropertyError(RestFieldError.MISSING_FIELD, fieldName));
 				break;
 			}
-			if (PHONE_NUMBER.equals(fieldName)) {
+			/*if (PHONE_NUMBER.equals(fieldName)) {
 				dto.setPhoneNumber(restFieldValue.getValue());
 				continue;
 			}
 			if (APPLICANT_NAME.equals(fieldName)) {
 				dto.setApplicantName(restFieldValue.getValue());
 				continue;
-			}
+			}*/
 			if (STATUS.equals(fieldName)) {
 				dto.setStatus(restFieldValue.getValue());
 				continue;
@@ -622,8 +622,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		//write the title row;
 		XSSFRow row = sheet.createRow(i++);
 		row.createCell(j++).setCellValue("注册号");
-		row.createCell(j++).setCellValue("姓名");
-		row.createCell(j++).setCellValue("电话");
+		//row.createCell(j++).setCellValue("姓名");
+		//row.createCell(j++).setCellValue("电话");
 		/*row.createCell(j++).setCellValue("身份证号");*/
 		row.createCell(j++).setCellValue("注册日期");
 		row.createCell(j++).setCellValue("注册状态");
@@ -636,8 +636,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			j = 0;
 			row = sheet.createRow(i++);
 			row.createCell(j++).setCellValue(enrollment.getRegisterId());
-			row.createCell(j++).setCellValue(enrollment.getApplicantName());
-			row.createCell(j++).setCellValue(enrollment.getPhoneNumber());
+			//row.createCell(j++).setCellValue(enrollment.getApplicantName());
+			//row.createCell(j++).setCellValue(enrollment.getPhoneNumber());
 		/*	row.createCell(j++).setCellValue(enrollment.getId());*/
 			row.createCell(j++).setCellValue(enrollment.getRegisterDate().format(DateUtils.YYYY_MM_DD_HH_MM));
 			EnrollmentStatus enrollStatus = EnrollmentStatus.getEnrollStatus(enrollment.getStatus());
