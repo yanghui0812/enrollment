@@ -113,6 +113,14 @@ public class FormMeta implements Serializable {
 		return formFieldMap;
 	}
 	
+	public Map<String, FormFieldMeta> getFormFieldIgnoreCaseMetaMap() {
+		Map<String, FormFieldMeta> formFieldMap = new HashMap<>();
+		getFormFieldMetaList().stream().forEach(formField -> {
+			formFieldMap.put(StringUtils.lowerCase(StringUtils.trim(formField.getName())), formField);
+		});
+		return formFieldMap;
+	}
+	
 	public void clearAllFormFieldMeta() {
 		formFieldMetaList.stream().forEach(formField -> {
 			formField.setFormMeta(null);
