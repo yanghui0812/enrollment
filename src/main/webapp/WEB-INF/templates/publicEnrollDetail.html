@@ -53,6 +53,21 @@
 		.form-group {
 			margin: 20px 0 0 0;
 		}
+		.well {
+			background: #f8f8f8;
+		    border-radius: 0;
+		    margin: 10px;
+		    border: 0;
+		    box-shadow: none;
+		}
+		.well ol {
+			line-height: 2;
+			padding-left: 24px;
+		}
+		.well h4 {
+			border-bottom: 1px dashed #ccc;
+    		padding-bottom: 10px;
+		}
     </style>
 </head>
 <body>
@@ -74,11 +89,22 @@
 		                <div class="row">
 	                        <div class="col-md-12">
 		                        <div class="card">
-		                            <div class="card-header" data-background-color="green">
-		                                <h4 class="title">详细信息</h4>
+									<div class="card-header" data-background-color="green">
+										<h4 class="title">预约成功!</h4>
 										<p class="category">注册号：<span th:text="${enroll.registerId}"></span></p>
-		                            </div>
-		                            <div class="card-content table-responsive">
+			                        </div>
+		                            <div class="card-content">
+		                            	<div class="row">
+		                            		<div class="well">
+		                            			<h4>请考生携带:</h4>
+												<ol>
+													<li>《2017年上海市高中阶段学校招生考生报名信息表》复印件；</li>
+													<li>初三《成长记录册》（内有一模或二模考试成绩记录）；</li>
+													<li>近期一寸报名照一张。</li>
+												</ol>
+												<p>按预约时间来校参加面试！</p>
+		                            		</div>
+		                            	</div>
 										<!-- <div class="row">
 											<div class="col-md-6">
 												<div class="form-group label-floating">
@@ -115,10 +141,14 @@
 												</div>
 											</div>
 										</div>
-										<button type="button" class="btn btn-info pull-right confirm"  th:if="${enroll.canConfirm() and viewType != 'manage'}">我要确认</button>
-										<button type="button" class="btn btn-success pull-right update"  th:if="${enroll.isDraft() and viewType != 'manage'}" th:data-href="@{/public/updateEnroll.html?registerId=} + ${enroll.registerId}">我要修改一下</button>
-										<!-- <button type="button" class="btn btn-danger pull-right cancel"   th:if="${enroll.canCancel()}">我要取消</button> -->
-										<button type="button" class="btn btn-info pull-right back"   th:if="${enroll.canCancel()}" th:data-href="@{/public/enrollForm.html?formId=} + ${enroll.formId}">返回首页</button>
+										<div class="row">
+											<div class="col-md-12">
+												<button type="button" class="btn btn-info pull-right confirm"  th:if="${enroll.canConfirm() and viewType != 'manage'}">我要确认</button>
+												<button type="button" class="btn btn-success pull-right update"  th:if="${enroll.isDraft() and viewType != 'manage'}" th:data-href="@{/public/updateEnroll.html?registerId=} + ${enroll.registerId}">我要修改一下</button>
+												<!-- <button type="button" class="btn btn-danger pull-right cancel"   th:if="${enroll.canCancel()}">我要取消</button> -->
+												<button type="button" class="btn btn-info pull-right back"   th:if="${enroll.canCancel()}" th:data-href="@{/public/enrollForm.html?formId=} + ${enroll.formId}">返回首页</button>
+											</div>
+										</div>
 		                            </div>
 		                        </div>
 		                    </div>
