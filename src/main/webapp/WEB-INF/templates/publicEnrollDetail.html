@@ -90,12 +90,12 @@
 	                        <div class="col-md-12">
 		                        <div class="card">
 									<div class="card-header" data-background-color="green">
-										<h4 class="title">预约成功!</h4>
+										<h4 class="title" th:if="${enroll.canCancel()}">预约成功!</h4>
 										<p class="category">注册号：<span th:text="${enroll.registerId}"></span></p>
 			                        </div>
 		                            <div class="card-content">
 		                            	<div class="row">
-		                            		<div class="well">
+		                            		<div class="well" th:if="${enroll.canCancel()}">
 		                            			<h4>请考生携带:</h4>
 												<ol>
 													<li>《2017年上海市高中阶段学校招生考生报名信息表》复印件；</li>
