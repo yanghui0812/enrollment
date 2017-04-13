@@ -402,12 +402,12 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			return errorResult;
 		}
 		List<PropertyError> fieldErrors = new ArrayList<>();
-		Map<String, FormFieldMeta> formFieldMap = formMeta.getFormFieldMetaMap();
+		Map<String, FormFieldMeta> formFieldMap = formMeta.getFormFieldIgnoreCaseMetaMap();
 		
 		String slotField = StringUtils.EMPTY;
 		for (RestFieldValue restFieldValue : request.getData()) {
-			String fieldName = StringUtils.trim(restFieldValue.getName());
-			if (!(formFieldMap.containsKey(fieldName) || PHONE_NUMBER.equals(fieldName) || APPLICANT_NAME.equals(fieldName)  || STATUS.equals(fieldName))) {
+			String fieldName = StringUtils.lowerCase(restFieldValue.getName());
+			if (!(formFieldMap.containsKey(fieldName) || STATUS.equals(fieldName))) {
 				fieldErrors.add(new PropertyError(RestFieldError.MISSING_FIELD, fieldName));
 				break;
 			}
@@ -423,7 +423,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				dto.setStatus(restFieldValue.getValue());
 				continue;
 			}
-			FormFieldMeta fieldMeta = formFieldMap.get(restFieldValue.getName());
+			FormFieldMeta fieldMeta = formFieldMap.get(fieldName);
 			
 			if (fieldMeta.hasOptions() && !fieldMeta.getFieldOptionMap().containsValue(restFieldValue.getValue())) {
 				fieldErrors.add(new PropertyError(RestFieldError.INVALID_VALUE, fieldName));
