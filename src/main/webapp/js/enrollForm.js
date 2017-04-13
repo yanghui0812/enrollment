@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$("#enrollForm").validate();
-	$.validator.addMethod("phone", function(value, element) { 
+	$.validator.addMethod("tel", function(value, element) { 
 	    var tel = /^(130|131|132|133|134|135|136|137|138|139|150|153|157|158|159|180|181|182|183|184|185|186|187|188|189|170|171|172|173|174|177|178|175|176|179|)\d{8}$/; 
 	    return tel.test(value) || this.optional(element); 
 	}, "请输入正确的手机号码");
@@ -24,6 +24,7 @@ $(document).ready(function() {
 	
 	function checkSlotKey() {
 		var value = $.trim($(this).val());
+		//console.log(value);
 		if (value == '') {
 			 $('.slotAvailable').text('');
 			 $('.save').show();
