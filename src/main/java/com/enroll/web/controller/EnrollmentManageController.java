@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,7 @@ import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchResult;
+import com.enroll.core.enums.EnrollmentStatus;
 import com.enroll.core.enums.FormStatus;
 import com.enroll.core.search.Search;
 import com.enroll.core.search.SearchCriteria;
@@ -62,6 +64,22 @@ public class EnrollmentManageController {
 		model.addAttribute("viewType", VIEW_TYPE);
 		model.addAttribute("active", "enrolls");
 		return "enrollDetail";
+	}
+	
+	/**
+	 * Change the status of enrollment;
+	 * @param registerId
+	 * @param status
+	 * @return String
+	 */
+	@RequestMapping(value = "/enrolls/{registerId}", method = RequestMethod.POST)
+	public String updateEnrollment(@PathVariable String registerId, String status) {
+		if (EnrollmentStatus.ENROLL.getType().equals(status)) {
+			enrollmentService.confirmEnrollment(registerId);
+		} else if (EnrollmentStatus.CANCEL.getType().equals(status)) {
+			enrollmentService.cancelEnrollment(registerId);
+		}
+		return "redirect:/manage/enroll.html?registerId=" + registerId;
 	}
 	
 	/**
