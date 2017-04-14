@@ -1,39 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" name="RoutingTest" packages="org.apache.logging.log4j.test">
-    <Properties>
-        <Property name="filename">/tmp/rolling1/rollingtest-$${sd:type}.log</Property>
-    </Properties>
-    <ThresholdFilter level="debug" />
- 
-    <Appenders>
-        <Console name="STDOUT">
-            <PatternLayout pattern="%m%n" />
-        </Console>
-        <List name="List">
-            <ThresholdFilter level="debug" />
-        </List>
-        <Routing name="Routing">
-            <Routes pattern="$${sd:type}">
-                <Route>
-                    <RollingFile name="Rolling-${sd:type}" fileName="${filename}" filePattern="/tmp/rolling1/test1-${sd:type}.%i.log.gz">
-                        <PatternLayout>
-                            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
-                        </PatternLayout>
-                        <SizeBasedTriggeringPolicy size="500" />
-                    </RollingFile>
-                </Route>
-                <Route ref="STDOUT" key="Audit" />
-                <Route ref="List" key="Service" />
-            </Routes>
-        </Routing>
-    </Appenders>
- 
-    <Loggers>
-        <Logger name="EventLogger" level="info" additivity="false">
-            <AppenderRef ref="Routing" />
-        </Logger>
-        <Root level="error">
-            <AppenderRef ref="STDOUT" />
-        </Root>
-    </Loggers>
+<Configuration status="ERROR">
+	<Properties>
+		<Property name="filename">/logs/enroll.log</Property>
+	</Properties>
+	<Appenders>
+		<Console name="STDOUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
+		</Console>
+		<RollingFile name="RollingFile" fileName="${filename}" filePattern="/logs/enroll-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
+			<SizeBasedTriggeringPolicy size="20 MB"/>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="ERROR">
+			<AppenderRef ref="RollingFile"/>
+		</Root>
+	</Loggers>
 </Configuration>

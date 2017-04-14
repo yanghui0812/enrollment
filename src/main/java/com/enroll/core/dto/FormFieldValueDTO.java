@@ -2,6 +2,8 @@ package com.enroll.core.dto;
 
 import java.io.Serializable;
 
+import com.enroll.core.enums.FormFieldType;
+
 public class FormFieldValueDTO implements Serializable {
 	
 	private static final long serialVersionUID = 6679862982785736942L;
@@ -10,10 +12,18 @@ public class FormFieldValueDTO implements Serializable {
 	
 	private long fieldId;
 	
-	private String idNumber;
+	private String registerId;
 	
 	private String fieldValue;
-
+	
+	private String fieldName;
+	
+	private String fieldDisplay;
+	
+	private String fieldtype;
+	
+	private String label;
+	
 	public FormFieldValueDTO() {
 	}
 
@@ -21,17 +31,29 @@ public class FormFieldValueDTO implements Serializable {
 		this.fieldId = fieldId;
 	}
 	
-	public FormFieldValueDTO(long formId, long fieldId, String idNumber, String fieldValue) {
-		super();
+	public FormFieldValueDTO(long formId, long fieldId, String registrId, String fieldValue, String fieldName) {
+		this(formId, fieldId, fieldValue);
+		this.registerId = registrId;
+		this.fieldName = fieldName;
+	}
+	
+	public FormFieldValueDTO(long formId, long fieldId, String fieldValue) {
 		this.formId = formId;
 		this.fieldId = fieldId;
-		this.idNumber = idNumber;
 		this.fieldValue = fieldValue;
 	}
 
 	public FormFieldValueDTO(int fieldId, String fieldValue) {
 		this.fieldId = fieldId;
 		this.fieldValue = fieldValue;
+	}
+	
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	public long getFieldId() {
@@ -62,12 +84,44 @@ public class FormFieldValueDTO implements Serializable {
 		this.fieldId = fieldId;
 	}
 
-	public String getIdNumber() {
-		return idNumber;
+	public String getFieldName() {
+		return fieldName;
 	}
 
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public String getRegisterId() {
+		return registerId;
+	}
+
+	public void setRegisterId(String registerId) {
+		this.registerId = registerId;
+	}
+	
+
+	public String getFieldDisplay() {
+		return fieldDisplay;
+	}
+
+	public void setFieldDisplay(String fieldDisplay) {
+		this.fieldDisplay = fieldDisplay;
+	}
+	
+	public String getValue() {
+		if (FormFieldType.hasOption(fieldtype)) {
+			return this.fieldDisplay;
+		}
+		return fieldValue;
+	}
+
+	public String getFieldtype() {
+		return fieldtype;
+	}
+
+	public void setFieldtype(String fieldtype) {
+		this.fieldtype = fieldtype;
 	}
 
 	@Override
@@ -75,9 +129,9 @@ public class FormFieldValueDTO implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (fieldId ^ (fieldId >>> 32));
-		result = prime * result + ((fieldValue == null) ? 0 : fieldValue.hashCode());
+		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
 		result = prime * result + (int) (formId ^ (formId >>> 32));
-		result = prime * result + ((idNumber == null) ? 0 : idNumber.hashCode());
+		result = prime * result + ((registerId == null) ? 0 : registerId.hashCode());
 		return result;
 	}
 
@@ -92,17 +146,17 @@ public class FormFieldValueDTO implements Serializable {
 		FormFieldValueDTO other = (FormFieldValueDTO) obj;
 		if (fieldId != other.fieldId)
 			return false;
-		if (fieldValue == null) {
-			if (other.fieldValue != null)
+		if (fieldName == null) {
+			if (other.fieldName != null)
 				return false;
-		} else if (!fieldValue.equals(other.fieldValue))
+		} else if (!fieldName.equals(other.fieldName))
 			return false;
 		if (formId != other.formId)
 			return false;
-		if (idNumber == null) {
-			if (other.idNumber != null)
+		if (registerId == null) {
+			if (other.registerId != null)
 				return false;
-		} else if (!idNumber.equals(other.idNumber))
+		} else if (!registerId.equals(other.registerId))
 			return false;
 		return true;
 	}

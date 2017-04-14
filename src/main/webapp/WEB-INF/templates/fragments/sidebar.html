@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div class="sidebar" data-color="green" th:data-image="@{/img/sidebar.jpg}" th:fragment="sidebar">
+		<div class="logo">
+			<a th:href="@{/home.html}" class="logo-img">上海商业会计学校 </a>
+		</div>
+		<div class="sidebar-wrapper">
+			<ul class="nav" id = "lefeMenu">
+				<li th:class="${active == null} ? 'active' : ''"><a th:href="@{/home.html}"> 
+					<i class="material-icons">home</i>
+						<p>首页</p>
+				    </a>
+				</li>
+				<li th:class="${active == 'designForm'} ? 'active' : ''"><a th:href="@{/forms/.html}">
+					 <i
+							class="material-icons">create</i>
+							<p>设计表单</p>
+					</a>
+				</li>
+				<li th:class="${active == 'forms'} ? 'active' : ''"><a th:href="@{/forms.html}"> <i
+						class="material-icons">assignment</i>
+						<p>所有表单</p>
+				</a></li>
+				<li th:class="${active == 'enrolls'} ? 'active' : ''"><a th:href="@{/manage/enrolls.html}"> <i
+						class="material-icons">dashboard</i>
+						<p>报名列表</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

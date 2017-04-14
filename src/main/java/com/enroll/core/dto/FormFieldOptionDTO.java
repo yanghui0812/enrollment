@@ -2,30 +2,38 @@ package com.enroll.core.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class FormFieldOptionDTO implements Serializable {
-	
+
 	private static final long serialVersionUID = 4768670324483749534L;
 
 	private int position;
 
-	private FormFieldMetaDTO formField;
-	
 	private String value;
-	
-	private String display;
-	
+
+	private String label;
+
 	private String description;
-	
+
+	private String selected;
+
+	private FormFieldMetaDTO formField;
+
 	public FormFieldOptionDTO() {
 	}
-	
+
 	public FormFieldOptionDTO(int position, FormFieldMetaDTO formField, String value, String display, String description) {
 		super();
 		this.position = position;
 		this.formField = formField;
 		this.value = value;
-		this.display = display;
+		this.label = display;
 		this.description = description;
+	}
+
+	public boolean isChecked() {
+		return StringUtils.contains(formField.getInputFieldValue(), value);
 	}
 
 	public String getValue() {
@@ -37,11 +45,11 @@ public class FormFieldOptionDTO implements Serializable {
 	}
 
 	public String getDisplay() {
-		return this.display;
+		return this.label;
 	}
 
 	public void setDisplay(String display) {
-		this.display = display;
+		this.label = display;
 	}
 
 	public String getDescription() {
@@ -68,12 +76,28 @@ public class FormFieldOptionDTO implements Serializable {
 		this.formField = formField;
 	}
 
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getSelected() {
+		return selected;
+	}
+
+	public void setSelected(String selected) {
+		this.selected = selected;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((display == null) ? 0 : display.hashCode());
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + ((formField == null) ? 0 : formField.hashCode());
 		result = prime * result + position;
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
@@ -94,10 +118,10 @@ public class FormFieldOptionDTO implements Serializable {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (display == null) {
-			if (other.display != null)
+		if (label == null) {
+			if (other.label != null)
 				return false;
-		} else if (!display.equals(other.display))
+		} else if (!label.equals(other.label))
 			return false;
 		if (formField == null) {
 			if (other.formField != null)
