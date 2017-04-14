@@ -7,11 +7,16 @@
           <div class="container-fluid">
               <div class="row">
                      <div class="col-md-12">
+                     <!--[if lt IE 9]>
+	                     <div class="alert alert-warning">
+		                     <span>浏览器请使用IE 9.0以上版本</span>
+		                 </div>				
+					 <![endif]-->
                      <div class="slotAvailable"></div>
                       <div class="card card-login">
                           <div class="card-header" data-background-color="green">
                               <h4 class="title" th:text=${formMeta.formDescription}></h4>
-                              <img th:src="@{/img/logo-small.png}" alt="上海商业会计学校" style="width: 60px;position: absolute;right: 5px;top: 0;padding:5px"/>
+                           <!--   <img th:src="@{/img/logo-small.png}" alt="上海商业会计学校" style="width: 60px;position: absolute;right: 5px;top: 0;padding:5px"/> -->
                           </div>
                           <div class="card-content">
                             <input type="hidden" name="checkUniqueKey" th:value="@{/public/checkUniqueKey}">
