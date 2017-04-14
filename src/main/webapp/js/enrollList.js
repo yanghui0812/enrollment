@@ -22,12 +22,58 @@ $(document).ready(function() {
                      return JSON.stringify( d );
                   }
 			   },
-		"columns": [{ "title": "注册号", 	  "data": "registerId", "name" : "registerId"},
+		"columns": [
+				  //{ "title": "注册号", 	 "data": "registerId", "name" : "registerId"},
 					{ "title": "表单号",   "data": "formId", "visible":false, "name" : "formId"},
-		            { "title": "电话", 	  "data": "phoneNumber", "name" : "phoneNumber"},
+		            { "title": "预约时间",  "data": "fieldValueList", "name" : "apptime", "render": function (data, type, full) {
+		            	var array = data;
+		            	for(var i = 0; i < array.length; i++) {
+		            		if (array[i]['fieldName'] == 'apptime') {
+		            			return array[i]['fieldDisplay'];
+		            		}
+		            	}
+		            	return "";
+		              }
+					},
+		            { "title": "考生姓名",  "data": "fieldValueList", "render": function (data, type, full) {
+		            	var array = data;
+		            	for(var i = 0; i < array.length; i++) {
+		            		if (array[i]['fieldName'] == 'applicantname') {
+		            			return array[i]['fieldValue'];
+		            		}
+		            	}
+		            	return "";
+		            }},
+		            { "title": "中考报名号", "data": "fieldValueList", "render": function (data, type, full) {
+		            	var array = data;
+		            	for(var i = 0; i < array.length; i++) {
+		            		if (array[i]['fieldName'] == 'examnumber') {
+		            			return array[i]['fieldValue'];
+		            		}
+		            	}
+		            	return "";
+		            }},
+		            { "title": "报考区域",  "data": "fieldValueList", "render": function (data, type, full) {
+		            	var array = data;
+		            	for(var i = 0; i < array.length; i++) {
+		            		if (array[i]['fieldName'] == 'appzone') {
+		            			return array[i]['fieldDisplay'];
+		            		}
+		            	}
+		            	return "";
+		            }},
+		            { "title": "联系电话",  "data": "fieldValueList", "render": function (data, type, full) {
+		            	var array = data;
+		            	for(var i = 0; i < array.length; i++) {
+		            		if (array[i]['fieldName'] == 'phonenumber') {
+		            			return array[i]['fieldValue'];
+		            		}
+		            	}
+		            	return "";
+		            }},
 		            { "title": "注册日期",  "data": "registerDateStr", "name" : "registerDate"},
 		            { "title": "注册状态",  "data": "statusDesc", "name" : "status"},
-		            { "title": "操作", 	  "data": "registerId", "orderable": false, "searchable": false, "render": function (data, type, full) {
+		            { "title": "操作", 	 "data": "registerId", "orderable": false, "searchable": false, "render": function (data, type, full) {
 		            	var prefixForUpdate = $(':hidden[name=enrollUpdateUrl]').val();
 		            	var prefixForDetail = $(':hidden[name=enrollDetail]').val();
 		    			//return '<a href="' + prefixForUpdate + '?registerId=' + data + '" style="margin-top:-3px">修改</a></br><a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
@@ -53,7 +99,8 @@ $(document).ready(function() {
 			var end =   $('input[name=registerDateEnd]').val();
 			table.columns(1).search($('.formId').val());
 			table.columns(3).search(begin + '~' + end);
-			table.search($('input[name=search]').val()).draw();
+			var apptime = $('.apptime').val();
+			table.search($('input[name=search]').val() + ' ' + apptime.replace(/\s/g,"")).draw();
 		}
 		
 		$('#downloadEnroll').click(function() {
