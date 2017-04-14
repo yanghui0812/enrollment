@@ -9,7 +9,7 @@ public enum EnrollmentStatus {
 	
 	DRAFT("draft", "暂存"),
 	ENROLL("enroll", "注册成功"),
-	CANCEL("cancel", "注册取消");
+	CANCEL("cancel", "注册删除");
 
 	private String type;
 	private String desc;

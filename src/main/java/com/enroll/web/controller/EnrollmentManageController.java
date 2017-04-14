@@ -111,6 +111,12 @@ public class EnrollmentManageController {
 		query.setSearchFormStatus(FormStatus.PUBLISH.getType());
 		List<FormMetaDTO> list = enrollmentService.findFormMetaList(query);
 		model.addAttribute("formMetaList", list);
+		FormMetaDTO formMeta = enrollmentService.findFormMetaById(52);//No choice to hardcode
+		formMeta.getFields().stream().forEach(field ->{
+			if (StringUtils.equals("apptime", field.getName())) {
+				model.addAttribute("apptimeList", field.getOptions());
+			}
+		});
 		model.addAttribute("active", "enrolls");
 		return "enrollList";
 	}
