@@ -63,14 +63,25 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-md-12">
+											<div class="col-md-6">
 												<div class="form-group label-floating">
-													<label class="control-label">所属报名表单</label> <select
-																name="formId" class="form-control formId">
+													<label class="control-label">所属报名表单</label>
+													 <select name="formId" class="form-control formId">
 														<option></option>
 														<option th:each="formMeta: ${formMetaList}"
 																	th:value="${formMeta.formId}"
 																	th:text="${formMeta.formName}" />
+													</select>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">预约时间</label>
+													 <select name="apptime" class="form-control apptime">
+														<option></option>
+														<option th:each="option: ${apptimeList}"
+																	th:value="${option.value}"
+																	th:text="${option.label}" />
 													</select>
 												</div>
 											</div>

@@ -217,7 +217,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			formFieldMap.put(field.getFieldId(), field);
 		});
 		
-		StringBuilder sb = new StringBuilder(enrollment.toString());
+		StringBuilder sb = new StringBuilder();
 
 		// Loop to copy and save field value
 		enrollmentDTO.getFieldValueList().stream().forEach(value -> {
@@ -228,8 +228,10 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				if (fieldkeyValueMap.containsKey(value.getFieldId())) {
 					fieldValue.setFieldDisplay(getFieldDisplay(value.getFieldId(), value.getFieldValue(), fieldkeyValueMap));
 				}
-				sb.append(value.getFieldValue());
-				sb.append(AppConstant.BLANK);
+				if (StringUtils.isNotBlank(value.getFieldValue())) {
+					sb.append(StringUtils.deleteWhitespace(value.getFieldValue()));
+					sb.append(AppConstant.BLANK);
+				}
 				fieldValue.setFieldtype(fieldMeta.getType());
 				fieldValue.setLabel(fieldMeta.getLabel());
 				enrollment.addFieldValue(fieldValue);
@@ -335,9 +337,13 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		searchResult.getData().stream().forEach(enrollment -> {
 			EnrollmentDTO dto = new EnrollmentDTO();
 			BeanUtils.copyProperties(enrollment, dto, "fieldValueList");
+			enrollment.getFieldValueList().stream().forEach(formFieldValue -> {
+				FormFieldValueDTO fieldValue = new FormFieldValueDTO();
+				BeanUtils.copyProperties(formFieldValue, fieldValue);
+				dto.addFieldValue(fieldValue);
+			});
 			result.addElement(dto);
 		});
-
 		result.setDraw(searchResult.getDraw());
 		result.setRecordsFiltered(searchResult.getRecordsFiltered());
 		result.setRecordsTotal(searchResult.getRecordsTotal());
