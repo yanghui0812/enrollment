@@ -25,7 +25,7 @@ $(document).ready(function() {
 		"columns": [
 				  //{ "title": "注册号", 	 "data": "registerId", "name" : "registerId"},
 					{ "title": "表单号",   "data": "formId", "visible":false, "name" : "formId"},
-		            { "title": "预约时间",  "data": "fieldValueList", "name" : "apptime", "render": function (data, type, full) {
+		            { "title": "预约时间",  "data": "fieldValueList", "orderable": false, "name" : "apptime", "render": function (data, type, full) {
 		            	var array = data;
 		            	for(var i = 0; i < array.length; i++) {
 		            		if (array[i]['fieldName'] == 'apptime') {
@@ -35,7 +35,7 @@ $(document).ready(function() {
 		            	return "";
 		              }
 					},
-		            { "title": "考生姓名",  "data": "fieldValueList", "render": function (data, type, full) {
+		            { "title": "考生姓名",  "data": "fieldValueList", "orderable": false, "render": function (data, type, full) {
 		            	var array = data;
 		            	for(var i = 0; i < array.length; i++) {
 		            		if (array[i]['fieldName'] == 'applicantname') {
@@ -44,7 +44,7 @@ $(document).ready(function() {
 		            	}
 		            	return "";
 		            }},
-		            { "title": "中考报名号", "data": "fieldValueList", "render": function (data, type, full) {
+		            { "title": "中考报名号", "data": "fieldValueList", "orderable": false, "render": function (data, type, full) {
 		            	var array = data;
 		            	for(var i = 0; i < array.length; i++) {
 		            		if (array[i]['fieldName'] == 'examnumber') {
@@ -53,7 +53,7 @@ $(document).ready(function() {
 		            	}
 		            	return "";
 		            }},
-		            { "title": "报考区域",  "data": "fieldValueList", "render": function (data, type, full) {
+		            { "title": "报考区域",  "data": "fieldValueList", "orderable": false, "render": function (data, type, full) {
 		            	var array = data;
 		            	for(var i = 0; i < array.length; i++) {
 		            		if (array[i]['fieldName'] == 'appzone') {
@@ -62,7 +62,7 @@ $(document).ready(function() {
 		            	}
 		            	return "";
 		            }},
-		            { "title": "联系电话",  "data": "fieldValueList", "render": function (data, type, full) {
+		            { "title": "联系电话",  "data": "fieldValueList", "orderable": false, "render": function (data, type, full) {
 		            	var array = data;
 		            	for(var i = 0; i < array.length; i++) {
 		            		if (array[i]['fieldName'] == 'phonenumber') {

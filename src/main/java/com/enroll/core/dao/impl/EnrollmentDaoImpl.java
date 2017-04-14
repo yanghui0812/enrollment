@@ -171,15 +171,13 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 
 		if (query.getSearch() != null && StringUtils.isNotBlank(query.getSearch().getValue())) {
 			String[] array = StringUtils.split(query.getSearch().getValue());
-			List<Predicate> list = new ArrayList<>();
 			for (String token : array) {
-				list.add(builder.like(root.get("search"), PERCENT_SIGN + token + PERCENT_SIGN));
+				predicate = builder.and(predicate, builder.like(root.get("search"), PERCENT_SIGN + token + PERCENT_SIGN));
 			}
-			predicate = builder.and(builder.or(list.toArray(new Predicate[0])));
 		}
 
 		if (query.getSearchFormId() > 0) {
-			predicate = builder.equal(root.get("formId"), query.getSearchFormId());
+			predicate = builder.and(predicate, builder.equal(root.get("formId"), query.getSearchFormId()));
 		}
 		if (StringUtils.isNotBlank(query.getSearchStatus())) {
 			predicate = builder.and(predicate, builder.equal(root.get("status"), query.getSearchStatus()));
