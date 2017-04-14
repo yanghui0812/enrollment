@@ -1,20 +1,37 @@
 package com.enroll.core.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.enroll.common.DateUtils;
+import com.enroll.core.enums.FormStatus;
 
 public class FormMetaDTO implements Serializable {
-	
+
 	private static final long serialVersionUID = -5319832726810258220L;
 
 	private long formId;
-	
+
 	private String formName;
-	
+
 	private String formDescription;
 
-	private List<FormFieldMetaDTO> formFieldMetaList = new ArrayList<FormFieldMetaDTO>();
+	private String status;
+	
+	private LocalDateTime createdDate;
+
+	private String rawJson;
+	
+	private AtomicInteger fieldIndex = new AtomicInteger(0);
+
+	private List<FormFieldMetaDTO> fields = new ArrayList<FormFieldMetaDTO>();
 
 	public FormMetaDTO() {
 	}
@@ -53,15 +70,98 @@ public class FormMetaDTO implements Serializable {
 		this.formDescription = formDescription;
 	}
 
-	public List<FormFieldMetaDTO> getFormFieldMetaList() {
-		return formFieldMetaList;
+	public List<FormFieldMetaDTO> getFields() {
+		return fields;
+	}
+
+	public void addFormFieldMeta(FormFieldMetaDTO dto) {
+		fields.add(dto);
+	}
+
+	public List<FormFieldMetaDTO[]> getPageFields() {
+		List<FormFieldMetaDTO[]> list = new ArrayList<FormFieldMetaDTO[]>();
+		if (fields.isEmpty()) {
+			return list;
+		}
+		
+		Collections.sort(fields, Comparator.comparing(FormFieldMetaDTO::getPosition));
+		
+		int index = 0;
+		FormFieldMetaDTO[] array = new FormFieldMetaDTO[2];
+		for (FormFieldMetaDTO field : fields) {
+			if (index > 0 && index % 2 == 0) {
+				array = new FormFieldMetaDTO[2];
+			}
+			if (index % 2 == 0) {
+				list.add(array);
+			}
+			array[index % 2] = field;
+			index++;
+		}
+		if (array[1] == null) {
+			array[1] = new FormFieldMetaDTO();
+		}
+		return list;
+	}
+
+	public String getStatus() {
+		return status;
 	}
 	
-	public void addFormFieldMeta(FormFieldMetaDTO dto) {
-		if (formFieldMetaList == null) {
-			formFieldMetaList = new ArrayList<FormFieldMetaDTO>();
+	public String getStatusDesc() {
+		FormStatus formStatus = FormStatus.getFormStatus(status);
+		if (formStatus != null) {
+			return formStatus.getDesc();
 		}
-		formFieldMetaList.add(dto);
+		return StringUtils.EMPTY;
+	}
+	
+	public boolean isCanUpdate() {
+		return FormStatus.DRAFT.getType().equals(status);
+	}
+	
+	public boolean isCanPublish() {
+		return FormStatus.DRAFT.getType().equals(status);
+	}
+	
+	public boolean isCanInactive() {
+		return FormStatus.DRAFT.getType().equals(status) || FormStatus.PUBLISH.getType().equals(status);
+	}
+	
+	public boolean isCanEnroll() {
+		return FormStatus.PUBLISH.getType().equals(status);
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+	
+	public String getFormatCreatedDate() {
+		return this.createdDate.format(DateUtils.YYYY_MM_DD_HH_MM);
+	}
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public void setFields(List<FormFieldMetaDTO> fields) {
+		this.fields = fields;
+	}
+
+	public String getRawJson() {
+		return rawJson;
+	}
+
+	public void setRawJson(String rawJson) {
+		this.rawJson = rawJson;
+	}
+
+	public int getFieldIndex() {
+		return fieldIndex.getAndIncrement();
 	}
 
 	@Override
@@ -69,7 +169,7 @@ public class FormMetaDTO implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((formDescription == null) ? 0 : formDescription.hashCode());
-		result = prime * result + ((formFieldMetaList == null) ? 0 : formFieldMetaList.hashCode());
+		result = prime * result + ((fields == null) ? 0 : fields.hashCode());
 		result = prime * result + (int) (formId ^ (formId >>> 32));
 		result = prime * result + ((formName == null) ? 0 : formName.hashCode());
 		return result;
@@ -89,10 +189,10 @@ public class FormMetaDTO implements Serializable {
 				return false;
 		} else if (!formDescription.equals(other.formDescription))
 			return false;
-		if (formFieldMetaList == null) {
-			if (other.formFieldMetaList != null)
+		if (fields == null) {
+			if (other.fields != null)
 				return false;
-		} else if (!formFieldMetaList.equals(other.formFieldMetaList))
+		} else if (!fields.equals(other.fields))
 			return false;
 		if (formId != other.formId)
 			return false;
