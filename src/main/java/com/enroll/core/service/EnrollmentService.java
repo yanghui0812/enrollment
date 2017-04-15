@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.EnrollmentQuery;
+import com.enroll.core.dto.FormFieldMetaDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchResult;
@@ -22,6 +23,13 @@ public interface EnrollmentService {
 	 * @return FormMetaDTO
 	 */
 	public FormMetaDTO findFormMetaById(long formId);
+	
+	/**
+	 * @param slotMap
+	 * @param fieldId
+	 * @param formId
+	 */
+	public void changeFormSlot(FormFieldMetaDTO slotMap, long formId);
 	
 	/**
 	 * Get design form meta data and input value
@@ -156,6 +164,11 @@ public interface EnrollmentService {
 	 */
 	public String findRegisterIdByFormIdAndUniqueKey(long formId, long fieldId, String value);
 	
+	/**
+	 * @param formId
+	 * @return
+	 */
+	public Map<String, String> findApplicantSlotMap(Long formId);
 	
 	/**
 	 * Export enrollments according to the query criteria;
