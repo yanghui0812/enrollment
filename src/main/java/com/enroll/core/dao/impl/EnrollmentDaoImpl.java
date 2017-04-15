@@ -225,7 +225,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<User> criteria = builder.createQuery(User.class);
 		Root<User> root = criteria.from(User.class);
-		criteria.select(criteria.from(User.class));
+		criteria.select(root);
 		criteria.where(builder.equal(root.get("name"), userName));
 		User user = getEntityManager().createQuery(criteria).getSingleResult();
 		return user;
