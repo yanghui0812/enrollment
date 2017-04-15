@@ -17,6 +17,8 @@ public class FormFieldOptionDTO implements Serializable {
 	private String description;
 
 	private String selected;
+	
+	private String slot;
 
 	private FormFieldMetaDTO formField;
 
@@ -136,5 +138,13 @@ public class FormFieldOptionDTO implements Serializable {
 		} else if (!value.equals(other.value))
 			return false;
 		return true;
+	}
+
+	public String getSlot() {
+		return slot;
+	}
+
+	public void setSlot(String slot) {
+		this.slot = slot;
 	}
 }

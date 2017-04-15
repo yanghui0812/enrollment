@@ -38,6 +38,7 @@ $(document).ready(function() {
 		            	var inactiveUrl = '<a class="publishOrInactive" href="javascript:void(0);" data-formId="' + data + '" data-status="inactive">废弃</a>';
 		            	var copyUrl = '<a class="copyForm" href="javascript:void(0);" data-formId="' + data + '">复制</a>';
 		            	var publicUrl = '<a class="publicForm" href="javascript:void(0);" data-formId="' + data + '">报名</a>';
+		            	var changeSlotUrl = '<a href="' + $(':hidden[name=changeFormSlotUrl]').val() + data + '?mode=view">名额</a>';
 		            	var result = '';
 		            	if (full.canUpdate) {
 		            		result = updateUrl;
@@ -51,9 +52,9 @@ $(document).ready(function() {
 		            	}
 		            	if (full.canInactive) {
 		            		if (result == '') {
-		            			result = inactiveUrl;
+		            			result = inactiveUrl + '</br>' + changeSlotUrl;
 		            		} else {
-		            			result = result + '</br>' + inactiveUrl;
+		            			result = result + '</br>' + inactiveUrl + '</br>' + changeSlotUrl;;
 		            		}
 		            	}
 		            	if (full.canEnroll) {

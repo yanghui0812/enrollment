@@ -1,10 +1,11 @@
 package com.enroll.web.controller;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.enroll.common.AppConstant;
 import com.enroll.core.dto.AjaxResult;
-import com.enroll.core.dto.FormFieldOptionDTO;
+import com.enroll.core.dto.FormFieldMetaDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchResult;
@@ -55,6 +57,55 @@ public class FormDesignController {
 		}
 		model.addAttribute("active", "designForm");
 		return "designForm";
+	}
+	
+	/**
+	 * Display form slot;
+	 * 
+	 * @param formId
+	 * @param model
+	 * @return String
+	 */
+	@RequestMapping(value = "/changeFormSlot/{formId}", method = RequestMethod.GET)
+	public String showFormSlot(@PathVariable Long formId, String mode, Model model){
+		if (formId == null) {
+			return "error";
+		}
+		FormMetaDTO formMeta = enrollmentService.findFormMetaById(formId);
+		if (!formMeta.isCanEnroll()) {
+			return "error";
+		}
+		Optional<FormFieldMetaDTO> optional = formMeta.getSlotFormField();
+		if (optional.isPresent()) {
+			model.addAttribute("fieldMeta", optional.get());
+		}
+		
+		Map<String, String> map = enrollmentService.findApplicantSlotMap(formId);
+		optional.get().getOptions().stream().forEach(option -> {
+			String count = map.get(option.getValue());
+			String[] array = StringUtils.split(count, AppConstant.COLON);
+			if (array.length > 1) {
+				option.setValue(array[1]);
+			} else {
+				option.setValue("0");
+			}
+		});
+		model.addAttribute("mode", mode);
+		return "formSlot";
+	}
+	
+	/**
+	 * At the publish status only the form Slot could be changeable;
+	 * 
+	 * @param formId
+	 * @param model
+	 * @return String
+	 */
+	@RequestMapping(value = "/changeFormSlot/{formId}", method = RequestMethod.POST)
+	public String changeFormSlot(FormFieldMetaDTO formField, @PathVariable Long formId, Model model){
+		enrollmentService.changeFormSlot(formField, formId);
+		model.addAttribute("active", "forms");
+		return "redirect:/changeFormSlot/" + formId + "?mode=view";
 	}
 	
 	/**

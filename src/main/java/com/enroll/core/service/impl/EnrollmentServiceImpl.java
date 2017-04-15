@@ -508,7 +508,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		return Integer.valueOf(array[0]) > Integer.valueOf(array[1]);
 	}
 	
-	private Map<String, String> findApplicantSlotMap(Long formId) {
+	public Map<String, String> findApplicantSlotMap(Long formId) {
 		Map<String, String> resultMap = new HashMap<>();
 		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
 		if (formMeta == null) {
@@ -666,5 +666,20 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			}
 		}
 		return book;
+	}
+
+	@Override
+	public void changeFormSlot(FormFieldMetaDTO formField, long formId) {
+		Objects.requireNonNull(formField);
+		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
+		Optional<FormFieldMeta> optional = formMeta.getFormFieldMetaList().stream().filter(field -> {
+			return field.getFieldId() == formField.getFieldId();
+		}).findFirst();
+		FormFieldMeta field = optional.get();
+		Map<String, FormFieldOptionDTO> optionsMap = formField.getOptionsMap();
+		field.getFieldOptionList().forEach(option -> {
+			FormFieldOptionDTO dto = optionsMap.get(String.valueOf(option.getPosition()));
+			option.setSlot(dto.getSlot());
+		});
 	}
 }
