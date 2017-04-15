@@ -2,7 +2,11 @@ package com.enroll.core.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,6 +46,8 @@ public class FormFieldMetaDTO implements Serializable {
 	private String inputFieldValue;
 
 	private FormMetaDTO formMeta;
+	
+	private Map<String, FormFieldOptionDTO> optionsMap = new HashMap<>();
 
 	private List<FormFieldOptionDTO> options = new ArrayList<>();
 
@@ -239,6 +245,7 @@ public class FormFieldMetaDTO implements Serializable {
 	}
 
 	public List<FormFieldOptionDTO> getOptions() {
+		Collections.sort(options, Comparator.comparing(FormFieldOptionDTO::getPosition));
 		return options;
 	}
 
@@ -361,5 +368,13 @@ public class FormFieldMetaDTO implements Serializable {
 				+ label + ", type=" + type + ", fieldConstraint=" + fieldConstraint + ", fieldDefaultValue="
 				+ fieldDefaultValue + ", className=" + className + ", name=" + name + ", inputFieldValue="
 				+ inputFieldValue + ", formMeta=" + formMeta + ", options=" + options + "]";
+	}
+
+	public Map<String, FormFieldOptionDTO> getOptionsMap() {
+		return optionsMap;
+	}
+
+	public void setOptionsMap(Map<String, FormFieldOptionDTO> optionsMap) {
+		this.optionsMap = optionsMap;
 	}
 }

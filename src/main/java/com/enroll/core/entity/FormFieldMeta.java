@@ -159,6 +159,14 @@ public class FormFieldMeta implements Serializable {
 	public Map<String, FormFieldOption> getFieldOptionMetaMap() {
 		Map<String, FormFieldOption> map = new HashMap<>();
 		fieldOptionList.stream().forEach(option -> {
+			map.put(option.getLabel() + AppConstant.COLON + option.getValue() + AppConstant.COLON + option.getPosition(), option);
+		});
+		return map;
+	}
+	
+	public Map<String, FormFieldOption> getFieldOptionCheckMetaMap() {
+		Map<String, FormFieldOption> map = new HashMap<>();
+		fieldOptionList.stream().forEach(option -> {
 			map.put(option.getLabel(), option);
 		});
 		return map;
