@@ -679,7 +679,9 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 		Map<String, FormFieldOptionDTO> optionsMap = formField.getOptionsMap();
 		field.getFieldOptionList().forEach(option -> {
 			FormFieldOptionDTO dto = optionsMap.get(String.valueOf(option.getPosition()));
-			option.setSlot(dto.getSlot());
+			if (dto != null) {
+				option.setSlot(dto.getSlot());
+			}
 		});
 	}
 }
