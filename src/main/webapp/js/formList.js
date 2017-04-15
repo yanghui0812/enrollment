@@ -52,16 +52,16 @@ $(document).ready(function() {
 		            	}
 		            	if (full.canInactive) {
 		            		if (result == '') {
-		            			result = inactiveUrl + '</br>' + changeSlotUrl;
+		            			result = inactiveUrl;
 		            		} else {
-		            			result = result + '</br>' + inactiveUrl + '</br>' + changeSlotUrl;;
+		            			result = result + '</br>' + inactiveUrl;
 		            		}
 		            	}
 		            	if (full.canEnroll) {
 		            		if (result == '') {
-		            			result = publicUrl;
+		            			result = publicUrl + '</br>' + changeSlotUrl;
 		            		} else {
-		            			result = result + '</br>' + publicUrl;
+		            			result = result + '</br>' + publicUrl + '</br>' + changeSlotUrl;
 		            		}
 		            	}
 		            	result = result + '</br>' + copyUrl;
