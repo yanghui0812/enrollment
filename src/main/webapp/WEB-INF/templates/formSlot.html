@@ -37,26 +37,40 @@
 		                <div class="row">
 	                        <div class="col-md-12">
 		                        <div class="card">
+			                        <div class="card-header" data-background-color="green">
+		 								<h4 class="title">名额情况</h4>
+		 							</div>
 		                            <div class="card-content table-responsive" th:if="${fieldMeta != null && fieldMeta.isSelect()}">
-										<div class="row" th:each="option, s : ${fieldMeta.options}">
-											<div class="col-md-12" th:if="${mode == 'view' && option.label != ''}">
-												<div class="form-group label-floating">
-													<label  th:text="${option.label}"></label>
-													<label>已预约：<span th:text="${option.value}"></span>人，预设的名额是</label>
-													<label  th:text="${option.slot}"></label>
-												</div>
-											</div>	
-											<div class="col-md-12" th:if="${mode == 'update' && option.label != ''}">
-												<div class="form-group label-floating">
-													<label th:text="${option.label}"></label>
-													<label >已预约：<span   th:text="${option.value}"></span>人，可以调整到</label>
-													<input type="hidden" th:name="'optionsMap[' + ${option.position} + '].position'" th:value="${option.position}">
-													<input type="number" th:name="'optionsMap[' + ${option.position} + '].slot'"  th:value="${option.slot}" th:if="${mode == 'update'}" th:min="${option.value}">
-												</div>
-											</div>									
-										</div>
-										<button type="button" class="btn btn-success pull-right backToList" th:data-href="@{/forms.html}">返回列表</button>
-										<button type="button" class="btn btn-danger pull-right  update" 	th:data-href="@{'/changeFormSlot/' + ${formId} + '?mode=update'}" th:if="${mode == 'view'}">我要修改</button>
+		                            	<div class="row">
+		                            		<div class="col-md-12 table-responsive">
+		                            			<table class="table">
+		                            				<thead class="text-primary">
+				                                    	<tr>
+					                                    	<th><h5>预约时间段</h5></th>
+					                                    	<th><h5>已预约人数</h5></th>
+					                                    	<th><h5>设定预约人数</h5></th>
+				                                    	</tr>
+				                                    </thead>
+				                                    <tbody>
+				                                    	<tr th:each="option, s : ${fieldMeta.options}">
+				                                    		<td th:if="${mode == 'view' && option.label != ''}" th:text="${option.label}"></td>
+				                                    		<td th:if="${mode == 'view' && option.label != ''}" th:text="${option.value}+'人'"></td>
+				                                    		<td th:if="${mode == 'view' && option.label != ''}" th:text="${option.slot}+'人'"></td>
+				                                    		<td th:if="${mode == 'update' && option.label != ''}" th:text="${option.label}"></td>
+				                                    		<td th:if="${mode == 'update' && option.label != ''}" th:text="${option.value}+'人'"></td>
+				                                    		<td th:if="${mode == 'update' && option.label != ''}">
+				                                    		<input type="hidden" th:name="'optionsMap[' + ${option.position} + '].position'" th:value="${option.position}">
+															<input class="form-control" type="number" th:name="'optionsMap[' + ${option.position} + '].slot'"  th:value="${option.slot}" th:if="${mode == 'update'}" th:min="${option.value}">
+															</td>
+				                                    	</tr>
+				                                    </tbody>
+		                            			</table>
+		                            		</div>
+		                            	</div>
+		                            </div>
+		                            <div class="card-footer">
+		                            	<button type="button" class="btn pull-right backToList" th:data-href="@{/forms.html}">返回列表</button>
+										<button type="button" class="btn btn-success pull-right  update" 	th:data-href="@{'/changeFormSlot/' + ${formId} + '?mode=update'}" th:if="${mode == 'view'}">我要修改</button>
 										<button type="submit" class="btn btn-success pull-right cancel" 	th:if="${mode == 'update'}">提交新的名额</button>
 		                            </div>
 		                        </div>
