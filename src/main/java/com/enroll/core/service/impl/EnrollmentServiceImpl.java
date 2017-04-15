@@ -160,8 +160,15 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 				formFieldMeta.clearFieldOption();
 				for (FormFieldOptionDTO option : formField.getOptions()) {
 					FormFieldOption fieldOption = null;
-					if (optionMap.containsKey(option.getLabel())) {
-						fieldOption = optionMap.get(option.getLabel());
+					String key = StringUtils.EMPTY;
+					if (isApplicantSlot) {
+						key = option.getLabel() + AppConstant.COLON + option.getLabel() + AppConstant.COLON + option.getPosition();
+					} else {
+						key = option.getLabel() + AppConstant.COLON + option.getValue() + AppConstant.COLON + option.getPosition();
+					}
+					
+					if (optionMap.containsKey(key)) {
+						fieldOption = optionMap.get(key);
 					} else {
 						fieldOption = new FormFieldOption();
 					}
@@ -558,7 +565,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	public boolean isApplicantSlotAvailable(Map<Long, String> map, long formId) {
 		FormMeta formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formId);
 		Optional<FormFieldOption> option = formMeta.getFormFieldMetaList().stream().filter(FormFieldMeta::hasApplicantSlot).map(fieldMeta -> {
-			Map<String, FormFieldOption> optionMap = fieldMeta.getFieldOptionMetaMap();
+			Map<String, FormFieldOption> optionMap = fieldMeta.getFieldOptionCheckMetaMap();
 			return optionMap.get(map.get(fieldMeta.getFieldId()));
 		}).findAny();
 		

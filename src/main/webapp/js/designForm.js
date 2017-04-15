@@ -81,7 +81,7 @@ $(document).ready(function($) {
 			 }
 			 for(var j = 0; j < field['values'].length; j++) {
 				 var option = field['values'][j];
-				 var subPrefix = prefix + "options[" + j + "].";
+				 var subPrefix = prefix + "optionsMap[" + j + "].";
 				 for(var optProperty in option) {
 					 para[subPrefix + optProperty] = option[optProperty];
 				 }

@@ -1,5 +1,8 @@
 package com.enroll.web.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.enroll.core.dto.AjaxResult;
+import com.enroll.core.dto.FormFieldOptionDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchResult;
@@ -109,6 +113,9 @@ public class FormDesignController {
 	@ResponseBody
 	public AjaxResult<Long> saveForm(FormMetaDTO formMeta, BindingResult result, Model model){
 		formMeta.setStatus(FormStatus.DRAFT.getType());
+		formMeta.getFields().stream().forEach(formFieldMetaDTO -> {
+			formFieldMetaDTO.getOptions().addAll(formFieldMetaDTO.getOptionsMap().values());
+		});
 		formMeta = enrollmentService.saveFormMeta(formMeta);
 		AjaxResult<Long> ajaxResult = new AjaxResult<Long>(AjaxResultStatus.SUCCESS);
 		ajaxResult.setData(formMeta.getFormId());

@@ -15,6 +15,7 @@ public class FormFieldOption implements Serializable {
 
 	private static final long serialVersionUID = 3730670324483749534L;
 	
+	@Id
 	@Column(name = "POSITION", nullable = false)
 	private int position;
 
@@ -27,6 +28,7 @@ public class FormFieldOption implements Serializable {
 	@Column(name = "VALUE", nullable = false)
 	private String value;
 
+	@Id
 	@Column(name = "LABEL", nullable = false)
 	private String label;
 	
