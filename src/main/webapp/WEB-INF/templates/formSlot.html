@@ -39,14 +39,14 @@
 		                        <div class="card">
 		                            <div class="card-content table-responsive" th:if="${fieldMeta != null && fieldMeta.isSelect()}">
 										<div class="row" th:each="option, s : ${fieldMeta.options}">
-											<div class="col-md-12" th:if="${mode == 'view'}">
+											<div class="col-md-12" th:if="${mode == 'view' && option.label != ''}">
 												<div class="form-group label-floating">
 													<label  th:text="${option.label}"></label>
 													<label>已预约：<span th:text="${option.value}"></span>人，预设的名额是</label>
 													<label  th:text="${option.slot}"></label>
 												</div>
 											</div>	
-											<div class="col-md-12" th:if="${mode == 'update'}">
+											<div class="col-md-12" th:if="${mode == 'update' && option.label != ''}">
 												<div class="form-group label-floating">
 													<label th:text="${option.label}"></label>
 													<label >已预约：<span   th:text="${option.value}"></span>人，可以调整到</label>
