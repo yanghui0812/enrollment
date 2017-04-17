@@ -1,10 +1,15 @@
 package com.enroll.web.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.enroll.common.AppConstant;
+import com.enroll.common.DateUtils;
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.EnrollmentDTO;
+import com.enroll.core.dto.FormFieldMetaDTO;
+import com.enroll.core.dto.FormFieldOptionDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.enums.AjaxResultStatus;
 import com.enroll.core.enums.EnrollmentStatus;
@@ -47,8 +56,43 @@ public class EnrollmentController {
 		if (!formMetaDTO.isCanEnroll()) {
 			return "error";
 		}
+		String dateTime = LocalDateTime.now().format(DateUtils.YYYY_MM_DD_HH_MM_CN);
+		Optional<FormFieldMetaDTO> fieldOptional = formMetaDTO.getFields().stream().filter(field -> {
+			return AppConstant.APPLICANT_TIME.equalsIgnoreCase(field.getName());
+		}).findAny();
+		
+		if (fieldOptional.isPresent()) {
+			List<FormFieldOptionDTO> result = fieldOptional.get().getOptions().stream().filter(option -> {
+			 	if (StringUtils.isBlank(option.getValue())) {
+					return true;
+				}
+				return dateTime.compareToIgnoreCase(getOptionDate(option.getValue())) <= 0;
+			}).collect(Collectors.toList());
+			fieldOptional.get().setOptions(result);
+		}
 		model.addAttribute("formMeta", formMetaDTO);
 		return "publicEnrollForm";
+	}
+	
+	private String getOptionDate(String value) {
+		String year = StringUtils.substringBefore(value, "年");
+		String month = StringUtils.substringBetween(value, "年", "月");
+		String day = StringUtils.substringBetween(value, "月", "日");
+		StringBuilder sb = new StringBuilder(year);
+		if (month.length() < 2) {
+			sb.append("0");
+		}
+		sb.append(month);
+		if (day.length() < 2) {
+			sb.append("0");
+		}
+		sb.append(day);
+		if (value.contains("上午")) {
+			sb.append("AM");
+		} else {
+			sb.append("PM");
+		}
+		return sb.toString();
 	}
 	
 	/**
