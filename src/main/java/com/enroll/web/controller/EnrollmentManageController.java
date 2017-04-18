@@ -131,6 +131,7 @@ public class EnrollmentManageController {
 	public SearchResult<EnrollmentDTO> getEnrollmentPage(@RequestBody SearchCriteria criteria) {
 		EnrollmentQuery query = new EnrollmentQuery();
 		criteria.searchMapping(query);
+		query.setSearchStatus(EnrollmentStatus.ENROLL.getType());
 		SearchResult<EnrollmentDTO> result = enrollmentService.findEnrollmentPage(query);
 		return result;
 	}
@@ -156,6 +157,7 @@ public class EnrollmentManageController {
 		if (StringUtils.isNotBlank(search)) {
 			query.setSearch(new Search(search));
 		}
+		query.setSearchStatus(EnrollmentStatus.ENROLL.getType());
 		query.setPageSize(Integer.MAX_VALUE);
 		XSSFWorkbook book = enrollmentService.exportEnrollment(query);
 		try {
