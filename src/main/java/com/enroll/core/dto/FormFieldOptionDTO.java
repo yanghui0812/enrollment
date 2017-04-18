@@ -19,6 +19,8 @@ public class FormFieldOptionDTO implements Serializable {
 	private String selected;
 	
 	private String slot;
+	
+	private boolean disabled;
 
 	private FormFieldMetaDTO formField;
 
@@ -94,6 +96,22 @@ public class FormFieldOptionDTO implements Serializable {
 		this.selected = selected;
 	}
 
+	public String getSlot() {
+		return slot;
+	}
+
+	public void setSlot(String slot) {
+		this.slot = slot;
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -138,13 +156,5 @@ public class FormFieldOptionDTO implements Serializable {
 		} else if (!value.equals(other.value))
 			return false;
 		return true;
-	}
-
-	public String getSlot() {
-		return slot;
-	}
-
-	public void setSlot(String slot) {
-		this.slot = slot;
 	}
 }

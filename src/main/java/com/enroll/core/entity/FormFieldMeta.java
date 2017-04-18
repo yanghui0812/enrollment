@@ -47,6 +47,9 @@ public class FormFieldMeta implements Serializable {
 	@JoinColumn(name = "FORM_ID", nullable = false)
 	private FormMeta formMeta;
 	
+	@Column(name = "FIELD_MAXLENGTH", nullable = false)
+	private int maxlength;
+	
 	@Column(name = "FIELD_NAME", nullable = false)
 	private String name;
 	
@@ -318,5 +321,13 @@ public class FormFieldMeta implements Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	public int getMaxlength() {
+		return maxlength;
+	}
+
+	public void setMaxlength(int maxlength) {
+		this.maxlength = maxlength;
 	}
 }
