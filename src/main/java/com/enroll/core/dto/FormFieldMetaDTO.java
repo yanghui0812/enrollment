@@ -22,6 +22,8 @@ public class FormFieldMetaDTO implements Serializable {
 	private long fieldId;
 
 	private int position;
+	
+	private int maxlength = 1000;
 
 	private String required;
 
@@ -376,5 +378,13 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public void setOptionsMap(Map<String, FormFieldOptionDTO> optionsMap) {
 		this.optionsMap = optionsMap;
+	}
+
+	public int getMaxlength() {
+		return maxlength;
+	}
+
+	public void setMaxlength(int maxlength) {
+		this.maxlength = maxlength;
 	}
 }

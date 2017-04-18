@@ -2,10 +2,8 @@ package com.enroll.web.controller;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -22,7 +20,6 @@ import com.enroll.common.DateUtils;
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.EnrollmentDTO;
 import com.enroll.core.dto.FormFieldMetaDTO;
-import com.enroll.core.dto.FormFieldOptionDTO;
 import com.enroll.core.dto.FormMetaDTO;
 import com.enroll.core.enums.AjaxResultStatus;
 import com.enroll.core.enums.EnrollmentStatus;
@@ -62,13 +59,12 @@ public class EnrollmentController {
 		}).findAny();
 		
 		if (fieldOptional.isPresent()) {
-			List<FormFieldOptionDTO> result = fieldOptional.get().getOptions().stream().filter(option -> {
+			fieldOptional.get().getOptions().stream().forEach(option -> {
 			 	if (StringUtils.isBlank(option.getValue())) {
-					return true;
+					return;
 				}
-				return dateTime.compareToIgnoreCase(getOptionDate(option.getValue())) <= 0;
-			}).collect(Collectors.toList());
-			fieldOptional.get().setOptions(result);
+			 	option.setDisabled(dateTime.compareToIgnoreCase(getOptionDate(option.getValue())) > 0);
+			});
 		}
 		model.addAttribute("formMeta", formMetaDTO);
 		return "publicEnrollForm";

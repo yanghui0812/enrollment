@@ -50,14 +50,14 @@
 							  			   <div th:if="${fieldMeta.isText()}" class="form-group label-floating">
 										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">&nbsp;*</span></label>
 										   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
-										        <input th:type="${fieldMeta.subtype}" th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off">
+										        <input th:type="${fieldMeta.subtype}" th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off" th:maxlength="${fieldMeta.maxlength}">
 										   </div>
 										   <div th:if="${fieldMeta.isSelect()}" class="form-group label-floating">
 										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">&nbsp;*</span></label>
 										   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
 										   		<input type="hidden" class = "slotKey"   th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.hasApplicantSlot()}">
 						                        <select th:required="${fieldMeta.isRequired()}" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" class="form-control">
-							                        <option th:each="option, s : ${fieldMeta.options}" th:value="${option.value}" th:text="${option.label}" th:selected="${option.isChecked()}"/>
+							                        <option th:each="option, s : ${fieldMeta.options}" th:value="${option.value}" th:text="${option.label}" th:selected="${option.isChecked()}"  th:disabled="${option.isDisabled()}"/>
 						                        </select>
 						                   </div>
 						                   <div th:if="${fieldMeta.isCheckboxGroup()}" class="form-group label-floating">
