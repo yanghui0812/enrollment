@@ -232,7 +232,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 	}
 
 	@Override
-	public FormFieldValue findFormFieldValue(long formId, long fieldId, String value) {
+	public List<FormFieldValue> findFormFieldValue(long formId, long fieldId, String value) {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<FormFieldValue> criteria = builder.createQuery(FormFieldValue.class);
 		Root<FormFieldValue> root = criteria.from(FormFieldValue.class);
@@ -240,10 +240,6 @@ public class EnrollmentDaoImpl implements EnrollmentDao, AppConstant {
 				builder.equal(root.get("fieldId"), fieldId), builder.equal(root.get("fieldValue"), value));
 		criteria.select(root);
 		criteria.where(predicate);
-		List<FormFieldValue> list = getEntityManager().createQuery(criteria).getResultList();
-		if (CollectionUtils.isNotEmpty(list)) {
-			return list.get(0);
-		}
-		return null;
+		return getEntityManager().createQuery(criteria).getResultList();
 	}
 }

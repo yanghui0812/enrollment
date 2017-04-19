@@ -543,13 +543,21 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	
 	public String findRegisterIdByFormIdAndUniqueKey(long formId, long fieldId, String value) {
 		Objects.requireNonNull(value);
-		FormFieldValue formFieldValue = enrollmentDao.findFormFieldValue(formId, fieldId, value);
-		if (formFieldValue == null || !EnrollmentStatus.ENROLL.getType().equals(formFieldValue.getEnrollment().getStatus())) {
+		List<FormFieldValue> list = enrollmentDao.findFormFieldValue(formId, fieldId, value);
+		if (CollectionUtils.isEmpty(list)) {
 			return StringUtils.EMPTY;
 		}
-		Enrollment enrollment = formFieldValue.getEnrollment();
+		
+		Optional<FormFieldValue> optional = list.stream().filter(fieldValue -> {
+			return EnrollmentStatus.ENROLL.getType().equals(fieldValue.getEnrollment().getStatus());
+		}).findFirst();
+		
+		if (!optional.isPresent()) {
+			return StringUtils.EMPTY;
+		}
+		Enrollment enrollment = optional.get().getEnrollment();
 		String id = enrollment.getRegisterId();
-		enrollmentDao.evict(formFieldValue);
+		enrollmentDao.evict(optional.get());
 		enrollmentDao.evict(enrollment);
 		return id;
 	}
