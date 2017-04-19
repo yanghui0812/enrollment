@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	
+	$(":input[name='fieldValueList[2].fieldValue']").attr('minlength', 12);
+	
 	$("#enrollForm").validate();
 	$.validator.addMethod("tel", function(value, element) { 
 	    var tel = /^(130|131|132|133|134|135|136|137|138|139|150|153|157|158|159|180|181|182|183|184|185|186|187|188|189|170|171|172|173|174|177|178|175|176|179|)\d{8}$/; 
