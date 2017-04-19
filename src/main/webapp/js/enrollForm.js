@@ -30,8 +30,10 @@ $(document).ready(function() {
 		//console.log(value);
 		if (value == '') {
 			 $('.slotAvailable').text('');
-			 $('.save').show();
-			 $('.register').show();
+			// $('.save').show();
+			 if ($('#message').text() == '') {
+				 $('.register').show();
+			 }
 			return;
 		}
 		var formId = $(':input[name=formId]').val();
@@ -53,12 +55,14 @@ $(document).ready(function() {
 			            '</div>'
 					 '</div>';
 					 $('.slotAvailable').html(errorMessage);
-					 $('.save').hide();
+					// $('.save').hide();
 					 $('.register').hide();
 				 } else {
 					 $('.slotAvailable').empty();
-					 $('.save').show();
-					 $('.register').show();
+					// $('.save').show();
+					 if ($('#message').text() == '') {
+						 $('.register').show();
+					 }
 				 }
 			 }
 		});
