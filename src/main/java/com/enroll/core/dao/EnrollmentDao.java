@@ -116,6 +116,6 @@ public interface EnrollmentDao {
 	 * @param value
 	 * @return
 	 */
-	public FormFieldValue findFormFieldValue(long formId, long fieldId, String value);
+	public List<FormFieldValue> findFormFieldValue(long formId, long fieldId, String value);
 
 }
