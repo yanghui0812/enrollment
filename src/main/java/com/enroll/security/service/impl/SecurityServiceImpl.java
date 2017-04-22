@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enroll.common.DateUtils;
 import com.enroll.core.dao.EnrollmentDao;
-import com.enroll.core.entity.User;
+import com.enroll.security.entity.User;
 import com.enroll.security.service.SecurityService;
 
 @Service("securityService")

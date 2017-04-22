@@ -27,6 +27,11 @@
 						<p>报名列表</p>
 					</a>
 				</li>
+				<li th:class="${active == 'users'} ? 'active' : ''">
+					<a th:href="@{/manage/users.html}"> <i class="material-icons">dashboard</i>
+						<p>用户列表</p>
+					</a>
+				</li>
 			</ul>
 		</div>
 	</div>

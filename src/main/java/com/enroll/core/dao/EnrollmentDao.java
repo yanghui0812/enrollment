@@ -10,7 +10,7 @@ import com.enroll.core.dto.SearchResult;
 import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
-import com.enroll.core.entity.User;
+import com.enroll.security.entity.User;
 
 public interface EnrollmentDao {
 

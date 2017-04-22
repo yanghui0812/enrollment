@@ -34,7 +34,7 @@ public class ApplicationContext {
 
 	public static final String hibernate_dialect = "hibernate.dialect";
 
-	public static final String package_to_scan = "com.enroll.core.entity";
+	public static final String package_to_scan = "com.enroll.**.entity";
 
 	@Autowired
 	private Environment env;

@@ -1,23 +1,30 @@
-package com.enroll.core.entity;
+package com.enroll.security.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.BatchSize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.enroll.common.AppConstant;
+import com.enroll.security.enums.EntityStatus;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -37,7 +44,7 @@ public class User implements UserDetails {
 	private String password;
 
 	@Column(name = "ACTIVE")
-	private String active = AppConstant.TRUE;
+	private String active = EntityStatus.ACIVE.getKey();
 
 	@Column(name = "USER_PHOTO_URL")
 	private String imageUrl;
@@ -49,7 +56,12 @@ public class User implements UserDetails {
 	private String title;
 	
 	@Column(name = "DEPARTMENT")
-	private String DEPARTMENT;
+	private String department;
+	
+	@ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class)
+	@JoinTable(name = "TBL_USER_ROLE_XREF", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") , inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID") )
+	@BatchSize(size = 50)
+	private Set<Role> allRoles = new HashSet<Role>();
 
 	@Column(name = "CREATE_USER_ID", nullable = false)
 	private Long createuserId;
@@ -58,7 +70,7 @@ public class User implements UserDetails {
 	private String createUser;
 
 	@Column(name = "MODIFY_USER_ID")
-	private Long modifyUserId;// 修改用户编号
+	private Long modifyUserId;
 
 	@Column(name = "MODIFY_USER_NAME")
 	private String modifyUser;
@@ -202,14 +214,6 @@ public class User implements UserDetails {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public String getDEPARTMENT() {
-		return DEPARTMENT;
-	}
-
-	public void setDEPARTMENT(String dEPARTMENT) {
-		DEPARTMENT = dEPARTMENT;
-	}
 
 	public String getId() {
 		return id;
@@ -217,5 +221,21 @@ public class User implements UserDetails {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public Set<Role> getAllRoles() {
+		return allRoles;
+	}
+
+	public void setAllRoles(Set<Role> allRoles) {
+		this.allRoles = allRoles;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 }
