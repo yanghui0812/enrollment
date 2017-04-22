@@ -38,8 +38,8 @@ public class UserController {
 	 * @param model
 	 * @return String
 	 */
-	@RequestMapping(value = "/user.html", method = RequestMethod.GET)
-	public String userDetailInfo(long userId, Model model) {
+	@RequestMapping(value = "/userDetail.html", method = RequestMethod.GET)
+	public String userDetailInfo(String userId, Model model) {
 		UserDTO user = userService.findUser(userId);
 		model.addAttribute("user", user);
 		return "userDetail";
@@ -61,7 +61,7 @@ public class UserController {
 	@RequestMapping(value = "/user.html", method = RequestMethod.POST)
 	public String saveUserInfo(UserDTO user, Model model) {
 		userService.saveUser(user);
-		return "redirect:/manage/user.html?userId=" + user.getId();
+		return "redirect:/manage/userDetail.html?userId=" + user.getId();
 	}
 	
 	/**
@@ -70,9 +70,9 @@ public class UserController {
 	 * @return AjaxResult
 	 */
 	@RequestMapping(value = "/disableUser.html", method = RequestMethod.POST)
-	public AjaxResult<String> disableUser(long userId, String status) {
-		AjaxResult<String> result = userService.changeUserStatus(userId, EntityStatus.INACTIVE);
-		return result;
+	@ResponseBody
+	public AjaxResult<String> disableUser(String userId) {
+		return userService.changeUserStatus(userId, EntityStatus.INACTIVE);
 	}
 	
 	/**
@@ -81,9 +81,9 @@ public class UserController {
 	 * @return AjaxResult
 	 */
 	@RequestMapping(value = "/enableUser.html", method = RequestMethod.POST)
-	public AjaxResult<String> enableUser(long userId, String status) {
-		AjaxResult<String> result = userService.changeUserStatus(userId, EntityStatus.ACIVE);
-		return result;
+	@ResponseBody
+	public AjaxResult<String> enableUser(String userId) {
+		return userService.changeUserStatus(userId, EntityStatus.ACIVE);
 	}
 	
 	/**
@@ -91,7 +91,8 @@ public class UserController {
 	 * @return AjaxResult
 	 */
 	@RequestMapping(value = "/resetPassword.html", method = RequestMethod.POST)
-	public AjaxResult<String> resetPassword(long userId) {
+	@ResponseBody
+	public AjaxResult<String> resetPassword(String userId) {
 		AjaxResult<String> result = userService.changeUserPassword(userId, AppConstant.TRUE);
 		return result;
 	}
@@ -103,7 +104,8 @@ public class UserController {
 	 * @return AjaxResult
 	 */
 	@RequestMapping(value = "/changePassword.html", method = RequestMethod.POST)
-	public AjaxResult<String> changePassword(long userId, String password, String oldPassword) {
+	@ResponseBody
+	public AjaxResult<String> changePassword(String userId, String password, String oldPassword) {
 		AjaxResult<String> result = userService.changeUserPassword(userId, password);
 		return result;
 	}
@@ -114,7 +116,8 @@ public class UserController {
 	 * @return AjaxResult
 	 */
 	@RequestMapping(value = "/verifyPassword.html", method = RequestMethod.POST)
-	public AjaxResult<String> verifyPassword(long userId, String password) {
+	@ResponseBody
+	public AjaxResult<String> verifyPassword(String userId, String password) {
 		AjaxResult<String> result = userService.verifyPassword(userId, password);
 		return result;
 	}
@@ -125,6 +128,7 @@ public class UserController {
 	 * @return AjaxResult
 	 */
 	@RequestMapping(value = "/verifyUsername.html", method = RequestMethod.POST)
+	@ResponseBody
 	public AjaxResult<String> verifyUsername(String username) {
 		UserDTO user = userService.findUserByName(username);
 		if (user == null) {

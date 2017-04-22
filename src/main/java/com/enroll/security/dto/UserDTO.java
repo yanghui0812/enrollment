@@ -3,25 +3,25 @@ package com.enroll.security.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.enroll.common.AppConstant;
+import com.enroll.security.enums.EntityStatus;
 
 public class UserDTO implements Serializable  {
 
 	private static final long serialVersionUID = -1406048897257538593L;
 
-	private Long id;
+	private String id;
 	
 	private String name;
 
 	private String password;
 
-	private String active = AppConstant.TRUE;
+	private String active;
 
 	private String fullName;
 
 	private String title;
 	
-	private String DEPARTMENT;
+	private String department;
 
 	private Long createuserId;
 
@@ -51,19 +51,23 @@ public class UserDTO implements Serializable  {
 		this.password = password;
 	}
 
-	public String getActive() {
-		return active;
+	public boolean isActive() {
+		return EntityStatus.isAcive(active);
+	}
+	
+	public String getActiveDesc() {
+		return EntityStatus.getEntityStatus(active).getDesc();
 	}
 
 	public void setActive(String active) {
 		this.active = active;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -83,12 +87,12 @@ public class UserDTO implements Serializable  {
 		this.title = title;
 	}
 
-	public String getDEPARTMENT() {
-		return DEPARTMENT;
+	public String getDepartment() {
+		return department;
 	}
 
-	public void setDEPARTMENT(String dEPARTMENT) {
-		DEPARTMENT = dEPARTMENT;
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 
 	public Long getCreateuserId() {

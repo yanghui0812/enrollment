@@ -1,8 +1,11 @@
 package com.enroll.security.enums;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum EntityStatus {
 	
-	ACIVE("Y", "Acive"), INACTIVE("N", "inactive");
+	ACIVE("Y", "Acive"), INACTIVE("N", "Inactive");
 	private String key;
 	private String desc;
 
@@ -11,12 +14,20 @@ public enum EntityStatus {
 		this.desc = desc;
 	}
 	
-	public boolean isAcive(String key) {
+	public static boolean isAcive(String key) {
 		return ACIVE.getKey().equalsIgnoreCase(key);
 	}
 	
-	public boolean isInactive(String key) {
+	public static boolean isInactive(String key) {
 		return INACTIVE.getKey().equalsIgnoreCase(key);
+	}
+	
+	public static EntityStatus getEntityStatus(String key) {
+		Optional<EntityStatus> optional = Arrays.stream(values()).filter(type -> type.getKey().equalsIgnoreCase(key)).findFirst();
+		if (optional.isPresent()) {
+			return optional.get();
+		}
+		throw new RuntimeException("Fail to find entity status");
 	}
 
 	public String getKey() {

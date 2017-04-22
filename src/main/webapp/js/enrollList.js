@@ -74,22 +74,17 @@ $(document).ready(function() {
 		            { "title": "注册日期",  "data": "registerDateStr", "name" : "registerDate"},
 		            { "title": "注册状态",  "data": "statusDesc", "name" : "status"},
 		            { "title": "操作", 	 "data": "registerId", "orderable": false, "searchable": false, "render": function (data, type, full) {
-		            	var prefixForUpdate = $(':hidden[name=enrollUpdateUrl]').val();
 		            	var prefixForDetail = $(':hidden[name=enrollDetail]').val();
-		    			//return '<a href="' + prefixForUpdate + '?registerId=' + data + '" style="margin-top:-3px">修改</a></br><a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
-		            	return '<a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
+		    			return '<a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
 			    	 } }
 		        ]
 	    });
 		
 		$('.dataTable').addClass('table');
-	
 		$('#enrollTable_filter').hide();
-		
 		$('input.global_filter').on( 'keyup click', function () {
 			submitToSearch();
 	    });
-		
 		$('.searchbtn').on( 'click', function () {
 			submitToSearch();
 	    });

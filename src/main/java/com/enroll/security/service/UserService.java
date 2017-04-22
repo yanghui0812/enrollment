@@ -29,20 +29,20 @@ public interface UserService {
 	 * @param userId
 	 * @return
 	 */
-	public UserDTO findUser(long id);
+	public UserDTO findUser(String id);
 	
 	/**
 	 * @param id
 	 * @return
 	 */
-	public AjaxResult<String> changeUserStatus(long id, EntityStatus status);
+	public AjaxResult<String> changeUserStatus(String id, EntityStatus status);
 	
 	/**
 	 * @param id
 	 * @param password
 	 * @return
 	 */
-	public AjaxResult<String> changeUserPassword(long id, String password);
+	public AjaxResult<String> changeUserPassword(String id, String password);
 	
 	/**
 	 * @param id
@@ -50,12 +50,12 @@ public interface UserService {
 	 * @param oldPassword
 	 * @return
 	 */
-	public AjaxResult<String> changeUserPassword(long id, String password, String oldPassword);
+	public AjaxResult<String> changeUserPassword(String id, String password, String oldPassword);
 	
 	/**
 	 * @param id
 	 * @param password
 	 * @return
 	 */
-	public AjaxResult<String> verifyPassword(long id, String password);	
+	public AjaxResult<String> verifyPassword(String id, String password);	
 }

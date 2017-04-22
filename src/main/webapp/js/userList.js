@@ -1,5 +1,8 @@
 $(document).ready(function() {
-	var table = $('#enrollTable').DataTable( {
+	var disableUserUrl = $(':hidden[name=disableUser]').val();
+	var enableUserUrl = $(':hidden[name=enableUser]').val();
+	var userDetailUrl = $(':hidden[name=userDetail]').val();
+	var table = $('#userTable').DataTable( {
 		"processing":true,
 		"serverSide":true,
 		"srollY": "200px",
@@ -15,77 +18,52 @@ $(document).ready(function() {
 		           "first": "第一页"}
 		  },
 		"ajax": {
-				  "url": $(':hidden[name=enrollPageJson]').val(), 
+				  "url": $(':hidden[name=userPageJson]').val(), 
 				  "contentType": "application/json",
                   "type": "POST",
                   "data": function ( d ) {
                      return JSON.stringify( d );
                   }
 			   },
-		"columns": [
-				  //{ "title": "注册号", 	 "data": "registerId", "name" : "registerId"},
-					{ "title": "表单号",   "data": "formId", "visible":false, "name" : "formId"},
-		            { "title": "预约时间",  "data": "fieldValueList", "orderable": false, "name" : "apptime", "render": function (data, type, full) {
-		            	var array = data;
-		            	for(var i = 0; i < array.length; i++) {
-		            		if (array[i]['fieldName'] == 'apptime') {
-		            			return array[i]['fieldDisplay'];
-		            		}
-		            	}
-		            	return "";
-		              }
-					},
-		            { "title": "考生姓名",  "data": "fieldValueList", "orderable": false, "render": function (data, type, full) {
-		            	var array = data;
-		            	for(var i = 0; i < array.length; i++) {
-		            		if (array[i]['fieldName'] == 'applicantname') {
-		            			return array[i]['fieldValue'];
-		            		}
-		            	}
-		            	return "";
-		            }},
-		            { "title": "中考报名号", "data": "fieldValueList", "orderable": false, "render": function (data, type, full) {
-		            	var array = data;
-		            	for(var i = 0; i < array.length; i++) {
-		            		if (array[i]['fieldName'] == 'examnumber') {
-		            			return array[i]['fieldValue'];
-		            		}
-		            	}
-		            	return "";
-		            }},
-		            { "title": "报考区域",  "data": "fieldValueList", "orderable": false, "render": function (data, type, full) {
-		            	var array = data;
-		            	for(var i = 0; i < array.length; i++) {
-		            		if (array[i]['fieldName'] == 'appzone') {
-		            			return array[i]['fieldDisplay'];
-		            		}
-		            	}
-		            	return "";
-		            }},
-		            { "title": "联系电话",  "data": "fieldValueList", "orderable": false, "render": function (data, type, full) {
-		            	var array = data;
-		            	for(var i = 0; i < array.length; i++) {
-		            		if (array[i]['fieldName'] == 'phonenumber') {
-		            			return array[i]['fieldValue'];
-		            		}
-		            	}
-		            	return "";
-		            }},
-		            { "title": "注册日期",  "data": "registerDateStr", "name" : "registerDate"},
-		            { "title": "注册状态",  "data": "statusDesc", "name" : "status"},
-		            { "title": "操作", 	 "data": "registerId", "orderable": false, "searchable": false, "render": function (data, type, full) {
-		            	var prefixForUpdate = $(':hidden[name=enrollUpdateUrl]').val();
-		            	var prefixForDetail = $(':hidden[name=enrollDetail]').val();
-		    			//return '<a href="' + prefixForUpdate + '?registerId=' + data + '" style="margin-top:-3px">修改</a></br><a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
-		            	return '<a href="' + prefixForDetail + '?registerId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
+		"columns": [{ "title": "用户编号", "data": "id", "visible":false},
+		            { "title": "用户名",   "data": "name", "orderable": false},
+		            { "title": "用户角色", "data": "name", "name" : "registerDate"},
+		            { "title": "用户状态", "data": "activeDesc", "name" : "active"},
+		            { "title": "操作", 	 "data": "id", "orderable": false, "searchable": false, "render": function (data, type, full) {
+		            	var detail =  '<a href="' + userDetailUrl + '?userId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
+		            	var disable = '<a class="disableUser" href="javascript:void(0);" data-userId="' + data + '" style="margin-top:-3px">暂停</a>'; 
+		            	var enable =  '<a class="enableUser"  href="javascript:void(0);" data-userId="' + data + '" style="margin-top:-3px">启用</a>'; 
+		            	if (full.active) {
+		            		return disable + '<br>' + detail; 
+		            	} 
+		    			return enable + '<br>' + detail; 
 			    	 } }
 		        ]
-	    });
+	    }).on( 'draw.dt', function () {
+	    	$('.dataTable').addClass('table');
+	    	$( '.disableUser' ).bind( "click", function(event) {
+        		var userId = $(event.target).data('userid');
+        		$.ajax({method: "POST", url: disableUserUrl, data: {"userId": userId}, dataType: "json"}).done(function( data ) {
+        			table.draw( 'full-hold' );
+        			if (data.status == '200') {
+        				alert(data.message);
+        			}
+        		});
+        	});
+	    	
+	    	$( '.enableUser' ).bind( "click", function(event) {
+	    		var userId = $(event.target).data('userid');
+        		$.ajax({method: "POST", url: enableUserUrl, data: {"userId": userId}, dataType: "json"}).done(function( data ) {
+        			table.draw( 'full-hold' );
+        			if (data.status == '200') {
+        				alert(data.message);
+        			}
+        		});
+        	});
+	   });
 		
 		$('.dataTable').addClass('table');
-	
-		$('#enrollTable_filter').hide();
-		
+		$('#userTable_filter').hide();
 		$('input.global_filter').on( 'keyup click', function () {
 			submitToSearch();
 	    });
@@ -105,35 +83,5 @@ $(document).ready(function() {
 		
 		$('#downloadEnroll').click(function() {
 			$('#downloadForm').submit();
-		});			
-		
-		//Select date range
-		var dateFormat = "mm/dd/yy",
-	      from = $( "#from" )
-	        .datepicker({
-	          defaultDate: "+1w",
-	          changeMonth: true,
-	          numberOfMonths: 2
-	        }).on( "change", function() {
-	          to.datepicker( "option", "minDate", getDate( this ) );
-	        }),
-	      to = $( "#to" ).datepicker({
-	        defaultDate: "+1w",
-	        changeMonth: true,
-	        numberOfMonths: 2
-	      })
-	      .on( "change", function() {
-	        from.datepicker( "option", "maxDate", getDate( this ) );
-	      });
-	 
-	    function getDate( element ) {
-	      var date;
-	      try {
-	        date = $.datepicker.parseDate( dateFormat, element.value );
-	      } catch( error ) {
-	        date = null;
-	      }
-	 
-	      return date;
-	    }
+		});	
 });

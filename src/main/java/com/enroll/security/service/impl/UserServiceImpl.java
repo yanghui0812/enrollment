@@ -18,13 +18,13 @@ import com.enroll.security.enums.EntityStatus;
 import com.enroll.security.service.UserService;
 
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Resource(name = "userDao")
 	private UserDao userDao;
 
 	@Override
-	@Transactional("txManager")
 	public AjaxResult<String> saveUser(UserDTO userDTO) {
 		String message = "";
 		boolean result = true;
@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional("txManager")
-	public UserDTO findUser(long id) {
+	public UserDTO findUser(String id) {
 		UserDTO userDTO = new UserDTO();
 		User user = userDao.readGenericEntity(User.class, id);
 		BeanUtils.copyProperties(user, userDTO);
@@ -52,8 +51,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional("txManager")
-	public AjaxResult<String> changeUserStatus(long id, EntityStatus status) {
+	public AjaxResult<String> changeUserStatus(String id, EntityStatus status) {
 		User user = userDao.readGenericEntity(User.class, id);
 		user.setActive(status.getKey());
 		AjaxResult<String> ajaxResult = new AjaxResult<String>(AjaxResultStatus.SUCCESS);
@@ -76,17 +74,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public AjaxResult<String> changeUserPassword(long id, String password) {
+	public AjaxResult<String> changeUserPassword(String id, String password) {
 		return changeUserPassword(id, password, null);
 	}
 
 	@Override
-	public AjaxResult<String> verifyPassword(long id, String password) {
+	public AjaxResult<String> verifyPassword(String id, String password) {
 		return null;
 	}
 
 	@Override
-	public AjaxResult<String> changeUserPassword(long id, String password, String oldPassword) {
+	public AjaxResult<String> changeUserPassword(String id, String password, String oldPassword) {
 		return null;
 	}
 

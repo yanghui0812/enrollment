@@ -24,7 +24,7 @@
 							<span class="sr-only">切换菜单</span> <span class="icon-bar"></span>
 							<span class="icon-bar"></span> <span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#"><i class="material-icons">assignment</i>&nbsp;&nbsp;所有用户</a>
+						<a class="navbar-brand" href="#"><i class="material-icons">assignment</i>&nbsp;&nbsp;用户管理</a>
 					</div>
 				</div>
 			</nav>
@@ -50,14 +50,15 @@
 												</button>
 											</span>
 										</div>
+										<div class="form-group col-xs-12">
+											<a th:href="@{/manage/userForm.html}" style="margin-top:-3px">创建新用户</a>
+									    </div>
 									</div>
-									<input type="hidden" name="formMetaPageUrl"     th:value="@{/queryForms}"> 
-									<input type="hidden" name="copyUrl" 			th:value="@{/copyForm}"> 
-									<input type="hidden" name="formMetaUpdateUrl"   th:value="@{/forms/{formId}}">
-									<input type="hidden" name="changeFormSlotUrl"   th:value="@{/changeFormSlot/}">
-									<input type="hidden" name="enrollUrl"           th:value="@{/manage/enrollForm.html}">
-									<input type="hidden" name="publicUrl"           th:value="@{/public/enrollForm.html}">
-									<table id="formTable" class="display"></table>
+									<input type="hidden" name="userPageJson"   th:value="@{/manage/users}">
+									<input type="hidden" name="disableUser"    th:value="@{/manage/disableUser.html}">
+									<input type="hidden" name="enableUser"     th:value="@{/manage/enableUser.html}">
+									<input type="hidden" name="userDetail"     th:value="@{/manage/userDetail.html}">
+									<table id="userTable" class="display"></table>
 								</div>
 							</div>
 						</div>

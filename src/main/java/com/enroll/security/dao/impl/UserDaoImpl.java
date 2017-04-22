@@ -98,7 +98,7 @@ public class UserDaoImpl extends GenericEntityDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User readUserById(long userId) throws DataAccessException {
+	public User readUserById(String userId) throws DataAccessException {
 		return readGenericEntity(User.class, userId);
 	}
 }

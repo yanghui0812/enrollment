@@ -12,7 +12,7 @@ public interface UserDao extends GenericEntityDao {
 
 	public User readUserByName(String userName) throws DataAccessException;
 
-	public User readUserById(long userId) throws DataAccessException;
+	public User readUserById(String userId) throws DataAccessException;
 
 	public List<User> readUserByEmail(String email) throws DataAccessException;
 

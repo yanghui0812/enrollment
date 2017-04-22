@@ -25,61 +25,53 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#"><i class="material-icons">account_circle</i>&nbsp;&nbsp;报名信息</a>
+						<a class="navbar-brand" href="#"><i class="material-icons">account_circle</i>&nbsp;&nbsp;用户详细信息</a>
 					</div>
 				</div>
 			</nav>
 
 	        <div class="content">
 	            <div class="container-fluid">
-					<form id="detailForm" th:action="@{/manage/enrolls/} + ${enroll.registerId}" method="post">
-						<input type="hidden" name="status" value="enroll">
+					<form th:action="@{/manage/enrolls/}" method="post">
+						<input type="hidden" name="userId" th:value="${user.id}">
 		                <div class="row">
 	                        <div class="col-md-12">
 		                        <div class="card">
 		                            <div class="card-header" data-background-color="green">
-		                                <h4 class="title">详细信息</h4>
-										<p class="category">注册号：<span th:text="${enroll.registerId}"></span></p>
+		                                <h4 class="title">用户详细信息</h4>
 		                            </div>
 		                            <div class="card-content table-responsive">
-										<!-- <div class="row">
-											<div class="col-md-6">
-												<div class="form-group label-floating">
-													<label class="control-label">姓名</label>
-													<input type="text" class="form-control" th:value="${enroll.applicantName}" disabled>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group label-floating">
-													<label class="control-label">电话</label>
-													<input type="phone" class="form-control" th:value="${enroll.phoneNumber}" disabled>
-												</div>
-											</div>
-										</div> -->
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group label-floating">
-													<label class="control-label">注册日期</label>
-													<input type="phone" class="form-control" th:value="${enroll.registerDateStr}" disabled>
+													<label class="control-label">用户名</label>
+													<input type="text" class="form-control" th:value="${user.name}" disabled>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group label-floating">
-													<label class="control-label">注册状态</label>
-													<input class="form-control" th:value="${enroll.statusDesc}" disabled>
+													<label class="control-label">用户名称</label>
+													<input class="form-control" th:value="${user.title}" disabled>
 												</div>
 											</div>
 										</div>
-										<div class="row" th:each="fieldValueArray : ${enroll.pageFields}">
-											<div class="col-md-6" th:each="formFieldValue, stat : ${fieldValueArray}">
+										<div class="row">
+											<div class="col-md-6">
 												<div class="form-group label-floating">
-													<label class="control-label"><span th:text="${formFieldValue.label}"></span></label>
-													<input class="form-control" th:value="${formFieldValue.value}" disabled>
+													<label class="control-label">用户状态</label>
+													<input type="text" class="form-control" th:value="${user.activeDesc}" disabled>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">用户状态</label>
+													<input type="text" class="form-control" th:value="${user.activeDesc}" disabled>
 												</div>
 											</div>
 										</div>
-										<button type="button" class="btn btn-success pull-right backToList"  th:if="${viewType == 'manage'}" th:data-href="@{/manage/enrolls.html}">返回列表</button>
-										<button type="button" class="btn btn-danger pull-right cancel"   th:if="${enroll.canCancel()}">删除</button>
+										<button type="button" class="btn btn-success pull-right backToList" th:data-href="@{/manage/users.html}">返回列表</button>
+										<!-- <button type="button" class="btn btn-danger pull-right disableUser" th:if="${user.isActive()}">暂停</button>
+										<button type="button" class="btn btn-danger pull-right enableUser"  th:if="${!user.isActive()}">启用</button> -->
 		                            </div>
 		                        </div>
 		                    </div>
