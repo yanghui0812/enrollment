@@ -30,8 +30,11 @@ public class UserDaoImpl extends GenericEntityDaoImpl implements UserDao {
 		Root<User> root = criteria.from(User.class);
 		criteria.select(root);
 		criteria.where(builder.equal(root.get("name"), userName));
-		User user = getEntityManager().createQuery(criteria).getSingleResult();
-		return user;
+		List<User> list = getEntityManager().createQuery(criteria).getResultList();
+		if (CollectionUtils.isNotEmpty(list)) {
+			return list.get(0);
+		}
+		return null;
 	}	
 	
 	public List<User> readUser(String username, String status) throws DataAccessException {

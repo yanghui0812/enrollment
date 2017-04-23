@@ -143,7 +143,7 @@ public class UserController {
 	 * @param password
 	 * @return AjaxResult
 	 */
-	@RequestMapping(value = "/verifyUsername.html", method = RequestMethod.POST)
+	@RequestMapping(value = "/verifyUsername.html", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult<String> verifyUsername(String username) {
 		UserDTO user = userService.findUserByName(username);

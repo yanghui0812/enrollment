@@ -53,11 +53,7 @@ $(document).ready(function() {
 				}
     		});
         } 
-  });
-	
-	function goToLogin() {
-		alert('');
-	}
+	});
 	
 	$('.changePassword').click(function() {
 		$("#passwordForm").find(':input').val('');

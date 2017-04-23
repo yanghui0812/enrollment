@@ -64,13 +64,13 @@ public class User implements UserDetails {
 	private Set<Role> allRoles = new HashSet<Role>();
 
 	@Column(name = "CREATE_USER_ID", nullable = false)
-	private Long createuserId;
+	private String createuserId;
 
 	@Column(name = "CREATE_USER_NAME")
 	private String createUser;
 
 	@Column(name = "MODIFY_USER_ID")
-	private Long modifyUserId;
+	private String modifyUserId;
 
 	@Column(name = "MODIFY_USER_NAME")
 	private String modifyUser;
@@ -159,14 +159,6 @@ public class User implements UserDetails {
 		this.fullName = fullName;
 	}
 
-	public Long getCreateuserId() {
-		return createuserId;
-	}
-
-	public void setCreateuserId(Long createuserId) {
-		this.createuserId = createuserId;
-	}
-
 	public String getCreateUser() {
 		return createUser;
 	}
@@ -175,11 +167,19 @@ public class User implements UserDetails {
 		this.createUser = createUser;
 	}
 
-	public Long getModifyUserId() {
+	public String getCreateuserId() {
+		return createuserId;
+	}
+
+	public void setCreateuserId(String createuserId) {
+		this.createuserId = createuserId;
+	}
+
+	public String getModifyUserId() {
 		return modifyUserId;
 	}
 
-	public void setModifyUserId(Long modifyUserId) {
+	public void setModifyUserId(String modifyUserId) {
 		this.modifyUserId = modifyUserId;
 	}
 

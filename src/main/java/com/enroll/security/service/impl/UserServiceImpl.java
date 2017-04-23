@@ -1,7 +1,10 @@
 package com.enroll.security.service.impl;
 
+import java.util.UUID;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +20,7 @@ import com.enroll.security.dto.UserQuery;
 import com.enroll.security.entity.User;
 import com.enroll.security.enums.EntityStatus;
 import com.enroll.security.service.UserService;
+import com.enroll.security.utils.SessionContextHolder;
 
 @Service("userService")
 @Transactional
@@ -32,15 +36,25 @@ public class UserServiceImpl implements UserService {
 	public AjaxResult<String> saveUser(UserDTO userDTO) {
 		String message = "";
 		boolean result = true;
-		User user = userDao.readUserById(userDTO.getId());
-		String newPassWord = passwordEncoder.encode(userDTO.getPassword());
-		if (newPassWord.equals(user.getPassword())) {
+		if (StringUtils.isBlank(userDTO.getId())) {
+			userDTO.setId(UUID.randomUUID().toString());
+		}
+		//User user = userDao.readUserById(userDTO.getId());
+		
+		User user = new User();
+		BeanUtils.copyProperties(userDTO, user);
+		user.setPassword(passwordEncoder.encode(user.getName()));
+		user.setModifyUser(SessionContextHolder.getCurrentUserId());
+		user.setCreateUser(SessionContextHolder.getCurrentUserName());
+		user.setCreateuserId(SessionContextHolder.getCurrentUserId());
+		/*if (newPassWord.equals(user.getPassword())) {
 			message = "修改的密码与初始密码相同,请重新输入密码！";
 			result = false;
 		} else {
 			user.setPassword(newPassWord);
 			userDao.save(user);
-		}
+		}*/
+		userDao.persist(user);
 		AjaxResult<String> ajax = new AjaxResult<String>(AjaxResultStatus.SUCCESS); 
 		return ajax;
 	}
