@@ -2,6 +2,7 @@ package com.enroll.web.controller;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import com.enroll.security.dto.UserDTO;
 import com.enroll.security.dto.UserQuery;
 import com.enroll.security.enums.EntityStatus;
 import com.enroll.security.service.UserService;
+import com.enroll.security.utils.SessionContextHolder;
 
 /**
  * @ClassName UserController
@@ -43,6 +45,13 @@ public class UserController {
 		UserDTO user = userService.findUser(userId);
 		model.addAttribute("user", user);
 		return "userDetail";
+	}
+	
+	@RequestMapping(value = "/myProfile.html", method = RequestMethod.GET)
+	public String myProfile(Model model) {
+		String userId = SessionContextHolder.getCurrentUserId();
+		model.addAttribute("viewType", "myProfile");
+		return userDetailInfo(userId, model);
 	}
 	
 	/**
@@ -105,8 +114,15 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/changePassword.html", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult<String> changePassword(String userId, String password, String oldPassword) {
-		AjaxResult<String> result = userService.changeUserPassword(userId, password);
+	public AjaxResult<String> changePassword(String currentPassword, String password, String confirmPassword) {
+		String userId = SessionContextHolder.getCurrentUserId();
+		AjaxResult<String> result = null;
+		if (!StringUtils.equals(password, confirmPassword)) {
+			result = new AjaxResult<String>(AjaxResultStatus.FAIL);
+			result.setMessage("两次输入的新密码不一致");
+			return result;
+		}
+		result = userService.changeUserPassword(userId, password, currentPassword);
 		return result;
 	}
 	
