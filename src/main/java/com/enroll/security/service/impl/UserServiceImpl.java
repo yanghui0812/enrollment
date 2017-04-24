@@ -34,27 +34,20 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public AjaxResult<String> saveUser(UserDTO userDTO) {
-		String message = "";
-		boolean result = true;
+		User user = null;
 		if (StringUtils.isBlank(userDTO.getId())) {
 			userDTO.setId(UUID.randomUUID().toString());
-		}
-		//User user = userDao.readUserById(userDTO.getId());
-		
-		User user = new User();
-		BeanUtils.copyProperties(userDTO, user);
-		user.setPassword(passwordEncoder.encode(user.getName()));
-		user.setModifyUser(SessionContextHolder.getCurrentUserId());
-		user.setCreateUser(SessionContextHolder.getCurrentUserName());
-		user.setCreateuserId(SessionContextHolder.getCurrentUserId());
-		/*if (newPassWord.equals(user.getPassword())) {
-			message = "修改的密码与初始密码相同,请重新输入密码！";
-			result = false;
+			user = new User();
+			BeanUtils.copyProperties(userDTO, user);
+			user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+			user.setCreateUser(SessionContextHolder.getCurrentUserName());
+			user.setCreateuserId(SessionContextHolder.getCurrentUserId());
 		} else {
-			user.setPassword(newPassWord);
-			userDao.save(user);
-		}*/
-		userDao.persist(user);
+			user = userDao.readUserById(userDTO.getId());
+		}
+		user.setModifyUser(SessionContextHolder.getCurrentUserId());
+		user.setModifyUser(SessionContextHolder.getCurrentUserName());
+		userDao.save(user);
 		AjaxResult<String> ajax = new AjaxResult<String>(AjaxResultStatus.SUCCESS); 
 		return ajax;
 	}
@@ -81,7 +74,7 @@ public class UserServiceImpl implements UserService {
 		SearchResult<UserDTO> result = new SearchResult<UserDTO>();
 		searchResult.getData().stream().forEach(user -> {
 			UserDTO dto = new UserDTO();
-			BeanUtils.copyProperties(user, dto);
+			BeanUtils.copyProperties(user, dto, "password");
 			result.addElement(dto);
 		});
 		result.setDraw(searchResult.getDraw());

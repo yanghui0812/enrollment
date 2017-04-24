@@ -13,13 +13,15 @@ public class UserDTO implements Serializable  {
 	
 	private String name;
 
-	private String password;
-
 	private String active;
 
 	private String fullName;
 
 	private String title;
+	
+	private String phone;
+	
+	private String password;
 	
 	private String department;
 
@@ -41,14 +43,6 @@ public class UserDTO implements Serializable  {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public boolean isActive() {
@@ -141,5 +135,21 @@ public class UserDTO implements Serializable  {
 
 	public void setModifyTimestamp(Date modifyTimestamp) {
 		this.modifyTimestamp = modifyTimestamp;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

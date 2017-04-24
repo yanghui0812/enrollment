@@ -52,22 +52,35 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group label-floating">
-												<label class="control-label">用户名称</label> <input
-													class="form-control" th:value="${user.title}" disabled>
+												<label class="control-label">全名</label> <input
+													class="form-control" th:value="${user.fullName}" disabled>
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group label-floating">
-												<label class="control-label">用户状态</label> <input type="text"
-													class="form-control" th:value="${user.activeDesc}" disabled>
+												<label class="control-label">职称</label> <input
+													class="form-control" th:value="${user.title}" disabled>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group label-floating">
 												<label class="control-label">用户状态</label> <input type="text"
 													class="form-control" th:value="${user.activeDesc}" disabled>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group label-floating">
+												<label class="control-label">用户手机</label> <input type="text" class="form-control" th:value="${user.phone}" disabled>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group label-floating">
+												<label class="control-label">部门</label> <input type="text"
+													class="form-control" th:value="${user.department}" disabled>
 											</div>
 										</div>
 									</div>

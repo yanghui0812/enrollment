@@ -25,18 +25,19 @@ $(document).ready(function() {
                      return JSON.stringify( d );
                   }
 			   },
-		"columns": [{ "title": "用户编号", "data": "id", "visible":false},
-		            { "title": "用户名",   "data": "name", "orderable": false},
-		            { "title": "用户角色", "data": "name", "name" : "registerDate"},
+		"columns": [{ "title": "用户名",  "data": "name", "name" : "name", "render": function (data, type, full) {
+			        	return '<a href="' + userDetailUrl + '?userId=' + full.id + '" style="margin-top:-3px;">' + data + '</a>';
+			    	 }},
+		            { "title": "用户角色", "data": "name", "name" : "registerDate", "orderable": false},
 		            { "title": "用户状态", "data": "activeDesc", "name" : "active"},
 		            { "title": "操作", 	 "data": "id", "orderable": false, "searchable": false, "render": function (data, type, full) {
-		            	var detail =  '<a href="' + userDetailUrl + '?userId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
+		            	//var detail =  '<a href="' + userDetailUrl + '?userId=' + data + '" style="margin-top:-3px">详细信息</a>'; 
 		            	var disable = '<a class="disableUser" href="javascript:void(0);" data-userId="' + data + '" style="margin-top:-3px">暂停</a>'; 
 		            	var enable =  '<a class="enableUser"  href="javascript:void(0);" data-userId="' + data + '" style="margin-top:-3px">启用</a>'; 
 		            	if (full.active) {
-		            		return disable + '<br>' + detail; 
+		            		return disable; 
 		            	} 
-		    			return enable + '<br>' + detail; 
+		    			return enable; 
 			    	 } }
 		        ]
 	    }).on( 'draw.dt', function () {
@@ -63,22 +64,13 @@ $(document).ready(function() {
 	   });
 		
 		$('.dataTable').addClass('table');
-		$('#userTable_filter').hide();
-		$('input.global_filter').on( 'keyup click', function () {
-			submitToSearch();
-	    });
-		
+		$('#userTable_filter').hide();		
 		$('.searchbtn').on( 'click', function () {
 			submitToSearch();
 	    });
 		
 		function submitToSearch() {
-			var begin = $('input[name=registerDateBegin]').val();
-			var end =   $('input[name=registerDateEnd]').val();
-			table.columns(1).search($('.formId').val());
-			table.columns(3).search(begin + '~' + end);
-			var apptime = $('.apptime').val();
-			table.search($('input[name=search]').val() + ' ' + apptime.replace(/\s/g,"")).draw();
+			table.search($('input[name=search]').val()).draw();
 		}
 		
 		$('#downloadEnroll').click(function() {

@@ -170,6 +170,7 @@ public class UserController {
 	@ResponseBody
 	public SearchResult<UserDTO> getUserPage(@RequestBody SearchCriteria criteria) {
 		UserQuery query = new UserQuery();
+		criteria.searchMapping(query);
 		SearchResult<UserDTO> list = userService.findUserPage(query);
 		return list;
 	}

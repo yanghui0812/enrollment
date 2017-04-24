@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.enroll.common.AppConstant;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.search.SearchOrder;
 import com.enroll.security.dao.UserDao;
@@ -22,7 +23,7 @@ import com.enroll.security.dto.UserQuery;
 import com.enroll.security.entity.User;
 
 @Repository("userDao")
-public class UserDaoImpl extends GenericEntityDaoImpl implements UserDao {
+public class UserDaoImpl extends GenericEntityDaoImpl implements UserDao, AppConstant {
 	
 	public User readUserByName(String userName) throws DataAccessException {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
@@ -64,11 +65,12 @@ public class UserDaoImpl extends GenericEntityDaoImpl implements UserDao {
 		Expression<String> empty = builder.literal(StringUtils.EMPTY);
 		Predicate predicate = builder.equal(empty, empty);
 
-		if (query.getName() != null && StringUtils.isNotBlank(query.getName().getData())) {
-			predicate = builder.and(predicate, builder.equal(root.get("name"), query.getName().getData()));
+		if (query.getSearch() != null && StringUtils.isNotBlank(query.getSearch().getValue())) {
+			predicate = builder.and(predicate, builder.like(root.get("name"), PERCENT_SIGN + query.getSearch().getValue() + PERCENT_SIGN));
 		}
-		if (query.getStatus() != null && StringUtils.isNotBlank(query.getStatus().getData())) {
-			predicate = builder.and(predicate, builder.equal(root.get("status"), query.getStatus().getData()));
+		
+		if (query.getStatus() != null && StringUtils.isNotBlank(query.getStatus().getSearch().getValue())) {
+			predicate = builder.and(predicate, builder.equal(root.get("status"), query.getStatus().getSearch().getValue()));
 		}
 		
 		if (LOGGER.isInfoEnabled()) {

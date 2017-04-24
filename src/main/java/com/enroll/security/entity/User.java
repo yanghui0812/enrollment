@@ -55,6 +55,9 @@ public class User implements UserDetails {
 	@Column(name = "TITLE")
 	private String title;
 	
+	@Column(name = "MOBILE_PHONE")
+	private String phone; 
+	
 	@Column(name = "DEPARTMENT")
 	private String department;
 	
@@ -237,5 +240,13 @@ public class User implements UserDetails {
 
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }
