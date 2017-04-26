@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enroll.common.DateUtils;
-import com.enroll.core.dao.EnrollmentDao;
+import com.enroll.security.dao.UserDao;
 import com.enroll.security.entity.User;
 import com.enroll.security.service.SecurityService;
 
@@ -24,12 +24,12 @@ public class SecurityServiceImpl implements SecurityService, UserDetailsService 
 	private static final Logger LOGGER = LogManager.getLogger(SecurityService.class);
     
 	@Autowired
-	private EnrollmentDao enrollmentDao;
+	private UserDao userDao;
     
     @Override 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     	LOGGER.info("User {} log onto application at {}.", username, LocalDateTime.now().format(DateUtils.YYYY_MM_DD_HH_MM));
-		User user = enrollmentDao.readUserByName(username);
+		User user = userDao.readUserByName(username);
         user.addAuthority(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		return user;
 	}

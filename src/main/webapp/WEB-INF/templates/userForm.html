@@ -30,12 +30,19 @@
 						</button>
 						<a class="navbar-brand" href="#"><i class="material-icons">account_circle</i>&nbsp;&nbsp;用户详细信息</a>
 					</div>
+					<div class="pull-right">
+						<a class="navbar-brand" th:href="@{/manage/myProfile.html}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;个人中心</a>
+					</div>
+					<div class="pull-right">
+						<a class="navbar-brand" th:href="@{/logout}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;退出</a>
+					</div>
 				</div>
 			</nav>
 			<div class="content">
 				<div class="container-fluid">
 				<form id="userForm" th:action="@{/manage/user.html}" method="post">
 					<input type="hidden" id="checkUsernameUrl" th:value="@{/manage/verifyUsername.html}">
+					<input type="hidden" name="id" th:value="${user != null} ? ${user.id} : ''">
 					<div class="row">
 	                        <div class="col-md-12">
 		                        <div class="card">
@@ -47,14 +54,15 @@
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">用户名<span class="required-asterisk" style="display: inline;">&nbsp;*</span></label>
-													<input type="text" name="name" class="form-control" required="required" pattern="^[a-zA-Z0-9_]{3,15}$">
+													<input type="text" name="name" class="form-control" required="required" pattern="^[a-zA-Z0-9_]{3,15}$" th:if="${user == null}">
+													<input type="text" class="form-control" th:value="${user.name}" th:disabled="${user != null}" th:if="${user != null}">
 													<label id="name-error" class="has-error" for="name" style="display: none;"></label>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">全名</label>
-													<input type="text" name="fullName" class="form-control" >
+													<input type="text" name="fullName" class="form-control" th:value="${user != null} ? ${user.fullName} : ''">
 												</div>
 											</div>
 										</div>
@@ -62,7 +70,7 @@
 											<div class="col-md-12">
 												<div class="form-group label-floating">
 													<label class="control-label">职称</label>
-													<input name="title" class="form-control">
+													<input name="title" class="form-control" th:value="${user != null} ? ${user.title} : ''">
 												</div>
 											</div>
 										</div>
@@ -70,17 +78,17 @@
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">手机</label>
-													<input type="tel" name="phone" class="form-control" >
+													<input type="tel" name="phone" class="form-control" th:value="${user != null} ? ${user.phone} : ''">
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">部门</label>
-													<input type="text" name="department" class="form-control">
+													<input type="text" name="department" class="form-control" th:value="${user != null} ? ${user.department} : ''">
 												</div>
 											</div>
 										</div>
-										<div class="row">
+										<div class="row" th:if="${user == null}">
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">密码</label>

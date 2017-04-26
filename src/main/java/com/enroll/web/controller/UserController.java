@@ -50,15 +50,22 @@ public class UserController {
 	@RequestMapping(value = "/myProfile.html", method = RequestMethod.GET)
 	public String myProfile(Model model) {
 		String userId = SessionContextHolder.getCurrentUserId();
-		model.addAttribute("viewType", "myProfile");
-		return userDetailInfo(userId, model);
+		UserDTO user = userService.findUser(userId);
+		model.addAttribute("user", user);
+		return "myProfile";
 	}
 	
 	/**
+	 * @param userId
+	 * @param model
 	 * @return String
 	 */
 	@RequestMapping(value = "/userForm.html", method = RequestMethod.GET)
-	public String createUser() {
+	public String userForm(String userId, Model model) {
+		if (StringUtils.isNotBlank(userId)) {
+			UserDTO user = userService.findUser(userId);
+			model.addAttribute("user", user);
+		}
 		return "userForm";
 	}
 	

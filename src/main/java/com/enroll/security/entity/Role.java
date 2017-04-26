@@ -1,7 +1,7 @@
 package com.enroll.security.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +24,7 @@ import org.hibernate.annotations.BatchSize;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "TBL_ROLE_INFO")
-public class Role implements Serializable {
+public class Role extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 4506540802219160589L;
 
@@ -46,7 +46,7 @@ public class Role implements Serializable {
 
 	
 	@ManyToMany(fetch = FetchType.LAZY, targetEntity = Permission.class)
-	@JoinTable(name = "TBL_ROLE_PERMISSION", joinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID") , inverseJoinColumns = @JoinColumn(name = "PERMISSION_ID", referencedColumnName = "PERMISSION_ID") )
+	@JoinTable(name = "TBL_ROLE_PERMISSION_XREF", joinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID") , inverseJoinColumns = @JoinColumn(name = "PERMISSION_ID", referencedColumnName = "PERMISSION_ID") )
 	@BatchSize(size = 50)
 	@OrderBy("displayOrder asc")
 	private Set<Permission> allPermissions = new HashSet<Permission>();
@@ -54,24 +54,6 @@ public class Role implements Serializable {
 	public Set<Permission> getAllPermissions() {
 		return allPermissions;
 	}
-
-	@Column(name = "CREATE_USER_ID", nullable = false)
-	private Long createuserId;
-
-	@Column(name = "CREATE_USER_NAME")
-	private String createUser;
-
-	@Column(name = "MODIFY_USER_ID")
-	private Long modifyUserId;// 修改用户编号
-
-	@Column(name = "MODIFY_USER_NAME")
-	private String modifyUser;
-
-	@Column(name = "CREATE_TIMESTAMP")
-	private Date createTimestamp;
-
-	@Column(name = "MODIFY_TIMESTAMP")
-	private Date modifyTimestamp;	
 
 	public Long getId() {
 		return id;
@@ -109,53 +91,21 @@ public class Role implements Serializable {
 		return getName();
 	}
 
-	public Long getCreateuserId() {
-		return createuserId;
+	public LocalDateTime getCreatedTimestamp() {
+		return createdTimestamp;
 	}
 
-	public void setCreateuserId(Long createuserId) {
-		this.createuserId = createuserId;
+	public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
+		this.createdTimestamp = createdTimestamp;
 	}
 
-	public String getCreateUser() {
-		return createUser;
+	public LocalDateTime getModifiedTimestamp() {
+		return modifiedTimestamp;
 	}
 
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
-	public Long getModifyUserId() {
-		return modifyUserId;
-	}
-
-	public void setModifyUserId(Long modifyUserId) {
-		this.modifyUserId = modifyUserId;
-	}
-
-	public String getModifyUser() {
-		return modifyUser;
-	}
-
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
-
-	public Date getCreateTimestamp() {
-		return createTimestamp;
-	}
-
-	public void setCreateTimestamp(Date createTimestamp) {
-		this.createTimestamp = createTimestamp;
-	}
-
-	public Date getModifyTimestamp() {
-		return modifyTimestamp;
-	}
-
-	public void setModifyTimestamp(Date modifyTimestamp) {
-		this.modifyTimestamp = modifyTimestamp;
-	}
+	public void setModifiedTimestamp(LocalDateTime modifiedTimestamp) {
+		this.modifiedTimestamp = modifiedTimestamp;
+	}	
 
 	@Override
 	public int hashCode() {
@@ -187,4 +137,5 @@ public class Role implements Serializable {
 			return false;
 		return true;
 	}
+
 }

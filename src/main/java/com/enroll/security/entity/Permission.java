@@ -1,7 +1,7 @@
 package com.enroll.security.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,16 +17,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 import org.hibernate.annotations.BatchSize;
 
+import com.enroll.security.enums.EntityStatus;
 import com.enroll.security.enums.PermissionType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "TBL_ACCESS_PERMISSION")
-public class Permission implements Serializable {
+public class Permission extends AbstractEntity implements Serializable {
 	
 	private static final long serialVersionUID = -8143612159499208555L;
 
@@ -64,28 +64,9 @@ public class Permission implements Serializable {
 	@JoinColumns({ @JoinColumn(name = "PARENT_PERMISION_ID") })
 	@BatchSize(size = 50)
 	private Permission parentPermission;
-
-	@Column(name = "CREATE_USER_ID", nullable = false)
-	private Long createuserId;
-
-	@Column(name = "CREATE_USER_NAME")
-	private String createUser;
-
-	@Column(name = "MODIFY_USER_ID")
-	private Long modifyUserId;// 修改用户编号
-
-	@Column(name = "MODIFY_USER_NAME")
-	private String modifyUser;
 	
 	@Column(name = "ACTIVE")
-	private String active;
-	
-	@Column(name = "CREATE_TIMESTAMP", updatable = false)
-	private Date createTimestamp;
-
-	@Version
-	@Column(name = "MODIFY_TIMESTAMP")
-	private Date modifyTimestamp;	
+	private String active = EntityStatus.ACIVE.getKey();
 
 	public Long getId() {
 		return id;
@@ -161,71 +142,6 @@ public class Permission implements Serializable {
 		this.css = css;
 	}
 
-	public Long getCreateuserId() {
-		return createuserId;
-	}
-
-	public void setCreateuserId(Long createuserId) {
-		this.createuserId = createuserId;
-	}
-
-	public String getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
-	public Long getModifyUserId() {
-		return modifyUserId;
-	}
-
-	public void setModifyUserId(Long modifyUserId) {
-		this.modifyUserId = modifyUserId;
-	}
-
-	public String getModifyUser() {
-		return modifyUser;
-	}
-
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
-
-	public Date getCreateTimestamp() {
-		return createTimestamp;
-	}
-
-	public void setCreateTimestamp(Date createTimestamp) {
-		this.createTimestamp = createTimestamp;
-	}
-
-	public Date getModifyTimestamp() {
-		return modifyTimestamp;
-	}
-
-	public void setModifyTimestamp(Date modifyTimestamp) {
-		this.modifyTimestamp = modifyTimestamp;
-	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
-	}
-	
-
-	public String getActive() {
-		return active;
-	}
-
-	public void setActive(String active) {
-		this.active = active;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -267,5 +183,41 @@ public class Permission implements Serializable {
 		} else if (!url.equals(other.url))
 			return false;
 		return true;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public LocalDateTime getCreatedTimestamp() {
+		return createdTimestamp;
+	}
+
+	public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
+		this.createdTimestamp = createdTimestamp;
+	}
+
+	public LocalDateTime getModifiedTimestamp() {
+		return modifiedTimestamp;
+	}
+
+	public void setModifiedTimestamp(LocalDateTime modifiedTimestamp) {
+		this.modifiedTimestamp = modifiedTimestamp;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
 	}
 }

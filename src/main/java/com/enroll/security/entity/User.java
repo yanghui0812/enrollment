@@ -3,7 +3,6 @@ package com.enroll.security.entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +17,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.Version;
 
 import org.hibernate.annotations.BatchSize;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +27,7 @@ import com.enroll.security.enums.EntityStatus;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "TBL_USER_INFO")
-public class User implements UserDetails {
+public class User extends AbstractEntity implements UserDetails {
 
 	private static final long serialVersionUID = -6130666978254887990L;
 
@@ -65,25 +63,6 @@ public class User implements UserDetails {
 	@JoinTable(name = "TBL_USER_ROLE_XREF", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") , inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID") )
 	@BatchSize(size = 50)
 	private Set<Role> allRoles = new HashSet<Role>();
-
-	@Column(name = "CREATE_USER_ID", nullable = false)
-	private String createuserId;
-
-	@Column(name = "CREATE_USER_NAME")
-	private String createUser;
-
-	@Column(name = "MODIFY_USER_ID")
-	private String modifyUserId;
-
-	@Column(name = "MODIFY_USER_NAME")
-	private String modifyUser;
-
-	@Column(name = "CREATE_TIMESTAMP", updatable = false)
-	private Date createTimestamp;
-
-	@Version
-	@Column(name = "MODIFY_TIMESTAMP")
-	private Date modifyTimestamp;
 	
 	@Transient
 	private Collection<GrantedAuthority> grantedAuthority = new ArrayList<GrantedAuthority>();
@@ -143,7 +122,7 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return EntityStatus.isAcive(getActive());
 	}
 
 	public String getImageUrl() {
@@ -160,54 +139,6 @@ public class User implements UserDetails {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
-	}
-
-	public String getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
-	public String getCreateuserId() {
-		return createuserId;
-	}
-
-	public void setCreateuserId(String createuserId) {
-		this.createuserId = createuserId;
-	}
-
-	public String getModifyUserId() {
-		return modifyUserId;
-	}
-
-	public void setModifyUserId(String modifyUserId) {
-		this.modifyUserId = modifyUserId;
-	}
-
-	public String getModifyUser() {
-		return modifyUser;
-	}
-
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
-
-	public Date getCreateTimestamp() {
-		return createTimestamp;
-	}
-
-	public void setCreateTimestamp(Date createTimestamp) {
-		this.createTimestamp = createTimestamp;
-	}
-
-	public Date getModifyTimestamp() {
-		return modifyTimestamp;
-	}
-
-	public void setModifyTimestamp(Date modifyTimestamp) {
-		this.modifyTimestamp = modifyTimestamp;
 	}
 
 	public String getTitle() {
@@ -248,5 +179,13 @@ public class User implements UserDetails {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public Collection<GrantedAuthority> getGrantedAuthority() {
+		return grantedAuthority;
+	}
+
+	public void setGrantedAuthority(Collection<GrantedAuthority> grantedAuthority) {
+		this.grantedAuthority = grantedAuthority;
 	}
 }

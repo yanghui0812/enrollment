@@ -1,7 +1,7 @@
 package com.enroll.security.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.enroll.security.enums.EntityStatus;
 
@@ -25,17 +25,17 @@ public class UserDTO implements Serializable  {
 	
 	private String department;
 
-	private Long createuserId;
+	private String createdUserId;
 
-	private String createUser;
+	private String createdUser;	
 
-	private Long modifyUserId;
+	private LocalDateTime createdTimestamp;
 
-	private String modifyUser;
+	private String modifiedUserId;
 
-	private Date createTimestamp;
+	private String modifiedUser;
 
-	private Date modifyTimestamp;
+	private LocalDateTime modifiedTimestamp;
 
 	public String getName() {
 		return name;
@@ -88,55 +88,7 @@ public class UserDTO implements Serializable  {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-
-	public Long getCreateuserId() {
-		return createuserId;
-	}
-
-	public void setCreateuserId(Long createuserId) {
-		this.createuserId = createuserId;
-	}
-
-	public String getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
-	public Long getModifyUserId() {
-		return modifyUserId;
-	}
-
-	public void setModifyUserId(Long modifyUserId) {
-		this.modifyUserId = modifyUserId;
-	}
-
-	public String getModifyUser() {
-		return modifyUser;
-	}
-
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
-
-	public Date getCreateTimestamp() {
-		return createTimestamp;
-	}
-
-	public void setCreateTimestamp(Date createTimestamp) {
-		this.createTimestamp = createTimestamp;
-	}
-
-	public Date getModifyTimestamp() {
-		return modifyTimestamp;
-	}
-
-	public void setModifyTimestamp(Date modifyTimestamp) {
-		this.modifyTimestamp = modifyTimestamp;
-	}
-
+	
 	public String getPhone() {
 		return phone;
 	}
@@ -151,5 +103,57 @@ public class UserDTO implements Serializable  {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getCreatedUserId() {
+		return createdUserId;
+	}
+
+	public void setCreatedUserId(String createdUserId) {
+		this.createdUserId = createdUserId;
+	}
+
+	public String getCreatedUser() {
+		return createdUser;
+	}
+
+	public void setCreatedUser(String createdUser) {
+		this.createdUser = createdUser;
+	}
+
+	public LocalDateTime getModifiedTimestamp() {
+		return modifiedTimestamp;
+	}
+
+	public void setModifiedTimestamp(LocalDateTime modifiedTimestamp) {
+		this.modifiedTimestamp = modifiedTimestamp;
+	}
+
+	public String getModifiedUserId() {
+		return modifiedUserId;
+	}
+
+	public void setModifiedUserId(String modifiedUserId) {
+		this.modifiedUserId = modifiedUserId;
+	}
+
+	public String getModifiedUser() {
+		return modifiedUser;
+	}
+
+	public void setModifiedUser(String modifiedUser) {
+		this.modifiedUser = modifiedUser;
+	}
+
+	public LocalDateTime getCreatedTimestamp() {
+		return createdTimestamp;
+	}
+
+	public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
+		this.createdTimestamp = createdTimestamp;
+	}
+
+	public String getActive() {
+		return active;
 	}
 }

@@ -1,5 +1,6 @@
 package com.enroll.security.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -40,13 +41,15 @@ public class UserServiceImpl implements UserService {
 			user = new User();
 			BeanUtils.copyProperties(userDTO, user);
 			user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-			user.setCreateUser(SessionContextHolder.getCurrentUserName());
-			user.setCreateuserId(SessionContextHolder.getCurrentUserId());
+			user.setCreatedUsername(SessionContextHolder.getCurrentUserName());
+			user.setCreatedUserId(SessionContextHolder.getCurrentUserId());
+			user.setCreatedTimestamp(LocalDateTime.now());
 		} else {
 			user = userDao.readUserById(userDTO.getId());
+			BeanUtils.copyProperties(userDTO, user, "password", "name");
 		}
-		user.setModifyUser(SessionContextHolder.getCurrentUserId());
-		user.setModifyUser(SessionContextHolder.getCurrentUserName());
+		user.setModifiedUserId(SessionContextHolder.getCurrentUserId());
+		user.setModifiedUsername(SessionContextHolder.getCurrentUserName());
 		userDao.save(user);
 		AjaxResult<String> ajax = new AjaxResult<String>(AjaxResultStatus.SUCCESS); 
 		return ajax;
