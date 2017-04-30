@@ -152,8 +152,4 @@ public class UserDTO implements Serializable  {
 	public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
 	}
-
-	public String getActive() {
-		return active;
-	}
 }

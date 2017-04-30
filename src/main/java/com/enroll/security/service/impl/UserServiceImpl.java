@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 			user.setCreatedUsername(SessionContextHolder.getCurrentUserName());
 			user.setCreatedUserId(SessionContextHolder.getCurrentUserId());
-			user.setCreatedTimestamp(LocalDateTime.now());
+			user.setCreatedDatetime(LocalDateTime.now());
 		} else {
 			user = userDao.readUserById(userDTO.getId());
 			BeanUtils.copyProperties(userDTO, user, "password", "name");

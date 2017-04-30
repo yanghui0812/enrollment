@@ -16,25 +16,25 @@ public abstract class AbstractEntity {
 	@Column(name = "CREATED_USER_NAME", updatable = false)
 	protected String createdUsername;
 
-	@Column(name = "CREATED_TIMESTAMP" , updatable = false)
-	protected LocalDateTime createdTimestamp;
+	@Column(name = "CREATED_DATETIME" , updatable = false)
+	protected LocalDateTime createdDatetime;
 
 	@Column(name = "MODIFIED_USER_ID")
-	protected String modifiedUserId;// 修改用户编号
+	protected String modifiedUserId;
 
 	@Column(name = "MODIFIED_USER_NAME")
 	protected String modifiedUsername;
 
 	@Version
 	@Column(name = "MODIFIED_TIMESTAMP")
-	protected LocalDateTime modifiedTimestamp;	
-
-	public LocalDateTime getCreatedTimestamp() {
-		return createdTimestamp;
+	protected LocalDateTime modifiedTimestamp;
+	
+	public LocalDateTime getCreatedDatetime() {
+		return createdDatetime;
 	}
 
-	public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
-		this.createdTimestamp = createdTimestamp;
+	public void setCreatedDatetime(LocalDateTime createdDatetime) {
+		this.createdDatetime = createdDatetime;
 	}
 
 	public LocalDateTime getModifiedTimestamp() {

@@ -1,7 +1,6 @@
 package com.enroll.core.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,14 +14,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 
+import com.enroll.security.entity.AbstractEntity;
+
 @Entity
 @Table(name = "TBL_FORM_META")
-public class FormMeta implements Serializable {
+public class FormMeta extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = -5313989726810258220L;
 
@@ -46,13 +46,6 @@ public class FormMeta implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "formMeta")
 	@BatchSize(size = 100)
 	private List<FormFieldMeta> formFieldMetaList = new ArrayList<FormFieldMeta>();
-
-	@Column(name = "CREATED_TIMESTAMP", updatable = false)
-	private LocalDateTime createdDate;
-
-	@Version
-	@Column(name = "UPDATED_TIMESTAMP")
-	private LocalDateTime modifiedDate;
 
 	public FormMeta() {
 	}
@@ -134,22 +127,6 @@ public class FormMeta implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public LocalDateTime getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(LocalDateTime createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public LocalDateTime getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(LocalDateTime modifiedDate) {
-		this.modifiedDate = modifiedDate;
 	}
 
 	public String getRawJson() {

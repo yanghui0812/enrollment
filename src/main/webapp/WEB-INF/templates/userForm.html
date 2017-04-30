@@ -1,6 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>上海商业会计学校</title>
 <meta charset="utf-8" />
@@ -62,7 +61,7 @@
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">全名</label>
-													<input type="text" name="fullName" class="form-control" th:value="${user != null} ? ${user.fullName} : ''">
+													<input type="text" name="fullName" class="form-control" th:value="${user != null} ? ${user.fullName} : ''" maxlength="150">
 												</div>
 											</div>
 										</div>
@@ -70,7 +69,7 @@
 											<div class="col-md-12">
 												<div class="form-group label-floating">
 													<label class="control-label">职称</label>
-													<input name="title" class="form-control" th:value="${user != null} ? ${user.title} : ''">
+													<input name="title" class="form-control" th:value="${user != null} ? ${user.title} : ''" maxlength="90">
 												</div>
 											</div>
 										</div>
@@ -78,13 +77,13 @@
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">手机</label>
-													<input type="tel" name="phone" class="form-control" th:value="${user != null} ? ${user.phone} : ''">
+													<input type="tel" name="phone" class="form-control" th:value="${user != null} ? ${user.phone} : ''" maxlength="15">
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group label-floating">
 													<label class="control-label">部门</label>
-													<input type="text" name="department" class="form-control" th:value="${user != null} ? ${user.department} : ''">
+													<input type="text" name="department" class="form-control" th:value="${user != null} ? ${user.department} : ''" maxlength="100">
 												</div>
 											</div>
 										</div>

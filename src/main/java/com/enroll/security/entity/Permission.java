@@ -193,14 +193,6 @@ public class Permission extends AbstractEntity implements Serializable {
 		this.img = img;
 	}
 
-	public LocalDateTime getCreatedTimestamp() {
-		return createdTimestamp;
-	}
-
-	public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
-		this.createdTimestamp = createdTimestamp;
-	}
-
 	public LocalDateTime getModifiedTimestamp() {
 		return modifiedTimestamp;
 	}
