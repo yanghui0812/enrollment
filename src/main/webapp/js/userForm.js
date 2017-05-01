@@ -50,6 +50,7 @@ $(document).ready(function() {
 		submitHandler: function(form) {
 			$.ajax({method: "POST", url: $('#checkUsernameUrl').val(), data: {'username': $( ':input[name=name]' ).val()}}).done(function( data ) {
 				if (data.status == 'success') {
+					$('.destination option').prop('selected', true);
 					form.submit();
 				} else {
 					$("#name-error").show();
@@ -58,4 +59,28 @@ $(document).ready(function() {
 			});
         } 
 	});
+	
+	 $('.moveToRight').click(function () {
+		$('.source option:selected').appendTo('.destination');
+	 });
+	
+	 $('.moveToLeft').click(function () {
+		 $('.destination option:selected').appendTo('.source');
+	 });
+	 
+	 $('.moveAllToRight').click(function () {
+		 $('.source option').appendTo('.destination');
+	 });
+
+	 $('.moveAllToLeft').click(function () {
+		 $('.destination option').appendTo('.source');
+	 });
+	
+	 $('.source').dblclick(function () {
+		 $("option:selected", this).appendTo('.destination');
+	 });
+	
+	 $('.destination').dblclick(function () {
+		 $("option:selected", this).appendTo('.source');
+	 });
 });

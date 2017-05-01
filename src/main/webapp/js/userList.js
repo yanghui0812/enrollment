@@ -28,7 +28,7 @@ $(document).ready(function() {
 		"columns": [{ "title": "用户名",  "data": "name", "name" : "name", "render": function (data, type, full) {
 			        	return '<a href="' + userDetailUrl + '?userId=' + full.id + '" style="margin-top:-3px;">' + data + '</a>';
 			    	 }},
-		            { "title": "用户角色", "data": "name", "name" : "registerDate", "orderable": false},
+		            { "title": "用户角色", "data": "rolesDesc", "orderable": false},
 		            { "title": "用户状态", "data": "activeDesc", "name" : "active"},
 		            { "title": "操作", 	 "data": "id", "orderable": false, "searchable": false, "render": function (data, type, full) {
 		            	//var detail =  '<a href="' + userDetailUrl + '?userId=' + data + '" style="margin-top:-3px">详细信息</a>'; 

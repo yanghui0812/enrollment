@@ -69,6 +69,10 @@ public class Role extends AbstractEntity implements Serializable {
 	public Set<User> getAllUsers() {
 		return allUsers;
 	}
+	
+	public void addUser(User user) {
+		allUsers.add(user);
+	}
 
 	public void setName(String name) {
 		this.name = name;

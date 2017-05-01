@@ -27,7 +27,7 @@
 						<a class="navbar-brand" href="#"><i class="material-icons">assignment</i>&nbsp;&nbsp;所有表单</a>
 					</div>
 					<div class="pull-right">
-						<a class="navbar-brand" th:href="@{/manage/myProfile.html}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;个人中心</a>
+						<a class="navbar-brand" th:href="@{/profiles/myProfile.html}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;个人中心</a>
 					</div>
 					<div class="pull-right">
 						<a class="navbar-brand" th:href="@{/logout}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;退出</a>
@@ -57,11 +57,11 @@
 											</span>
 										</div>
 									</div>
-									<input type="hidden" name="formMetaPageUrl"     th:value="@{/queryForms}"> 
-									<input type="hidden" name="copyUrl" 			th:value="@{/copyForm}"> 
-									<input type="hidden" name="formMetaUpdateUrl"   th:value="@{/forms/{formId}}">
-									<input type="hidden" name="changeFormSlotUrl"   th:value="@{/changeFormSlot/}">
-									<input type="hidden" name="enrollUrl"           th:value="@{/manage/enrollForm.html}">
+									<input type="hidden" name="formMetaPageUrl"     th:value="@{/formmanage/queryForms}"> 
+									<input type="hidden" name="copyUrl" 			th:value="@{/formmanage/copyForm}"> 
+									<input type="hidden" name="formMetaUpdateUrl"   th:value="@{/formmanage/forms/{formId}}">
+									<input type="hidden" name="changeFormSlotUrl"   th:value="@{/formmanage/changeFormSlot/}">
+									<input type="hidden" name="enrollUrl"           th:value="@{/enrollmanage/enrollForm.html}">
 									<input type="hidden" name="publicUrl"           th:value="@{/public/enrollForm.html}">
 									<table id="formTable" class="display"></table>
 								</div>

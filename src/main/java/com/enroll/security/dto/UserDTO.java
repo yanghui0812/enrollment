@@ -2,6 +2,9 @@ package com.enroll.security.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.enroll.security.enums.EntityStatus;
 
@@ -27,7 +30,9 @@ public class UserDTO implements Serializable  {
 
 	private String createdUserId;
 
-	private String createdUser;	
+	private String createdUser;
+	
+	private List<RoleDTO> roles = new ArrayList<>();
 
 	private LocalDateTime createdTimestamp;
 
@@ -151,5 +156,26 @@ public class UserDTO implements Serializable  {
 
 	public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
+	}
+	
+	public void setRoles(String[] roles) {
+		if (roles == null) {
+			return;
+		}
+		for (int i = 0; i < roles.length; i++) {
+			this.roles.add(new RoleDTO(Long.valueOf(roles[i])));
+		}
+	}
+	
+	public String getRolesDesc() {
+		return this.roles.stream().map(RoleDTO::getDescription).collect(Collectors.joining("</br>"));
+	}
+	
+	public void addRole(RoleDTO role) {
+		this.roles.add(role);
+	}
+
+	public List<RoleDTO> getRoles() {
+		return roles;
 	}
 }

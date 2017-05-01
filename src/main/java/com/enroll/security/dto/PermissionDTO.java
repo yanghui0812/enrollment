@@ -1,70 +1,36 @@
-package com.enroll.security.entity;
+package com.enroll.security.dto;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.BatchSize;
-
 import com.enroll.security.enums.EntityStatus;
 import com.enroll.security.enums.PermissionType;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "TBL_ACCESS_PERMISSION")
-public class Permission extends AbstractEntity implements Serializable {
-	
-	private static final long serialVersionUID = -8143612159499208555L;
+public class PermissionDTO implements Serializable {	
 
-	@Id
-	@Column(name = "PERMISSION_ID")
+	private static final long serialVersionUID = 8916704785145033860L;
+
 	private Long id;
 
-	@Column(name = "NAME", nullable = false)
 	private String name;
 
-	@Column(name = "URL", nullable = true)
 	private String url;
 
-	@Column(name = "PERMISSION_TYPE", nullable = false)
 	private String type;
 
-	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 
-	@Column(name = "DISPLAY_ORDER", nullable = true)
 	private Integer displayOrder;
 
-	@Column(name = "MENU_CSS", nullable = true)
 	private String css;
 
-	@Column(name = "MENU_IMG", nullable = true)
 	private String img;
 
-	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
-	@JoinTable(name = "TBL_ROLE_PERMISSION", joinColumns = @JoinColumn(name = "PERMISSION_ID", referencedColumnName = "PERMISSION_ID") , inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID") )
-	@BatchSize(size = 50)
-	private Set<Role> allRoles = new HashSet<Role>();
+	private Set<RoleDTO> allRoles = new HashSet<RoleDTO>();
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Permission.class)
-	@JoinColumns({ @JoinColumn(name = "PARENT_PERMISION_ID") })
-	@BatchSize(size = 50)
-	private Permission parentPermission;
+	private PermissionDTO parentPermission;
 	
-	@Column(name = "ACTIVE")
 	private String active = EntityStatus.ACIVE.getKey();
 
 	public Long getId() {
@@ -89,14 +55,6 @@ public class Permission extends AbstractEntity implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Set<Role> getAllRoles() {
-		return allRoles;
-	}
-
-	public void setAllRoles(Set<Role> allRoles) {
-		this.allRoles = allRoles;
 	}
 
 	public PermissionType getType() {
@@ -125,11 +83,11 @@ public class Permission extends AbstractEntity implements Serializable {
 		this.displayOrder = displayOrder;
 	}
 
-	public Permission getParentPermission() {
+	public PermissionDTO getParentPermission() {
 		return parentPermission;
 	}
 
-	public void setParentPermission(Permission parentPermission) {
+	public void setParentPermission(PermissionDTO parentPermission) {
 		this.parentPermission = parentPermission;
 	}
 
@@ -180,7 +138,7 @@ public class Permission extends AbstractEntity implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Permission other = (Permission) obj;
+		PermissionDTO other = (PermissionDTO) obj;
 		if (displayOrder == null) {
 			if (other.displayOrder != null)
 				return false;

@@ -32,7 +32,7 @@
 
 	        <div class="content">
 	            <div class="container-fluid">
-					<form id="detailForm" th:action="@{/manage/enrolls/} + ${enroll.registerId}" method="post">
+					<form id="detailForm" th:action="@{/enrollmanage/enrolls/} + ${enroll.registerId}" method="post">
 						<input type="hidden" name="status" value="enroll">
 		                <div class="row">
 	                        <div class="col-md-12">
@@ -78,7 +78,7 @@
 												</div>
 											</div>
 										</div>
-										<button type="button" class="btn btn-success pull-right backToList"  th:if="${viewType == 'manage'}" th:data-href="@{/manage/enrolls.html}">返回列表</button>
+										<button type="button" class="btn btn-success pull-right backToList"  th:if="${viewType == 'manage'}" th:data-href="@{/enrollmanage/enrolls.html}">返回列表</button>
 										<button type="button" class="btn btn-danger pull-right cancel"   th:if="${enroll.canCancel()}">删除</button>
 		                            </div>
 		                        </div>

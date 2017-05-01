@@ -1,6 +1,5 @@
 package com.enroll.security.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -12,16 +11,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enroll.common.utils.MaintenanceFieldsFiller;
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.enums.AjaxResultStatus;
+import com.enroll.security.dao.RoleDao;
 import com.enroll.security.dao.UserDao;
+import com.enroll.security.dto.RoleDTO;
 import com.enroll.security.dto.UserDTO;
 import com.enroll.security.dto.UserQuery;
+import com.enroll.security.entity.Role;
 import com.enroll.security.entity.User;
 import com.enroll.security.enums.EntityStatus;
 import com.enroll.security.service.UserService;
-import com.enroll.security.utils.SessionContextHolder;
 
 @Service("userService")
 @Transactional
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
 	@Resource(name = "userDao")
 	private UserDao userDao;
+	
+	@Autowired
+	private RoleDao roleDao;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -41,15 +46,18 @@ public class UserServiceImpl implements UserService {
 			user = new User();
 			BeanUtils.copyProperties(userDTO, user);
 			user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-			user.setCreatedUsername(SessionContextHolder.getCurrentUserName());
-			user.setCreatedUserId(SessionContextHolder.getCurrentUserId());
-			user.setCreatedDatetime(LocalDateTime.now());
+			MaintenanceFieldsFiller.fillCreatedAndModifiedFields(user);
 		} else {
 			user = userDao.readUserById(userDTO.getId());
+			user.getAllRoles().clear();
 			BeanUtils.copyProperties(userDTO, user, "password", "name");
+			MaintenanceFieldsFiller.fillModifiedFields(user);
 		}
-		user.setModifiedUserId(SessionContextHolder.getCurrentUserId());
-		user.setModifiedUsername(SessionContextHolder.getCurrentUserName());
+		
+		for (RoleDTO dto : userDTO.getRoles()) {
+			user.addRole(roleDao.readGenericEntity(Role.class, dto.getId()));
+		}
+		
 		userDao.save(user);
 		AjaxResult<String> ajax = new AjaxResult<String>(AjaxResultStatus.SUCCESS); 
 		return ajax;
@@ -59,7 +67,12 @@ public class UserServiceImpl implements UserService {
 	public UserDTO findUser(String id) {
 		UserDTO userDTO = new UserDTO();
 		User user = userDao.readGenericEntity(User.class, id);
-		BeanUtils.copyProperties(user, userDTO);
+		BeanUtils.copyProperties(user, userDTO, "allRoles");
+		user.getAllRoles().stream().forEach(role ->{
+			RoleDTO dto = new RoleDTO();
+			BeanUtils.copyProperties(role, dto, "allUsers", "allPermissions");
+			userDTO.addRole(dto);
+		});
 		return userDTO;
 	}
 
@@ -79,6 +92,11 @@ public class UserServiceImpl implements UserService {
 			UserDTO dto = new UserDTO();
 			BeanUtils.copyProperties(user, dto, "password");
 			result.addElement(dto);
+			user.getAllRoles().stream().forEach(role ->{
+				RoleDTO roleDTO = new RoleDTO();
+				BeanUtils.copyProperties(role, roleDTO, "allUsers", "allPermissions");
+				dto.addRole(roleDTO);
+			});
 		});
 		result.setDraw(searchResult.getDraw());
 		result.setRecordsFiltered(searchResult.getRecordsFiltered());

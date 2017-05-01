@@ -46,14 +46,14 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group label-floating">
-												<label class="control-label">用户名</label> <input type="text"
-													class="form-control" th:value="${user.name}" disabled>
+												<label class="control-label">用户名</label>
+												 <input type="text" class="form-control" th:value="${user.name}" disabled>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group label-floating">
-												<label class="control-label">全名</label> <input
-													class="form-control" th:value="${user.fullName}" disabled>
+												<label class="control-label">全名</label>
+												 <input class="form-control" th:value="${user.fullName}" disabled>
 											</div>
 										</div>
 									</div>
@@ -74,20 +74,31 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group label-floating">
-												<label class="control-label">用户手机</label> <input type="text" class="form-control" th:value="${user.phone}" disabled>
+												<label class="control-label">用户手机</label>
+												<input type="text" class="form-control" th:value="${user.phone}" disabled>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group label-floating">
-												<label class="control-label">部门</label> <input type="text"
-													class="form-control" th:value="${user.department}" disabled>
+												<label class="control-label">部门</label> 
+												<input type="text" class="form-control" th:value="${user.department}" disabled>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group label-floating">
+												<label class="control-label">用户的角色</label>
+												<div th:each="role, s : ${user.roles}">
+												  <span th:text="${role.description}"></span>
+												</div>
 											</div>
 										</div>
 									</div>
 									<span class="has-error" id="message"></span>
 									<a class="goToLogin" th:href="@{/logout}" style="display: none;">, 试试新的密码</a>
-									<button type="button" class="btn btn-success pull-right backToList" th:data-href="@{/manage/users.html}">返回列表</button>
-									<button type="button" class="btn btn-danger pull-right updateUser"  th:data-href="@{'/manage/userForm.html?userId='} + ${user.id}">修改</button>
+									<button type="button" class="btn btn-success pull-right backToList" th:data-href="@{/usermanage/users.html}">返回列表</button>
+									<button type="button" class="btn btn-danger pull-right updateUser"  th:data-href="@{'/usermanage/userForm.html?userId='} + ${user.id}">修改</button>
 								</div>
 							</div>
 						</div>

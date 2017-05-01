@@ -34,6 +34,7 @@ import com.enroll.core.service.EnrollmentService;
  * @version 1.0.0
  */
 @Controller
+@RequestMapping("/formmanage")
 public class FormDesignController {
 	
 	@Resource(name = "enrollmentService")

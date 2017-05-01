@@ -1,8 +1,13 @@
 package com.enroll.web.controller;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,25 +20,29 @@ import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.enums.AjaxResultStatus;
 import com.enroll.core.search.SearchCriteria;
+import com.enroll.security.dto.RoleDTO;
 import com.enroll.security.dto.UserDTO;
 import com.enroll.security.dto.UserQuery;
 import com.enroll.security.enums.EntityStatus;
+import com.enroll.security.service.RoleService;
 import com.enroll.security.service.UserService;
-import com.enroll.security.utils.SessionContextHolder;
 
 /**
- * @ClassName UserController
+ * @ClassName UserManageController
  * @Description
  * @author Leo.yang
  * @Date Mar 5, 2017 10:06:21 PM
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/manage")
-public class UserController {
+@RequestMapping("/usermanage")
+public class UserManageController {
 	
 	@Resource(name = "userService")
 	private UserService userService;
+	
+	@Autowired
+	private RoleService roleService;
 	
 	/**
 	 * @param userId
@@ -47,14 +56,6 @@ public class UserController {
 		return "userDetail";
 	}
 	
-	@RequestMapping(value = "/myProfile.html", method = RequestMethod.GET)
-	public String myProfile(Model model) {
-		String userId = SessionContextHolder.getCurrentUserId();
-		UserDTO user = userService.findUser(userId);
-		model.addAttribute("user", user);
-		return "myProfile";
-	}
-	
 	/**
 	 * @param userId
 	 * @param model
@@ -62,10 +63,18 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/userForm.html", method = RequestMethod.GET)
 	public String userForm(String userId, Model model) {
+		Collection<RoleDTO> list = roleService.findAllRoles(null);
+		model.addAttribute("roles", list);
 		if (StringUtils.isNotBlank(userId)) {
 			UserDTO user = userService.findUser(userId);
 			model.addAttribute("user", user);
+			Set<RoleDTO> roleSet = new HashSet<RoleDTO>(list);
+			user.getRoles().forEach(role ->{
+				roleSet.remove(role);
+			});
+			model.addAttribute("roles", roleSet);
 		}
+		
 		return "userForm";
 	}
 	
@@ -77,7 +86,7 @@ public class UserController {
 	@RequestMapping(value = "/user.html", method = RequestMethod.POST)
 	public String saveUserInfo(UserDTO user, Model model) {
 		userService.saveUser(user);
-		return "redirect:/manage/userDetail.html?userId=" + user.getId();
+		return "redirect:/usermanage/userDetail.html?userId=" + user.getId();
 	}
 	
 	/**
@@ -110,38 +119,6 @@ public class UserController {
 	@ResponseBody
 	public AjaxResult<String> resetPassword(String userId) {
 		AjaxResult<String> result = userService.changeUserPassword(userId, AppConstant.TRUE);
-		return result;
-	}
-	
-	/**
-	 * @param userId
-	 * @param password
-	 * @param oldPassword
-	 * @return AjaxResult
-	 */
-	@RequestMapping(value = "/changePassword.html", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult<String> changePassword(String currentPassword, String password, String confirmPassword) {
-		String userId = SessionContextHolder.getCurrentUserId();
-		AjaxResult<String> result = null;
-		if (!StringUtils.equals(password, confirmPassword)) {
-			result = new AjaxResult<String>(AjaxResultStatus.FAIL);
-			result.setMessage("两次输入的新密码不一致");
-			return result;
-		}
-		result = userService.changeUserPassword(userId, password, currentPassword);
-		return result;
-	}
-	
-	/**
-	 * @param userId
-	 * @param password
-	 * @return AjaxResult
-	 */
-	@RequestMapping(value = "/verifyPassword.html", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult<String> verifyPassword(String userId, String password) {
-		AjaxResult<String> result = userService.verifyPassword(userId, password);
 		return result;
 	}
 	

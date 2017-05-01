@@ -27,7 +27,7 @@
 						<a class="navbar-brand" href="#"><i class="material-icons">assignment</i>&nbsp;&nbsp;用户管理</a>
 					</div>
 					<div class="pull-right">
-						<a class="navbar-brand" th:href="@{/manage/myProfile.html}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;个人中心</a>
+						<a class="navbar-brand" th:href="@{/profiles/myProfile.html}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;个人中心</a>
 					</div>
 					<div class="pull-right">
 						<a class="navbar-brand" th:href="@{/logout}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;退出</a>
@@ -57,13 +57,13 @@
 											</span>
 										</div>
 										<div class="form-group col-xs-12 pull-right">
-											<a th:href="@{/manage/userForm.html}" style="margin-top:-3px">创建新用户</a>
+											<a th:href="@{/usermanage/userForm.html}" style="margin-top:-3px">创建新用户</a>
 									    </div>
 									</div>
-									<input type="hidden" name="userPageJson"   th:value="@{/manage/users}">
-									<input type="hidden" name="disableUser"    th:value="@{/manage/disableUser.html}">
-									<input type="hidden" name="enableUser"     th:value="@{/manage/enableUser.html}">
-									<input type="hidden" name="userDetail"     th:value="@{/manage/userDetail.html}">
+									<input type="hidden" name="userPageJson"   th:value="@{/usermanage/users}">
+									<input type="hidden" name="disableUser"    th:value="@{/usermanage/disableUser.html}">
+									<input type="hidden" name="enableUser"     th:value="@{/usermanage/enableUser.html}">
+									<input type="hidden" name="userDetail"     th:value="@{/usermanage/userDetail.html}">
 									<table id="userTable" class="display"></table>
 								</div>
 							</div>

@@ -164,6 +164,10 @@ public class User extends AbstractEntity implements UserDetails {
 	public void setAllRoles(Set<Role> allRoles) {
 		this.allRoles = allRoles;
 	}
+	
+	public void addRole(Role role) {
+		allRoles.add(role);
+	}
 
 	public String getDepartment() {
 		return department;

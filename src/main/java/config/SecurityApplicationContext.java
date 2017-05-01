@@ -44,8 +44,11 @@ public class SecurityApplicationContext extends WebSecurityConfigurerAdapter {
 		// Exception control configuration
 		http.exceptionHandling().accessDeniedPage(ACCESSDENIED_URL);
 
-		http.authorizeRequests().anyRequest().authenticated().antMatchers("/forms/**").hasRole("ADMIN");
-		http.authorizeRequests().anyRequest().authenticated().antMatchers(HOME_URL).hasRole("ADMIN");
+		http.authorizeRequests().antMatchers("/formmanage/**").hasRole("FORM_DESIGNER");
+		http.authorizeRequests().antMatchers("/usermanage/**").hasRole("USER_MANAGEMENT");
+		http.authorizeRequests().antMatchers("/enrollmanage/**").hasRole("ASSISTANT");
+		http.authorizeRequests().antMatchers("/profiles/**").authenticated();
+		http.authorizeRequests().antMatchers(HOME_URL).authenticated();
 	}
 
 	@Bean(name = "authenticationManager")

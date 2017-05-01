@@ -12,23 +12,23 @@
 						<p>首页</p>
 				    </a>
 				</li>
-				<li th:class="${active == 'designForm'} ? 'active' : ''"><a th:href="@{/forms/.html}">
+				<li th:class="${active == 'designForm'} ? 'active' : ''"><a th:href="@{/formmanage/forms/.html}">
 					 <i
 							class="material-icons">create</i>
 							<p>设计表单</p>
 					</a>
 				</li>
-				<li th:class="${active == 'forms'} ? 'active' : ''"><a th:href="@{/forms.html}"> <i
+				<li th:class="${active == 'forms'} ? 'active' : ''"><a th:href="@{/formmanage/forms.html}"> <i
 						class="material-icons">assignment</i>
 						<p>所有表单</p>
 				</a></li>
-				<li th:class="${active == 'enrolls'} ? 'active' : ''"><a th:href="@{/manage/enrolls.html}"> <i
+				<li th:class="${active == 'enrolls'} ? 'active' : ''"><a th:href="@{/enrollmanage/enrolls.html}"> <i
 						class="material-icons">dashboard</i>
 						<p>报名列表</p>
 					</a>
 				</li>
 				<li th:class="${active == 'users'} ? 'active' : ''">
-					<a th:href="@{/manage/users.html}"> <i class="material-icons">dashboard</i>
+					<a th:href="@{/usermanage/users.html}"> <i class="material-icons">dashboard</i>
 						<p>用户列表</p>
 					</a>
 				</li>

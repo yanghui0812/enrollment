@@ -30,7 +30,9 @@ public class SecurityServiceImpl implements SecurityService, UserDetailsService 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     	LOGGER.info("User {} log onto application at {}.", username, LocalDateTime.now().format(DateUtils.YYYY_MM_DD_HH_MM));
 		User user = userDao.readUserByName(username);
-        user.addAuthority(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		user.getAllRoles().stream().forEach(role -> {
+			user.addAuthority(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+		});
 		return user;
 	}
 }
