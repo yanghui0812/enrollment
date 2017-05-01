@@ -53,6 +53,7 @@ public class UserManageController {
 	public String userDetailInfo(String userId, Model model) {
 		UserDTO user = userService.findUser(userId);
 		model.addAttribute("user", user);
+		model.addAttribute("active", "users");
 		return "userDetail";
 	}
 	
@@ -74,7 +75,7 @@ public class UserManageController {
 			});
 			model.addAttribute("roles", roleSet);
 		}
-		
+		model.addAttribute("active", "users");
 		return "userForm";
 	}
 	
@@ -143,6 +144,7 @@ public class UserManageController {
 	 */
 	@RequestMapping(value = "/users.html", method = RequestMethod.GET)
 	public String userPage(Model model) {
+		model.addAttribute("active", "users");
 		return "userList";
 	}
 

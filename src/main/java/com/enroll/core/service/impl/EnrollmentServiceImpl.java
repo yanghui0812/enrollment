@@ -137,7 +137,7 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			formMeta = new FormMeta();
 			MaintenanceFieldsFiller.fillCreatedAndModifiedFields(formMeta);
 		}
-		BeanUtils.copyProperties(formMetaDTO, formMeta, "formFieldMetaList", "createdDate");
+		BeanUtils.copyProperties(formMetaDTO, formMeta, "formFieldMetaList", "createdDatetime");
 
 		// Group form field data
 		for (FormFieldMetaDTO formField : formMetaDTO.getFields()) {

@@ -13,7 +13,7 @@
 		<log4j-version>2.6.1</log4j-version>
 		<poi.version>3.15</poi.version>
 		<hibernate-version>5.2.1.Final</hibernate-version>
-		<thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
+		<thymeleaf.version>3.0.5.RELEASE</thymeleaf.version>
 		<spring-security-version>4.2.2.RELEASE</spring-security-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -182,8 +182,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity3</artifactId>
-			<version>2.1.1.RELEASE</version>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<version>3.0.2.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

@@ -1,5 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
 	<div class="sidebar" data-color="green" th:data-image="@{/img/sidebar.jpg}" th:fragment="sidebar">
 		<div class="logo">
@@ -7,28 +9,33 @@
 		</div>
 		<div class="sidebar-wrapper">
 			<ul class="nav" id = "lefeMenu">
-				<li th:class="${active == null} ? 'active' : ''"><a th:href="@{/home.html}"> 
-					<i class="material-icons">home</i>
+				<li th:class="${active == null} ? 'active' : ''">
+					<a th:href="@{/home.html}"> 
+						<i class="material-icons">home</i>
 						<p>首页</p>
 				    </a>
 				</li>
-				<li th:class="${active == 'designForm'} ? 'active' : ''"><a th:href="@{/formmanage/forms/.html}">
-					 <i
-							class="material-icons">create</i>
-							<p>设计表单</p>
+				<li th:class="${active == 'designForm'} ? 'active' : ''" sec:authorize="hasRole('ROLE_FORM_DESIGNER')">
+					<a th:href="@{/formmanage/forms/.html}">
+						 <i class="material-icons">create</i>
+						 <p>设计表单</p>
 					</a>
 				</li>
-				<li th:class="${active == 'forms'} ? 'active' : ''"><a th:href="@{/formmanage/forms.html}"> <i
-						class="material-icons">assignment</i>
-						<p>所有表单</p>
-				</a></li>
-				<li th:class="${active == 'enrolls'} ? 'active' : ''"><a th:href="@{/enrollmanage/enrolls.html}"> <i
+				<li th:class="${active == 'forms'} ? 'active' : ''"  sec:authorize="hasRole('ROLE_FORM_DESIGNER')">
+					<a th:href="@{/formmanage/forms.html}">
+						 <i class="material-icons">assignment</i>
+						 <p>所有表单</p>
+					</a>
+				</li>
+				<li th:class="${active == 'enrolls'} ? 'active' : ''" sec:authorize="hasRole('ROLE_ASSISTANT')">
+					<a th:href="@{/enrollmanage/enrolls.html}"> <i
 						class="material-icons">dashboard</i>
 						<p>报名列表</p>
 					</a>
 				</li>
-				<li th:class="${active == 'users'} ? 'active' : ''">
-					<a th:href="@{/usermanage/users.html}"> <i class="material-icons">dashboard</i>
+				<li th:class="${active == 'users'} ? 'active' : ''" sec:authorize="hasRole('ROLE_USER_MANAGEMENT')">
+					<a th:href="@{/usermanage/users.html}"> 
+						<i class="material-icons">dashboard</i>
 						<p>用户列表</p>
 					</a>
 				</li>

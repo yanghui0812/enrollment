@@ -2,7 +2,7 @@ package com.enroll.common.utils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public final class MaintenanceFieldsFiller {
 		fillModifiedFields(obj);
 		filler(obj, "createdUserId", SessionContextHolder.getCurrentUserId());
 		filler(obj, "createdUsername", SessionContextHolder.getCurrentUserName());
-		filler(obj, "createdDatetime", LocalTime.now());
+		filler(obj, "createdDatetime", LocalDateTime.now());
 	}
 	
 	public static void fillModifiedFields(Object obj) {
