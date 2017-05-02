@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice(annotations = Controller.class)
+/*@ControllerAdvice(annotations = Controller.class)*/
 public class ExceptionAdvice {
 	
 	private static final Logger LOGGER = LogManager.getLogger(ExceptionAdvice.class);

@@ -26,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.enroll.common.AppConstant;
 import com.enroll.common.DateUtils;
+import com.enroll.common.utils.MaintenanceFieldsFiller;
 import com.enroll.core.dao.EnrollmentDao;
 import com.enroll.core.dto.AjaxResult;
 import com.enroll.core.dto.EnrollmentDTO;
@@ -124,19 +125,19 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 	public FormMetaDTO saveFormMeta(FormMetaDTO formMetaDTO) {
 		Objects.requireNonNull(formMetaDTO);
 		FormMeta formMeta = null;
-		LocalDateTime date = LocalDateTime.now();
 		@SuppressWarnings("unchecked")
 		Map<String, FormFieldMeta> formFieldMap = MapUtils.EMPTY_SORTED_MAP;
 		if (formMetaDTO.getFormId() > 0) {
 			formMeta = enrollmentDao.readGenericEntity(FormMeta.class, formMetaDTO.getFormId());
 			formFieldMap = formMeta.getFormFieldMetaMap();
 			formMeta.clearAllFormFieldMeta();
+			MaintenanceFieldsFiller.fillModifiedFields(formMeta);
 			LOGGER.info("Remove all the form field metadata from {}", formMetaDTO.getFormId());
 		} else {
 			formMeta = new FormMeta();
-			formMeta.setCreatedDate(date);
+			MaintenanceFieldsFiller.fillCreatedAndModifiedFields(formMeta);
 		}
-		BeanUtils.copyProperties(formMetaDTO, formMeta, "formFieldMetaList", "createdDate");
+		BeanUtils.copyProperties(formMetaDTO, formMeta, "formFieldMetaList", "createdDatetime");
 
 		// Group form field data
 		for (FormFieldMetaDTO formField : formMetaDTO.getFields()) {
@@ -621,8 +622,8 @@ public class EnrollmentServiceImpl implements EnrollmentService, AppConstant {
 			return newFieldMeta;
 		}).collect(Collectors.toList());
 		newFormMeta.setFormFieldMetaList(newFieldMetaList);
-		newFormMeta.setCreatedDate(current);
-		newFormMeta.setModifiedDate(current);
+		newFormMeta.setCreatedDatetime(current);
+		newFormMeta.setModifiedTimestamp(current);
 		enrollmentDao.save(newFormMeta);
 		return result;
 	}

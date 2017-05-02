@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -57,6 +58,7 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 		templateResolver.setCacheable(false);
 		templateResolver.setTemplateMode("HTML5");
 		springTemplateEngine.setTemplateResolver(templateResolver);
+		springTemplateEngine.addDialect(new SpringSecurityDialect());
 		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 		resolver.setCharacterEncoding("UTF-8");
 		resolver.setTemplateEngine(springTemplateEngine);

@@ -69,8 +69,8 @@
 		                            	</div>
 		                            </div>
 		                            <div class="card-footer">
-		                            	<button type="button" class="btn pull-right backToList" th:data-href="@{/forms.html}">返回列表</button>
-										<button type="button" class="btn btn-success pull-right  update" 	th:data-href="@{'/changeFormSlot/' + ${formId} + '?mode=update'}" th:if="${mode == 'view'}">我要修改</button>
+		                            	<button type="button" class="btn pull-right backToList" th:data-href="@{/formmanage/forms.html}">返回列表</button>
+										<button type="button" class="btn btn-success pull-right  update" 	th:data-href="@{'/formmanage/changeFormSlot/' + ${formId} + '?mode=update'}" th:if="${mode == 'view'}">我要修改</button>
 										<button type="submit" class="btn btn-success pull-right cancel" 	th:if="${mode == 'update'}">提交新的名额</button>
 		                            </div>
 		                        </div>

@@ -26,7 +26,7 @@ public class FormMetaDTO implements Serializable {
 
 	private String status;
 	
-	private LocalDateTime createdDate;
+	private LocalDateTime createdDatetime;
 
 	private String rawJson;
 	
@@ -140,17 +140,9 @@ public class FormMetaDTO implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public LocalDateTime getCreatedDate() {
-		return createdDate;
-	}
 	
 	public String getFormatCreatedDate() {
-		return this.createdDate.format(DateUtils.YYYY_MM_DD_HH_MM);
-	}
-
-	public void setCreatedDate(LocalDateTime createdDate) {
-		this.createdDate = createdDate;
+		return this.createdDatetime.format(DateUtils.YYYY_MM_DD_HH_MM);
 	}
 
 	public void setFields(List<FormFieldMetaDTO> fields) {
@@ -207,5 +199,13 @@ public class FormMetaDTO implements Serializable {
 		} else if (!formName.equals(other.formName))
 			return false;
 		return true;
+	}
+
+	public LocalDateTime getCreatedDatetime() {
+		return createdDatetime;
+	}
+
+	public void setCreatedDatetime(LocalDateTime createdDatetime) {
+		this.createdDatetime = createdDatetime;
 	}
 }

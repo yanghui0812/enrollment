@@ -2,15 +2,12 @@ package com.enroll.core.dao;
 
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
-
 import com.enroll.core.dto.EnrollmentQuery;
 import com.enroll.core.dto.FormMetaQuery;
 import com.enroll.core.dto.SearchResult;
 import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
 import com.enroll.core.entity.FormMeta;
-import com.enroll.core.entity.User;
 
 public interface EnrollmentDao {
 
@@ -84,14 +81,7 @@ public interface EnrollmentDao {
 	 * @return
 	 */
 	public boolean sessionContains(Object object);
-
-	/**
-	 * @param userName
-	 * @return
-	 * @throws DataAccessException
-	 */
-	public User readUserByName(String userName) throws DataAccessException;
-
+	
 	/**
 	 * @param query
 	 * @return

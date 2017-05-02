@@ -40,7 +40,7 @@ import com.enroll.core.service.EnrollmentService;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/manage")
+@RequestMapping("/enrollmanage")
 public class EnrollmentManageController {
 	
 	private static final Logger LOGGER = LogManager.getLogger(EnrollmentManageController.class);
@@ -79,7 +79,7 @@ public class EnrollmentManageController {
 		} else if (EnrollmentStatus.CANCEL.getType().equals(status)) {
 			enrollmentService.cancelEnrollment(registerId);
 		}
-		return "redirect:/manage/enroll.html?registerId=" + registerId;
+		return "redirect:/enrollmanage/enroll.html?registerId=" + registerId;
 	}
 	
 	/**

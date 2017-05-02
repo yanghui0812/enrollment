@@ -27,7 +27,7 @@ $(document).ready(function() {
 		"order": [[ 2, "desc" ]],
 		"columns": [{ "title": "编号", 	 "data": "formId", "name" : "formId"},
 		            { "title": "表单名称", "data": "formName", "name" : "formName"},
-		            { "title": "创建时间", "data": "formatCreatedDate", "name" : "createdDate"},
+		            { "title": "创建时间", "data": "formatCreatedDate", "name" : "createdDatetime"},
 		            { "title": "描述", 	 "data": "formDescription", "orderable": false},
 		            { "title": "状态", 	 "data": "statusDesc", "name" : "status"},
 		            { "title": "操作", 	 "data": "formId", "orderable": false, "searchable": false, "render": function (data, type, full) {
