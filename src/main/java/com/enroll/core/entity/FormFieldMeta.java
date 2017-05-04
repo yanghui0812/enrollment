@@ -50,6 +50,12 @@ public class FormFieldMeta implements Serializable {
 	@Column(name = "FIELD_MAXLENGTH", nullable = false)
 	private int maxlength;
 	
+	@Column(name = "FIELD_PATTERN", nullable = false)
+	private String pattern;
+	
+	@Column(name = "FIELD_PATTERN_MESSAGE", nullable = false)
+	private String patternMessage;
+	
 	@Column(name = "FIELD_NAME", nullable = false)
 	private String name;
 	
@@ -67,9 +73,6 @@ public class FormFieldMeta implements Serializable {
 	
 	@Column(name = "IS_UNIQUE_KEY", nullable = false) 
 	private String uniqueKey;
-	
-	@Column(name = "FIELD_CONSTRAINT", nullable = false)
-	private String fieldConstraint;
 	
 	@Column(name = "FIELD_DEFAULT_VALUE", nullable = false)
 	private String fieldDefaultValue;
@@ -91,13 +94,12 @@ public class FormFieldMeta implements Serializable {
 		this.position = fieldPosition;
 	}
 
-	public FormFieldMeta(long fieldId, FormMeta formMeta, String fieldName, String fieldType, String fieldConstraint,
+	public FormFieldMeta(long fieldId, FormMeta formMeta, String fieldName, String fieldType,
 			int fieldPosition, String fieldDefaultValue, String fieldStyle) {
 		this.fieldId = fieldId;
 		this.formMeta = formMeta;
 		this.name = fieldName;
 		this.type = fieldType;
-		this.fieldConstraint = fieldConstraint;
 		this.position = fieldPosition;
 		this.fieldDefaultValue = fieldDefaultValue;
 		this.fieldStyle = fieldStyle;
@@ -109,14 +111,6 @@ public class FormFieldMeta implements Serializable {
 
 	public void setFieldId(long fieldId) {
 		this.fieldId = fieldId;
-	}
-
-	public String getFieldConstraint() {
-		return this.fieldConstraint;
-	}
-
-	public void setFieldConstraint(String fieldConstraint) {
-		this.fieldConstraint = fieldConstraint;
 	}
 
 	public String getFieldDefaultValue() {
@@ -291,6 +285,30 @@ public class FormFieldMeta implements Serializable {
 	public void setUniqueKey(String uniqueKey) {
 		this.uniqueKey = uniqueKey;
 	}
+	
+	public int getMaxlength() {
+		return maxlength;
+	}
+
+	public void setMaxlength(int maxlength) {
+		this.maxlength = maxlength;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}	
+
+	public String getPatternMessage() {
+		return patternMessage;
+	}
+
+	public void setPatternMessage(String patternMessage) {
+		this.patternMessage = patternMessage;
+	}
 
 	@Override
 	public int hashCode() {
@@ -321,13 +339,5 @@ public class FormFieldMeta implements Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
-	}
-
-	public int getMaxlength() {
-		return maxlength;
-	}
-
-	public void setMaxlength(int maxlength) {
-		this.maxlength = maxlength;
 	}
 }

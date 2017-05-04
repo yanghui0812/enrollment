@@ -1,6 +1,10 @@
 $(document).ready(function() {
 	
-	$(":input[name='fieldValueList[2].fieldValue']").attr('minlength', 12);
+	$.validator.addMethod("pattern", function(value, element, params) { 
+	    var pattern = new RegExp($(element).attr('pattern'));
+	    $.validator.messages['pattern'] = $(element).data('patternMessage');
+	    return pattern.test(value) || this.optional(element); 
+	}, "输入不合法");	
 	
 	$("#enrollForm").validate();
 	$.validator.addMethod("tel", function(value, element) { 

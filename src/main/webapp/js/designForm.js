@@ -19,6 +19,8 @@ $(document).ready(function($) {
     	    label: '字段名',
     	    name: '名称',
     	    placeholder: '占位符',
+    	    pattern:'值验证表达式',
+    	    patternMessage:'值验证消息',
     	    appslot:  '申请人数',
             appmaxsize: '是否将下面的选项值作为对应的人数限制?',
             uniqueKey: '唯一键',

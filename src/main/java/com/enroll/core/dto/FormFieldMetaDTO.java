@@ -37,8 +37,6 @@ public class FormFieldMetaDTO implements Serializable {
 	
 	private String uniqueKey;
 
-	private String fieldConstraint;
-
 	private String fieldDefaultValue;
 
 	private String className;
@@ -46,6 +44,10 @@ public class FormFieldMetaDTO implements Serializable {
 	private String name;
 
 	private String inputFieldValue;
+	
+	private String pattern;
+	
+	private String patternMessage;
 
 	private FormMetaDTO formMeta;
 	
@@ -64,13 +66,11 @@ public class FormFieldMetaDTO implements Serializable {
 		this.position = position;
 	}
 
-	public FormFieldMetaDTO(long fieldId, FormMetaDTO formMeta, String fieldName, String fieldType,
-			String fieldConstraint, int position, String fieldDefaultValue, String fieldStyle) {
+	public FormFieldMetaDTO(long fieldId, FormMetaDTO formMeta, String fieldName, String fieldType, int position, String fieldDefaultValue, String fieldStyle) {
 		this.fieldId = fieldId;
 		this.formMeta = formMeta;
 		this.label = fieldName;
 		this.type = fieldType;
-		this.fieldConstraint = fieldConstraint;
 		this.position = position;
 		this.fieldDefaultValue = fieldDefaultValue;
 		this.className = fieldStyle;
@@ -198,14 +198,6 @@ public class FormFieldMetaDTO implements Serializable {
 		this.type = type;
 	}
 
-	public String getFieldConstraint() {
-		return fieldConstraint;
-	}
-
-	public void setFieldConstraint(String fieldConstraint) {
-		this.fieldConstraint = fieldConstraint;
-	}
-
 	public String getFieldDefaultValue() {
 		return fieldDefaultValue;
 	}
@@ -277,6 +269,38 @@ public class FormFieldMetaDTO implements Serializable {
 
 	public void setUniqueKey(String uniqueKey) {
 		this.uniqueKey = uniqueKey;
+	}	
+
+	public Map<String, FormFieldOptionDTO> getOptionsMap() {
+		return optionsMap;
+	}
+
+	public void setOptionsMap(Map<String, FormFieldOptionDTO> optionsMap) {
+		this.optionsMap = optionsMap;
+	}
+
+	public int getMaxlength() {
+		return maxlength;
+	}
+
+	public void setMaxlength(int maxlength) {
+		this.maxlength = maxlength;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
+
+	public String getPatternMessage() {
+		return patternMessage;
+	}
+
+	public void setPatternMessage(String patternMessage) {
+		this.patternMessage = patternMessage;
 	}
 
 	@Override
@@ -284,7 +308,6 @@ public class FormFieldMetaDTO implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((className == null) ? 0 : className.hashCode());
-		result = prime * result + ((fieldConstraint == null) ? 0 : fieldConstraint.hashCode());
 		result = prime * result + ((fieldDefaultValue == null) ? 0 : fieldDefaultValue.hashCode());
 		result = prime * result + (int) (fieldId ^ (fieldId >>> 32));
 		result = prime * result + ((formMeta == null) ? 0 : formMeta.hashCode());
@@ -311,11 +334,6 @@ public class FormFieldMetaDTO implements Serializable {
 			if (other.className != null)
 				return false;
 		} else if (!className.equals(other.className))
-			return false;
-		if (fieldConstraint == null) {
-			if (other.fieldConstraint != null)
-				return false;
-		} else if (!fieldConstraint.equals(other.fieldConstraint))
 			return false;
 		if (fieldDefaultValue == null) {
 			if (other.fieldDefaultValue != null)
@@ -367,24 +385,8 @@ public class FormFieldMetaDTO implements Serializable {
 	@Override
 	public String toString() {
 		return "FormFieldMetaDTO [fieldId=" + fieldId + ", position=" + position + ", required=" + required + ", label="
-				+ label + ", type=" + type + ", fieldConstraint=" + fieldConstraint + ", fieldDefaultValue="
+				+ label + ", type=" + type + ", fieldDefaultValue="
 				+ fieldDefaultValue + ", className=" + className + ", name=" + name + ", inputFieldValue="
 				+ inputFieldValue + ", formMeta=" + formMeta + ", options=" + options + "]";
-	}
-
-	public Map<String, FormFieldOptionDTO> getOptionsMap() {
-		return optionsMap;
-	}
-
-	public void setOptionsMap(Map<String, FormFieldOptionDTO> optionsMap) {
-		this.optionsMap = optionsMap;
-	}
-
-	public int getMaxlength() {
-		return maxlength;
-	}
-
-	public void setMaxlength(int maxlength) {
-		this.maxlength = maxlength;
 	}
 }
