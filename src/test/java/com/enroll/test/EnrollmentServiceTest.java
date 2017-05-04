@@ -42,7 +42,7 @@ public class EnrollmentServiceTest extends AbstractTestNGSpringContextTests {
 		textFieldMeta.setName("text " + currentTime);
 		textFieldMeta.setPosition(1);
 		textFieldMeta.setType(FormFieldType.TEXT.getType());
-		textFieldMeta.setFieldConstraint("textConstraint" + currentTime);
+		//textFieldMeta.setFieldConstraint("textConstraint" + currentTime);
 		textFieldMeta.setFieldDefaultValue("1000" + currentTime);
 		textFieldMeta.setClassName("textStyle" + currentTime);
 
@@ -52,7 +52,7 @@ public class EnrollmentServiceTest extends AbstractTestNGSpringContextTests {
 		selectField.setName("fieldName" + currentTime);
 		selectField.setPosition(2);
 		selectField.setType(FormFieldType.SELECT.getType());
-		selectField.setFieldConstraint("fieldConstraint" + currentTime);
+		//selectField.setFieldConstraint("fieldConstraint" + currentTime);
 		selectField.setFieldDefaultValue("1000" + currentTime);
 		selectField.setClassName("fieldStyle" + currentTime);
 
