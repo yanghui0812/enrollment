@@ -1538,6 +1538,8 @@ function formBuilderEventsFn() {
         other: 'Other',
         paragraph: 'Paragraph',
         placeholder: 'Placeholder',
+        pattern:'Pattern',
+        patternMessage:'patternMessage',
         placeholders: {
           value: 'Value',
           label: 'Label',
@@ -2183,6 +2185,8 @@ function formBuilderEventsFn() {
 
       if (utils.inArray(values.type, ['text', 'textarea'])) {
         advFields.push(numberAttribute('maxlength', values));
+        advFields.push(textAttribute('pattern', values));
+        advFields.push(textAttribute('patternMessage', values));
       }
 
       // Append custom attributes as defined in typeUserAttrs option

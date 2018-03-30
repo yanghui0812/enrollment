@@ -1,6 +1,7 @@
 package com.enroll.web.controller;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ public class UserProfileController {
 	 */
 	@RequestMapping(value = "/changePassword.html", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult<String> changePassword(String currentPassword, String password, String confirmPassword) {
+	public AjaxResult<String> changePassword(@NotNull String currentPassword, @NotNull String password, @NotNull String confirmPassword) {
 		String userId = SessionContextHolder.getCurrentUserId();
 		AjaxResult<String> result = null;
 		if (!StringUtils.equals(password, confirmPassword)) {
@@ -64,7 +65,7 @@ public class UserProfileController {
 	 */
 	@RequestMapping(value = "/verifyPassword.html", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult<String> verifyPassword(String userId, String password) {
+	public AjaxResult<String> verifyPassword(@NotNull String userId, @NotNull String password) {
 		AjaxResult<String> result = userService.verifyPassword(userId, password);
 		return result;
 	}

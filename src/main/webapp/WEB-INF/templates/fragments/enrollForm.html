@@ -50,7 +50,7 @@
 							  			   <div th:if="${fieldMeta.isText()}" class="form-group label-floating">
 										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">&nbsp;*</span></label>
 										   		<input type="hidden" class = "uniqueKey" th:value="${fieldMeta.fieldId}" th:if="${fieldMeta.isUniqueKey()}">
-										        <input th:type="${fieldMeta.subtype}" th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off" th:maxlength="${fieldMeta.maxlength}">
+										        <input th:type="${fieldMeta.subtype}" th:required="${fieldMeta.isRequired()}" th:class="${fieldMeta.CssClass} + 'form-control'" th:name="'fieldValueList[' + ${fieldIndex} + '].fieldValue'" th:value="${fieldMeta.inputFieldValue}" autocomplete="off" th:maxlength="${fieldMeta.maxlength}" th:pattern="${fieldMeta.pattern}" th:data-pattern-message="${fieldMeta.patternMessage}">
 										   </div>
 										   <div th:if="${fieldMeta.isSelect()}" class="form-group label-floating">
 										   		<label class="control-label"><span th:text="${fieldMeta.label}"></span><span class="required-asterisk" style="display: inline;" th:if="${fieldMeta.isRequired()}">&nbsp;*</span></label>
