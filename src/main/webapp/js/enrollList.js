@@ -4,6 +4,7 @@ $(document).ready(function() {
 		"serverSide":true,
 		"srollY": "200px",
 		"sScrollX": true,
+		"order": [[ 6, "desc" ]],
 		"language": {
 			 "sLengthMenu": "显示 _MENU_ 项结果",
 		     "emptyTable": "没有数据",
@@ -92,7 +93,7 @@ $(document).ready(function() {
 		function submitToSearch() {
 			var begin = $('input[name=registerDateBegin]').val();
 			var end =   $('input[name=registerDateEnd]').val();
-			table.columns(1).search($('.formId').val());
+			table.columns(0).search($('.formId').val());
 			table.columns(6).search(begin + '~' + end);
 			var apptime = $('.apptime').val();
 			table.search($('input[name=search]').val() + ' ' + apptime.replace(/\s/g,"")).draw();
