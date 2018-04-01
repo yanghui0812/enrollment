@@ -93,7 +93,7 @@ $(document).ready(function() {
 			var begin = $('input[name=registerDateBegin]').val();
 			var end =   $('input[name=registerDateEnd]').val();
 			table.columns(1).search($('.formId').val());
-			table.columns(3).search(begin + '~' + end);
+			table.columns(6).search(begin + '~' + end);
 			var apptime = $('.apptime').val();
 			table.search($('input[name=search]').val() + ' ' + apptime.replace(/\s/g,"")).draw();
 		}

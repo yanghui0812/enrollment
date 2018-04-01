@@ -11,12 +11,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.enroll.common.AppConstant;
@@ -46,6 +48,9 @@ public class EnrollmentManageController {
 	private static final Logger LOGGER = LogManager.getLogger(EnrollmentManageController.class);
 	
 	private static final String VIEW_TYPE = "manage";
+	
+	@Value("${form.active.id}")
+	private Long activeFormId;
 
 	@Resource(name = "enrollmentService")
 	private EnrollmentService enrollmentService;
@@ -111,7 +116,7 @@ public class EnrollmentManageController {
 		query.setSearchFormStatus(FormStatus.PUBLISH.getType());
 		List<FormMetaDTO> list = enrollmentService.findFormMetaList(query);
 		model.addAttribute("formMetaList", list);
-		FormMetaDTO formMeta = enrollmentService.findFormMetaById(52);//No choice to hardcode
+		FormMetaDTO formMeta = enrollmentService.findFormMetaById(activeFormId);//No choice to hardcode
 		formMeta.getFields().stream().forEach(field ->{
 			if (StringUtils.equals("apptime", field.getName())) {
 				model.addAttribute("apptimeList", field.getOptions());
@@ -143,7 +148,7 @@ public class EnrollmentManageController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/exportEnrolls", method = RequestMethod.POST)
-	public void exportEnrollment(String formId, String begin, String end, String search, HttpServletResponse response) {
+	public void exportEnrollment(String formId, @RequestParam(name = "registerDateBegin") String begin, @RequestParam(name = "registerDateEnd") String end, String search, HttpServletResponse response) {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition", "attachment;fileName=enroll_" + LocalDateTime.now().format(DateUtils.YYYY_MM_DD) + ".xlsx");
