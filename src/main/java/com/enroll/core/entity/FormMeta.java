@@ -2,8 +2,9 @@ package com.enroll.core.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,11 +14,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
+
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.BatchSize;
+
+import com.enroll.security.entity.AbstractEntity;
 
 @Entity
 @Table(name = "TBL_FORM_META")
-public class FormMeta implements Serializable {
+public class FormMeta extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = -5313989726810258220L;
 
@@ -31,16 +36,16 @@ public class FormMeta implements Serializable {
 
 	@Column(name = "FORM_DESCRIPTION", nullable = false)
 	private String formDescription;
+	
+	@Column(name = "STATUS")
+	private String status;
+	
+	@Column(name = "RAW_JSON")
+	private String rawJson;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "formMeta")
+	@BatchSize(size = 100)
 	private List<FormFieldMeta> formFieldMetaList = new ArrayList<FormFieldMeta>();
-
-	@Column(name = "CREATED_TIMESTAMP", updatable = false)
-	private Date createTimestamp;
-
-	@Version
-	@Column(name = "UPDATED_TIMESTAMP")
-	private Date modifyTimestamp;
 
 	public FormMeta() {
 	}
@@ -87,17 +92,55 @@ public class FormMeta implements Serializable {
 		this.formFieldMetaList = formFieldMetaList;
 	}
 	
-	public void addFormFieldMeta(FormFieldMeta dto) {
-		dto.setFormMeta(this);
-		formFieldMetaList.add(dto);
+	public void addFormFieldMeta(FormFieldMeta formFieldMeta) {
+		formFieldMeta.setFormMeta(this);
+		formFieldMetaList.add(formFieldMeta);
+	}
+	
+	
+	public Map<String, FormFieldMeta> getFormFieldMetaMap() {
+		Map<String, FormFieldMeta> formFieldMap = new HashMap<>();
+		getFormFieldMetaList().stream().forEach(formField -> {
+			formFieldMap.put(StringUtils.trim(formField.getName()), formField);
+		});
+		return formFieldMap;
+	}
+	
+	public Map<String, FormFieldMeta> getFormFieldIgnoreCaseMetaMap() {
+		Map<String, FormFieldMeta> formFieldMap = new HashMap<>();
+		getFormFieldMetaList().stream().forEach(formField -> {
+			formFieldMap.put(StringUtils.lowerCase(StringUtils.trim(formField.getName())), formField);
+		});
+		return formFieldMap;
+	}
+	
+	public void clearAllFormFieldMeta() {
+		formFieldMetaList.stream().forEach(formField -> {
+			formField.setFormMeta(null);
+		});
+		formFieldMetaList.clear();
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getRawJson() {
+		return rawJson;
+	}
+
+	public void setRawJson(String rawJson) {
+		this.rawJson = rawJson;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((formDescription == null) ? 0 : formDescription.hashCode());
-		result = prime * result + ((formFieldMetaList == null) ? 0 : formFieldMetaList.hashCode());
 		result = prime * result + (int) (formId ^ (formId >>> 32));
 		result = prime * result + ((formName == null) ? 0 : formName.hashCode());
 		return result;
@@ -112,16 +155,6 @@ public class FormMeta implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		FormMeta other = (FormMeta) obj;
-		if (formDescription == null) {
-			if (other.formDescription != null)
-				return false;
-		} else if (!formDescription.equals(other.formDescription))
-			return false;
-		if (formFieldMetaList == null) {
-			if (other.formFieldMetaList != null)
-				return false;
-		} else if (!formFieldMetaList.equals(other.formFieldMetaList))
-			return false;
 		if (formId != other.formId)
 			return false;
 		if (formName == null) {
@@ -130,21 +163,5 @@ public class FormMeta implements Serializable {
 		} else if (!formName.equals(other.formName))
 			return false;
 		return true;
-	}
-
-	public Date getCreateTimestamp() {
-		return createTimestamp;
-	}
-
-	public void setCreateTimestamp(Date createTimestamp) {
-		this.createTimestamp = createTimestamp;
-	}
-
-	public Date getModifyTimestamp() {
-		return modifyTimestamp;
-	}
-
-	public void setModifyTimestamp(Date modifyTimestamp) {
-		this.modifyTimestamp = modifyTimestamp;
 	}
 }

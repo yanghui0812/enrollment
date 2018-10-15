@@ -1,0 +1,137 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>上海商业会计学校</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+	name='viewport' />
+<meta name="viewport" content="width=device-width" />
+<link rel="apple-touch-icon" sizes="76x76"
+	th:src="@{/img/apple-icon.png}" />
+<link rel="icon" type="image/png" th:src="@{/img/favicon.png}" />
+<link rel="stylesheet" type='text/css'
+	th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type='text/css'
+	th:href="@{/css/jquery-ui.min.css}" />
+<link rel='stylesheet' type='text/css'
+	th:href="@{/css/material-icons.css}">
+<link rel="stylesheet" type='text/css' th:href="@{/css/main.min.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery.dataTables.min.css}" />
+</head>
+<body>
+	<div class="wrapper">
+		<div class="sidebar" data-color="green" th:data-image="@{/img/sidebar.jpg}" th:include="fragments/sidebar::sidebar"></div>
+		<div class="main-panel">
+			<nav class="navbar navbar-transparent navbar-absolute">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse">
+							<span class="sr-only">切换菜单</span> <span class="icon-bar"></span>
+							<span class="icon-bar"></span> <span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#"><i class="material-icons">dashboard</i>&nbsp;&nbsp;报名列表</a>
+					</div>
+					<div class="pull-right">
+						<a class="navbar-brand" th:href="@{/profiles/myProfile.html}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;个人中心</a>
+					</div>
+					<div class="pull-right">
+						<a class="navbar-brand" th:href="@{/logout}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;退出</a>
+					</div>
+				</div>
+			</nav>
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header" data-background-color="green">
+									<h4 class="title">报名列表</h4>
+									<p class="category">查看报名信息</p>
+								</div>
+								<div class="card-content table-responsive">				
+									<form id="downloadForm" th:action="@{/enrollmanage/exportEnrolls}" method="POST" role="search">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">注册日期从</label> <input type="text"
+																id="from" class="form-control" name="registerDateBegin">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">到</label> <input type="text"
+																id="to" class="form-control" name="registerDateEnd">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">所属报名表单</label>
+													 <select name="formId" class="form-control formId">
+														<option></option>
+														<option th:each="formMeta: ${formMetaList}"
+																	th:value="${formMeta.formId}"
+																	th:text="${formMeta.formName}" />
+													</select>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group label-floating">
+													<label class="control-label">预约时间</label>
+													 <select name="apptime" class="form-control apptime">
+														<option th:each="option: ${apptimeList}"
+																	th:value="${option.value}"
+																	th:text="${option.label}" />
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<div class="form-group">
+														<input style="width:80%;margin-right:5%" type="text" class="form-control global_filter pull-left" placeholder="搜索" name="search">
+														<span class="material-input"></span>
+														<button type="button" class="btn btn-white btn-round btn-just-icon pull-left searchbtn">
+															<i class="material-icons">search</i>
+															<div class="ripple-container"></div>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<button type="button" class="btn btn-success pull-right register" id="downloadEnroll">下载报名信息</button>
+											</div>
+										</div>
+									</form>
+									<div class="row">
+										<div class="col-md-12">
+											<input type="hidden" name="enrollPageJson"  th:value="@{/enrollmanage/enrolls}">
+											<input type="hidden" name="enrollDetail"    th:value="@{/enrollmanage/enroll.html}">
+											<input type="hidden" name="enrollUpdateUrl" th:value="@{/public/updateEnroll.html}">
+											<table id="enrollTable" class="display"></table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer" th:include="fragments/footer::footer"></footer>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.dataTables.js}"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-ui.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/material.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/main.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/enrollList.js}"></script>
+</body>
+</html>

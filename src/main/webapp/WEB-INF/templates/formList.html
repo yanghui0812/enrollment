@@ -1,0 +1,83 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>上海商业会计学校</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+<meta name="viewport" content="width=device-width" />
+<link rel="apple-touch-icon" sizes="76x76" th:src="@{/img/apple-icon.png}" />
+<link rel="icon" type="image/png" th:src="@{/img/favicon.png}" />
+<link rel="stylesheet" type='text/css' th:href="@{/css/bootstrap.min.css}" />
+<link rel='stylesheet' type='text/css' th:href="@{/css/material-icons.css}">
+<link rel="stylesheet" type='text/css' th:href="@{/css/main.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.min.css}" />
+</head>
+<body>
+	<div class="wrapper">
+		<div class="sidebar" data-color="green" th:data-image="@{/img/sidebar.jpg}" th:include="fragments/sidebar::sidebar"></div>
+		<div class="main-panel">
+			<nav class="navbar navbar-transparent navbar-absolute">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse">
+							<span class="sr-only">切换菜单</span> <span class="icon-bar"></span>
+							<span class="icon-bar"></span> <span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#"><i class="material-icons">assignment</i>&nbsp;&nbsp;所有表单</a>
+					</div>
+					<div class="pull-right">
+						<a class="navbar-brand" th:href="@{/profiles/myProfile.html}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;个人中心</a>
+					</div>
+					<div class="pull-right">
+						<a class="navbar-brand" th:href="@{/logout}"><i class="material-icons">exit_to_app</i>&nbsp;&nbsp;退出</a>
+					</div>
+				</div>
+			</nav>
+
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header" data-background-color="green">
+									<h4 class="title">表单列表</h4>
+									<p class="category">查看创建的所有表单</p>
+								</div>
+								<div class="card-content table-responsive">
+									<div class="form-group label-floating row">
+										<div class="form-group col-xs-12">
+											<input type="text" class="form-control global_filter pull-left" placeholder="搜索" name="search" style="width: 90%; margin-right: 10px">
+											<span class="material-input"></span>
+											<span class="input-group-btn pull-left">
+												<button type="submit" class="btn btn-white btn-round btn-just-icon">
+													<i class="material-icons">search</i>
+													<div class="ripple-container"></div>
+												</button>
+											</span>
+										</div>
+									</div>
+									<input type="hidden" name="formMetaPageUrl"     th:value="@{/formmanage/queryForms}"> 
+									<input type="hidden" name="copyUrl" 			th:value="@{/formmanage/copyForm}"> 
+									<input type="hidden" name="formMetaUpdateUrl"   th:value="@{/formmanage/forms/{formId}}">
+									<input type="hidden" name="changeFormSlotUrl"   th:value="@{/formmanage/changeFormSlot/}">
+									<input type="hidden" name="enrollUrl"           th:value="@{/enrollmanage/enrollForm.html}">
+									<input type="hidden" name="publicUrl"           th:value="@{/public/enrollForm.html}">
+									<table id="formTable" class="display"></table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer" th:include="fragments/footer::footer"></footer>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.min.2.1.4.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.dataTables.js}"></script>
+	<script type="text/javascript" th:src="@{/js/material.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/main.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/formList.js}"></script>
+</body>
+</html>

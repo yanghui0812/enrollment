@@ -1,10 +1,13 @@
 package config;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.HandlerAdapter;
@@ -12,20 +15,23 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
+import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({ "com.enroll.web.controller" })
+@ComponentScan({ "com.enroll.web.controller" ,"com.enroll.rest.controller"})
 public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter implements ServletContextAware {
 
 	private ServletContext servletContext;
@@ -33,6 +39,7 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
+		
 	}
 
 	@Override
@@ -41,16 +48,6 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 		configurer.defaultContentType(MediaType.APPLICATION_JSON);
 		configurer.mediaType("json", MediaType.APPLICATION_JSON);
 	}
-
-	/*
-	 * @Override public void
-	 * configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-	 * GsonHttpMessageConverter messageConverter = new
-	 * GsonHttpMessageConverter(); List<MediaType> supportedMediaTypes = new
-	 * ArrayList<>(); supportedMediaTypes.add(MediaType.APPLICATION_JSON);
-	 * messageConverter.setSupportedMediaTypes(supportedMediaTypes);
-	 * converters.add(messageConverter); }
-	 */
 
 	public ViewResolver viewResolver(ServletContext servletContext) {
 		SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
@@ -61,6 +58,7 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 		templateResolver.setCacheable(false);
 		templateResolver.setTemplateMode("HTML5");
 		springTemplateEngine.setTemplateResolver(templateResolver);
+		springTemplateEngine.addDialect(new SpringSecurityDialect());
 		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 		resolver.setCharacterEncoding("UTF-8");
 		resolver.setTemplateEngine(springTemplateEngine);
@@ -77,6 +75,15 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 	public HandlerAdapter annotationMethodHandlerAdapter() {
 		return new RequestMappingHandlerAdapter();
 	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
+		webContentInterceptor.setCacheControl(CacheControl.noStore());
+		CacheControl cacheControl = webContentInterceptor.getCacheControl();
+		cacheControl.sMaxAge(0, TimeUnit.SECONDS);
+		registry.addInterceptor(webContentInterceptor);
+	}
 
 	@Bean
 	public AbstractHandlerMapping defaultAnnotationHandlerMapping() {
@@ -88,6 +95,8 @@ public class SpringMVCApplicationContext extends WebMvcConfigurerAdapter impleme
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("home");
+		registry.addViewController("/login.html").setViewName("login");
+		registry.addViewController("/error.html").setViewName("error");
 	}
 
 	@Override

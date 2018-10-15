@@ -2,18 +2,40 @@ package com.enroll.core.dao;
 
 import java.util.List;
 
+import com.enroll.core.dto.EnrollmentQuery;
+import com.enroll.core.dto.FormMetaQuery;
+import com.enroll.core.dto.SearchResult;
+import com.enroll.core.entity.Enrollment;
 import com.enroll.core.entity.FormFieldValue;
+import com.enroll.core.entity.FormMeta;
 
 public interface EnrollmentDao {
-	
+
 	/**
-	 * Finds a generic entity by a classname and id
+	 * @param object
+	 * @return
+	 */
+	public <T> T saveOrUpdate(T object);
+
+	/**
+	 * @param object
+	 */
+	public void evict(Object object);
+
+	/**
+	 * @param object
+	 * @return
+	 */
+	public Object merge(Object object);
+
+	/**
+	 * Finds a generic entity by a class name and id
 	 * 
 	 * @param className
 	 * @param id
 	 * @return the entity
 	 */
-	public <T> T readGenericEntity(Class<T> clazz, Long id);
+	public <T> T readGenericEntity(Class<T> clazz, Object id);
 
 	/**
 	 * Saves a generic entity
@@ -22,8 +44,12 @@ public interface EnrollmentDao {
 	 * @return the persisted version of the entity
 	 */
 	public <T> T save(T object);
-	
-	
+
+	/**
+	 * @param formId
+	 * @param id
+	 * @return
+	 */
 	public List<FormFieldValue> findFormFieldValueList(long formId, String id);
 
 	/**
@@ -31,19 +57,55 @@ public interface EnrollmentDao {
 	 *
 	 * @param object
 	 */
-	void persist(Object object);
+	public void persist(Object object);
 
 	/**
 	 * Remove the entity
 	 *
 	 * @param object
 	 */
-	void remove(Object object);
+	public void remove(Object object);
 
-	void flush();
+	/**
+	 * 
+	 */
+	public void flush();
 
-	void clear();
+	/**
+	 * 
+	 */
+	public void clear();
 
-	boolean sessionContains(Object object);
+	/**
+	 * @param object
+	 * @return
+	 */
+	public boolean sessionContains(Object object);
+	
+	/**
+	 * @param query
+	 * @return
+	 */
+	public List<FormMeta> findFormMetaList(FormMetaQuery query);
+
+	/**
+	 * @param criteria
+	 * @return
+	 */
+	public SearchResult<FormMeta> findFormMetaPage(FormMetaQuery query);
+
+	/**
+	 * @param criteria
+	 * @return
+	 */
+	public SearchResult<Enrollment> findEnrollmentPage(EnrollmentQuery query);
+	
+	/**
+	 * @param formId
+	 * @param fieldId
+	 * @param value
+	 * @return
+	 */
+	public List<FormFieldValue> findFormFieldValue(long formId, long fieldId, String value);
 
 }
